@@ -18,7 +18,7 @@ Kulkel Undip | Residen
 @stop
 @section('content') 
 	<div class="row">
-		<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h3 class="panel-title">
@@ -49,18 +49,11 @@ Kulkel Undip | Residen
 										<tr>
 											<td>{{ $residen->id }}</td>
 											<td>{{ $residen->nama }}</td>
-											<td>{{ $residen->tanggal_lahir }}</td>
+											<td>{{ $residen->tanggal_lahir->format('d M Y') }}</td>
 											<td>{{ $residen->alamat_asal }}</td>
 											<td>{{ $residen->alamat_semarang }}</td>
 											<td nowrap> 
-												{!! Form::open(['url' => 'residens/' .$residen->id, 'method' => 'delete']) !!}
-													<a class="btn btn-success btn-xs" href="{{ url('residens/' . $residen->id . '/edit') }}">Edit</a>
-													<a class="btn btn-primary btn-xs" href="{{ url('residens/' . $residen->id ) }}">Show</a>
-													{!! Form::submit('Delete', [
-														'class'   => 'btn btn-danger btn-xs',
-														'onclick' => 'return confirm("Anda yakin mau menghapus ' . $residen->id . '-' . $residen->name.'?");return false;'
-													]) !!}
-												{!! Form::close() !!}
+												<a class="btn btn-success btn-sm" href="{{ url('residens/' . $residen->id) }}">Show</a>
 											</td>
 										</tr>
 									@endforeach

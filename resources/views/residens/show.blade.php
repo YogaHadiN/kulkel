@@ -134,10 +134,23 @@
 					</div>
 				</div>
 			</div>
-
-
 		</div>
-	</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+					<a class="btn btn-warning btn-block" href="{{ url('residens/' . $residen->id . '/edit') }}">Edit</a>
+				</div>
+				<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+					<a class="btn btn-info btn-block" href="{{ url('residens') }}">Cancel</a>
+				</div>
+				<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+					{!! Form::open(['url' => 'residens/' .$residen->id, 'method' => 'delete']) !!}
+					{!! Form::submit('Delete', [
+						'class'   => 'btn btn-danger btn-block',
+						'onclick' => 'return confirm("Anda yakin mau menghapus ' . $residen->id . '-' . $residen->nama.'?");return false;'
+					]) !!}
+				</div>
+			</div>
+			{!! Form::close() !!}
 @stop
 @section('footer') 
 	

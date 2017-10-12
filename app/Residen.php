@@ -14,4 +14,16 @@ class Residen extends Model
 	public function anaks(){
 		return $this->hasMany('App\Anak');
 	}
+	public function getArraytelpAttribute(){
+		$no_telps = $this->no_telps;
+		$ret = [];
+		foreach ($no_telps as $telp) {
+			$ret[] = [
+				'id' => $telp->jenis_telpon_id,
+				'jenis_telpon' => $telp->jenisTelpon['jenis_telpon'],
+				'no_telp' => $telp->no_telp
+			];
+		}
+		return $ret;
+	}
 }

@@ -22,7 +22,7 @@ class ResidensController extends Controller
 		return view('residens.create');
 	}
 	public function edit($id){
-		$residen = Residen::find($id);
+		$residen = Residen::with('no_telps.jenisTelpon')->where('id', $id)->first();
 		return view('residens.edit', compact('residen'));
 	}
 	public function show($id){
@@ -32,6 +32,7 @@ class ResidensController extends Controller
 		return view('residens.show', compact('residen'));
 	}
 	public function store(Request $request){
+		/* return Input::all(); */ 
 		if ($this->valid( Input::all() )) {
 			return $this->valid( Input::all() );
 		}
@@ -51,7 +52,7 @@ class ResidensController extends Controller
 		// input no telp
 		//
 
-		$telp_array = Input::get('telps');
+		$telp_array = Input::get('no_telps');
 
 		$telp_array = json_decode($telp_array, true);
 		$telps = [];
@@ -61,8 +62,8 @@ class ResidensController extends Controller
 			$telps[]=[
 				'telponable_type' => 'App\Residen',
 				'telponable_id'   => $residen->id,
-				'jenis_telpon_id' => $telp['jenis_telpon_id'],
-				'no_telp'         => $telp['nomor_telpon'],
+				'jenis_telpon_id' => $telp['id'],
+				'no_telp'         => $telp['no_telp'],
 				'created_at'      => $timestamp,
 				'updated_at'      => $timestamp
 			];
@@ -74,7 +75,7 @@ class ResidensController extends Controller
 		foreach ($anak_array as $anak) {
 			$anaks[] = [
 				'residen_id' => $residen->id,
-				'nama'       => $anak['nama_anak'],
+				'nama'       => $anak['nama'],
 				'created_at' => $timestamp,
 				'updated_at' => $timestamp
 			];
@@ -86,13 +87,63 @@ class ResidensController extends Controller
 		$pesan = Yoga::suksesFlash('Residen baru berhasil dibuat');
 		return redirect('residens')->withPesan($pesan);
 	}
+
 	public function update($id, Request $request){
 		if ($this->valid( Input::all() )) {
 			return $this->valid( Input::all() );
 		}
-		$residen     = Residen::find($id);
+		$residen                   = Residen::find($id);
+		$residen->nama             = Input::get('nama');
+		$residen->tanggal_lahir    = Yoga::datePrep(Input::get('tanggal_lahir'));
+		$residen->tempat_lahir     = Input::get('tempat_lahir');
+		$residen->bulan_masuk_ppds = Yoga::bulanTahun(Input::get('bulan_masuk_ppds')) . '-01';
+		$residen->alamat_asal      = Input::get('alamat_asal');
+		$residen->alamat_semarang  = Input::get('alamat_semarang');
+		$residen->nama_pasangan    = Input::get('nama_pasangan');
+		$residen->no_ktp           = Input::get('no_ktp');
+		$residen->judul_thesis     = Input::get('judul_thesis');
 		// Edit disini untuk simpan data
 		$residen->save();
+
+
+		NoTelp::where('telponable_type', 'App\Residen')
+			->where('telponable_id', $id)
+			->delete();
+		Anak::where('residen_id', $id)
+			->delete();
+
+		$telp_array = Input::get('no_telps');
+
+		$telp_array = json_decode($telp_array, true);
+		$telps = [];
+
+		$timestamp = date('Y-m-d H:i:s');
+		foreach ($telp_array as $telp) {
+			$telps[]=[
+				'telponable_type' => 'App\Residen',
+				'telponable_id'   => $residen->id,
+				'jenis_telpon_id' => $telp['id'],
+				'no_telp'         => $telp['no_telp'],
+				'created_at'      => $timestamp,
+				'updated_at'      => $timestamp
+			];
+		}
+		$anak_array = Input::get('anaks');
+
+		$anak_array = json_decode($anak_array, true);
+
+		foreach ($anak_array as $anak) {
+			$anaks[] = [
+				'residen_id' => $residen->id,
+				'nama'       => $anak['nama'],
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			];
+		}
+
+		Anak::insert($anaks);
+		NoTelp::insert($telps);
+
 		$pesan = Yoga::suksesFlash('Residen berhasil diupdate');
 		return redirect('residens')->withPesan($pesan);
 	}

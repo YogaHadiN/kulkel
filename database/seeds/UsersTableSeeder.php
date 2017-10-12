@@ -15,10 +15,9 @@ class UsersTableSeeder extends Seeder
 		$users[] = [
 			'name' => 'Yoga Hadi Nugroho',
 			'email' => 'yoga_email@yahoo.com',
-			'password' => bcrypt('Yogaman89'),
-			'password' => bcrypt('Yogaman89'),
+			'password' => bcrypt('123456'),
+			'password' => bcrypt('123456'),
 		];
-
 		User::insert($users);
     }
 }
