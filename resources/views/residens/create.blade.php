@@ -32,7 +32,7 @@ Klinik Jati Elok | Buat Residen Baru
 	</div>
 @stop
 @section('footer') 
-
+{!! HTML::script('js/telpon.js')!!}
 {!! HTML::script('js/residens.js')!!}
 @stop
 

@@ -1,9 +1,13 @@
 @extends('layouts.master')
 
 @section('title') 
-Kulkel Undip | Home
+Kulkel UNDIP | 
 
 @stop
+@section('head') 
+
+@stop
+
 @section('page-title') 
 <h2></h2>
 <ol class="breadcrumb">
@@ -11,31 +15,14 @@ Kulkel Undip | Home
 		  <a href="{{ url('home')}}">Home</a>
 	  </li>
 	  <li class="active">
-		  <strong>Yuhuu</strong>
+		  <strong>Selamat Datang</strong>
 	  </li>
 </ol>
 
 @stop
 @section('content') 
-
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="panel panel-default">
-				<div class="panel-heading">Dashboard</div>
-
-				<div class="panel-body">
-					@if (session('status'))
-						<div class="alert alert-success">
-							{{ session('status') }}
-						</div>
-					@endif
-
-					You are logged in!
-				</div>
-			</div>
-		</div>
-	</div>
-
+	<h1>Selamat Datang</h1>
+	<h2>Di Aplikasi KulKel UNDIP</h2>
 @stop
 @section('footer') 
 	

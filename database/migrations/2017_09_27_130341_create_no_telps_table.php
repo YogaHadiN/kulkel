@@ -17,8 +17,7 @@ class CreateNoTelpsTable extends Migration
             $table->increments('id');
             $table->string('jenis_telpon_id');
             $table->string('no_telp');
-            $table->string('telponable_type');
-            $table->string('telponable_id');
+            $table->string('user_id');
             $table->timestamps();
         });
     }

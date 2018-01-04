@@ -120,36 +120,6 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-xs-12 col-sm- col-md- col-lg-">
-		<div class="table-responsive">
-			<table class="table table-hover table-condensed table-bordered">
-				<thead>
-					<tr>
-						<th>Nama Anak</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody id="body_anak">
-
-				</tbody>
-				<tfoot>
-					<tr>
-						<td>
-							{!! Form::text('nama_anak',  null, array(
-								'class'         => 'form-control nama_anak',
-								'id'         => 'nama_anak'
-							))!!}
-						</td>
-						<td>
-							<button class="btn btn-sm btn-info btn-block" onclick="inputAnak(this);return false;" type="button">Input</button>
-						</td>
-					</tr>
-				</tfoot>
-			</table>
-		</div>
-	</div>
-</div>
-<div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<div class="form-group @if($errors->has('alamat_asal'))has-error @endif">
 		  {!! Form::label('alamat_asal', 'Alamat Asal', ['class' => 'control-label']) !!}
@@ -157,17 +127,6 @@
 				'class'         => 'form-control textareacustom'
 			))!!}
 		  @if($errors->has('alamat_asal'))<code>{{ $errors->first('alamat_asal') }}</code>@endif
-		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<div class="form-group @if($errors->has('judul_thesis'))has-error @endif">
-		  {!! Form::label('judul_thesis', 'Judul Thesis', ['class' => 'control-label']) !!}
-			{!! Form::text('judul_thesis', null, array(
-				'class'         => 'form-control'
-			))!!}
-		  @if($errors->has('judul_thesis'))<code>{{ $errors->first('judul_thesis') }}</code>@endif
 		</div>
 	</div>
 </div>
@@ -187,7 +146,6 @@
 				'class' => 'form-control',
 				'id'    => 'telps'
 			))!!}
-			
 		@else
 			{!! Form::textarea('no_telps', null, array(
 				'class' => 'form-control',
@@ -195,14 +153,6 @@
 			))!!}
 			
 		@endif
-		</div>
-	</div>
-<div class="row ">
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			{!! Form::textarea('anaks', null, array(
-				'class' => 'form-control',
-				'id'    => 'anaks'
-			))!!}
 		</div>
 	</div>
 </div>

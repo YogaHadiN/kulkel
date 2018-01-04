@@ -12,15 +12,38 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	return view('welcome');
 });
 
 Auth::routes();
+
+Route::get('logout', 'Auth\LoginController@logout')->name('logout' );
+Route::group(['middleware' => 'auth'], function () {
+	Route::get('home', 'HomeController@index');
+	Route::get('/library/view', 'LibraryController@view');
+
+	Route::group(['middleware' => 'adminOnly'], function () {
+		Route::get('library/pinjam/{id}', 'LibraryController@pinjam');
+		Route::get('library/kembalikan/{id}', 'LibraryController@kembalikan');
+		Route::put('library/kembalikan/{id}', 'LibraryController@kembalikanBuku');
+		Route::post('library/pinjam', 'LibraryController@pinjamBuku');
+	});
+	Route::resource('library', 'LibraryController');
+	Route::resource('stases', 'StasesController');
+	Route::resource('polis', 'PolisController');
+	Route::resource('pembacaans', 'PembacaansController');
+	Route::resource('users', 'UsersController');
+	Route::resource('dosens', 'DosensController');
+	Route::resource('residens', 'ResidensController');
+	Route::get('karyawans', 'KaryawansController@index');
+});
+
+Auth::routes();
+
+Auth::routes();
+
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('users', 'UsersController@index');
-Route::resource('dosens', 'DosensController');
-Route::resource('residens', 'ResidensController');
-Route::get('karyawans', 'KaryawansController@index');
-/* Route::get('residens/create', 'ResidensController@create'); */
-/* Route::post('residens', 'ResidensController@store'); */
-/* Route::get('residens/{id}', 'ResidensController@show'); */
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

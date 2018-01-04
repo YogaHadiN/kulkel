@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html moznomarginboxes mozdisallowselectionprint>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>@yield('title')</title>
-    <link href="{!! asset('css/bootstrap.min.css') !!}" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="{!! asset('css/bootstrap-select.min.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/plugins/dataTables/dataTables.bootstrap.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/plugins/dataTables/dataTables.responsive.css') !!}" rel="stylesheet">
@@ -15,6 +14,7 @@
     <link href="{!! asset('css/style.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/jquery-ui.min.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/plugins/datepicker/datepicker3.css') !!}" rel="stylesheet">
+	<!-- Latest compiled and minified CSS -->
     {{-- <link href="{!! asset('css/all.css') !!}" rel="stylesheet" media="screen"> --}}
 
 <link href="{!! asset('css/font-awesome/css/font-awesome.min.css') !!}" rel="stylesheet">
@@ -51,13 +51,11 @@
 			}
 		}
 	</style>
-
     @yield('head')
 </head>
 <body>
     <div id="overlayd"></div>
     <div id="wrapper">
-
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="side-menu">
@@ -66,9 +64,11 @@
 							<img alt="image" class="img-circle" width="75px" height="75px" src="{{ url('img/nurse.jpeg') }}" />
                              </span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#"> 
-                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Yoga</strong>
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">
+                                {!! \Auth::user()->nama !!}</strong>
                              </span> <span class="text-muted text-xs block">
                                 
+
                              <b class="caret"></b></span> </span> </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                 <li><a href="{{ url('users/' . \Auth::id() . '/edit') }}">Profile</a></li>
@@ -77,31 +77,32 @@
                             </ul>
                         </div>
                         <div class="logo-element">
-                            IN+asdfasdfasdf
+                            IN+
                         </div>
                     </li>
                     <li>
                         <a href="{{ url('home') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Home</span></a>
                     </li>
-					<li>
-                        <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Data-data</span><span class="fa arrow"></span></a>
-						<ul class="nav nav-second-level">
-                            <li>{!! HTML::link('users', 'User')!!}</li>
-                            <li>{!! HTML::link('dosens', 'Dosen')!!}</li>
-                            <li>{!! HTML::link('residens', 'Residen')!!}</li>
-                            <li>{!! HTML::link('karyawans', 'Karyawan')!!}</li>
-                        </ul>
-                    </li>
-					<li>
-                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Cek List Harian</span><span class="fa arrow"></span></a>
+                    <li>
+                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Data-data</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li>{!! HTML::link('cek_list_harian/obat', 'Obat')!!}</li>
-                            <li>{!! HTML::link('cek_list_harian/pulsa', 'Pulsa')!!}</li>
-                            <li>{!! HTML::link('cek_list_harian/listrik', 'Listrik')!!}</li>
+                            <li>{!! HTML::link('users', 'User')!!}</li>
+                        </ul>
+						<ul class="nav nav-second-level">
+                            <li>{!! HTML::link('polis', 'Poli')!!}</li>
+                        </ul>
+						<ul class="nav nav-second-level">
+                            <li>{!! HTML::link('pembacaans', 'Pembacaan')!!}</li>
+                        </ul>
+						<ul class="nav nav-second-level">
+                            <li>{!! HTML::link('stases', 'Stase')!!}</li>
                         </ul>
                     </li>
-					 <li>{!! HTML::link('backup', 'Backup Database', ['onclick' => 'return confirm("Anda yakin mau backup database saat ini?")'])!!}</li>
-					 <li>{!! HTML::link('copy_log_file', 'Copy Log File')!!}</li>
+
+
+					<li>
+                        <a href="{{ url('library') }}"><i class="fa fa-th-large"></i> <span class="nav-label">E Library</span></a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -109,12 +110,22 @@
         <div class="row border-bottom">
         <nav class="navbar navbar-static-top  " role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
-			<div class="panelLeft">
-				<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-			</div>
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+            <form role="search" class="navbar-form-custom" method="post" action="search_results.html">
+                <div class="form-group">
+                    <input type="text" placeholder="Search for something..." class="form-control hide" name="top-search" id="top-search">
+                </div>
+            </form>
         </div>
 		<ul class="nav navbar-top-links navbar-right">
-		</ul>
+
+
+                <li>
+                    <a href="{{ url('logout') }}">
+                        <i class="fa fa-sign-out"></i> Log out
+                    </a>
+                </li>
+            </ul>
         </nav>
         </div>
             <div class="row border-bottom white-bg page-heading">
@@ -168,8 +179,10 @@
             </div>
         </div>
         </div>
+            {{--{!! HTML::script("js/all.js")!!}--}}
     <script src="{!! asset('js/all.js') !!}"></script>
     <script src="{!! asset('js/Numeral-js/min/numeral.min.js') !!}"></script>
+    <!-- Mainly scripts 
     <script src="{!! url('js/jquery-2.1.1.js') !!}"></script>
     <script src="{!! url('js/bootstrap.min.js') !!}"></script>
     <script src="{!! url('js/plugins/metisMenu/jquery.metisMenu.js') !!}"></script>
@@ -182,6 +195,7 @@
     <script src="{!! url('js/plugins/dataTables/dataTables.responsive.min.js') !!}"></script>
     <script src="{!! url('js/inspinia.js') !!}"></script>
     <script src="{!! url('js/plugins/pace/pace.min.js') !!}"></script>
+    WebCam -->
     <script>
         $.ajaxSetup({
             headers: {

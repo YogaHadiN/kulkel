@@ -43,22 +43,22 @@ class DosensController extends Controller
 
 			$alamat                  = new Alamat;
 			$alamat->alamatable_id   = $dosen->id ;
-			$alamat->alamatable_type = 'App\Alamat' ;
+			$alamat->alamatable_type = 'App\Dosen' ;
 			$alamat->alamat          = Input::get('alamat');;
 			$alamat->save();
 
-
 			$email                  = new Email;
 			$email->emailable_id   = $dosen->id ;
-			$email->emailable_type = 'App\Email' ;
+			$email->emailable_type = 'App\Dosen' ;
 			$email->email          = Input::get('email');;
-			$alamat->save();
+			$email->save();
 
 			$no_telp                  = new NoTelp;
 			$no_telp->telponable_id   = $dosen->id ;
-			$no_telp->telponable_type = 'App\NoTelp' ;
+			$no_telp->telponable_type = 'App\Dosen' ;
+			$no_telp->jenis_telpon_id   = 1;
 			$no_telp->no_telp          = Input::get('no_telp');;
-			$alamat->save();
+			$no_telp->save();
 			
 			$pesan = Yoga::suksesFlash('Dosen baru berhasil dibuat');
 			DB::commit();
@@ -107,6 +107,7 @@ class DosensController extends Controller
 			$no_telp                  = new NoTelp;
 			$no_telp->telponable_id   = $dosen->id ;
 			$no_telp->telponable_type = 'App\Dosen' ;
+			$no_telp->jenis_telpon_id = 1;
 			$no_telp->no_telp         = Input::get('no_telp');;
 			$no_telp->save();
 			

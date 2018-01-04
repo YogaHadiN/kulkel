@@ -13,7 +13,6 @@ class JenisTelponSeeder extends Seeder
     public function run()
     {
 		$timestamp = date('Y-m-d H:i:s');
-		
 		$jenis_telpons[] = [
 			'jenis_telpon' => 'rumah',
 			'created_at' => $timestamp,

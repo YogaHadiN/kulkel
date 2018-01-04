@@ -864,7 +864,7 @@ class Yoga {
 
 		public static function kaliObat($transaksis, $terapi, $asuransi, $plafon, $poli){
 			$transaksi_array = $transaksis;
-			$non_paket = true;
+			$non_paket       = true;
 			foreach ($transaksi_array as $k => $v) {
 				$tarif_ini = Tarif::where('jenis_tarif_id', $v['jenis_tarif_id'])->where('asuransi_id', $asuransi->id)->first();
 				if ($tarif_ini->tipe_tindakan_id == 2) {
@@ -874,7 +874,7 @@ class Yoga {
 				}
 			}
 			if ($non_paket) {
-				if($terapi != '' || $terapi != '[]'){
+				if($terapi != '' && $terapi != '[]'){
 					$tarif = Tarif::where('jenis_tarif_id', '9')->where('asuransi_id', $asuransi->id)->first();//jenis tarif id = 9 adalah biaya obat
 					$terapis = json_decode($terapi, true);
 					$merek = Merek::all();

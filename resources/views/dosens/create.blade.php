@@ -32,7 +32,7 @@ Kulkel Undip | Tambah Dosen
 				</div>
 				<div class="panel-body">
 					{!! Form::open(['url' => 'dosens', 'method' => 'post']) !!}
-						@include('dosens.form')
+					@include('dosens.form')
 					{!! Form::close() !!}
 				</div>
 			</div>

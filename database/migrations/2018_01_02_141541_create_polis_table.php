@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePiagamsTable extends Migration
+class CreatePolisTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreatePiagamsTable extends Migration
      */
     public function up()
     {
-        Schema::create('piagams', function (Blueprint $table) {
+        Schema::create('polis', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('foto');
+            $table->string('user_id');
+            $table->string('jaga_id');
+            $table->date('tanggal');
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreatePiagamsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('piagams');
+        Schema::dropIfExists('polis');
     }
 }

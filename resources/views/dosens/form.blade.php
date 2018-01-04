@@ -13,7 +13,7 @@
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<div class="form-group @if($errors->has('alamat'))has-error @endif">
 		  {!! Form::label('alamat', 'Alamat', ['class' => 'control-label']) !!}
-		    @if(isset(  $edit ) && $dosen->alamats->count())
+		  @if(isset($edit) &&  $dosen->alamats->count()  )
 				{!! Form::textarea('alamat', $dosen->alamats->first()->alamat, array(
 					'class'         => 'form-control textareacustom required'
 				))!!}
@@ -41,7 +41,7 @@
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<div class="form-group @if($errors->has('email'))has-error @endif">
 		  {!! Form::label('email', 'Email', ['class' => 'control-label']) !!}
-		    @if(  $edit && $dosen->emails->count() )
+			  @if(isset(  $edit ) && $dosen->emails->count())
 				{!! Form::text('email', $dosen->emails->first()->email, array(
 					'class'         => 'form-control required'
 				))!!}
@@ -58,7 +58,7 @@
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<div class="form-group @if($errors->has('no_telp'))has-error @endif">
 		  {!! Form::label('no_telp', 'Nomor Telepon', ['class' => 'control-label']) !!}
-		  @if(isset(  $edit )&& $dosen->no_telps->count())
+		  @if(isset(  $edit ) && $dosen->no_telps->count())
 				{!! Form::text('no_telp', $dosen->no_telps->first()->no_telp, array(
 					'class'         => 'form-control required'
 				))!!}
