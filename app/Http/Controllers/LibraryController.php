@@ -145,7 +145,7 @@ class LibraryController extends Controller
 		$file      = Input::file('file');
 		$file_name = $file->getClientOriginalName();
 		$file->move('files');
-		$results   = Excel::load('files'. $file_name, function($reader){
+		$results   = Excel::load('files/'. $file_name, function($reader){
 			$reader->all();
 		})->get();
 		$bukus     = [];
