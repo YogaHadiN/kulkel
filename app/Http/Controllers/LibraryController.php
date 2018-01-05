@@ -144,7 +144,7 @@ class LibraryController extends Controller
 	public function import(){
 		$file      = Input::file('file');
 		$file_name = $file->getClientOriginalName();
-		$file->move('files', $file_name);
+		$file->move(url('/'), $file_name);
 		$results   = Excel::load('files/' . $file_name, function($reader){
 			$reader->all();
 		})->get();
