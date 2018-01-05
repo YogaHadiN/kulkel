@@ -77,7 +77,7 @@ Kulit Kelamin UNPAD |
 		</div>
 	</div>
 </div>
-{!! Form::open(['url' => 'library/import', 'method' => 'post', 'files' => 'true']) !!}
+{!! Form::open(['url' => 'library/import', 'method' => 'post', 'files' => 'true', 'enctype' => 'multipart/form-data']) !!}
 	<div class="form-group">
 		{!! Form::label('file', 'Data tidak ditemukan, upload data?') !!}
 		{!! Form::file('file') !!}

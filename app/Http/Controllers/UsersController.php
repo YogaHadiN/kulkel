@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -13,7 +12,7 @@ class UsersController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('adminOnly', ['only' => 'update', 'destroy']);
+		$this->middleware('adminOnly', ['only' => ['update', 'destroy']]);
 	}
 	public function create(){
 		return view('users.create');
@@ -38,12 +37,6 @@ class UsersController extends Controller
 	}
 	public function store(Request $request){
 
-		/* $no_telps = Input::get('no_telps'); */
-		/* $no_telps = json_decode($no_telps, true); */
-		/* foreach ($no_telps as $telp) { */
-		/* 	return $telp['no_telp']; */
-		/* } */
-		/* return $no_telps; */
 		DB::beginTransaction();
 		try {
 			if ($this->valid( Input::all() )) {

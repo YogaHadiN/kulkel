@@ -18,7 +18,7 @@
 	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 		<div class="form-group" @if($errors->has('jenis_kelamin')) class="has-error" @endif>
 		  {!! Form::label('jenis_kelamin', 'Jenis Kelamin') !!}
-		  {!! Form::text('jenis_kelamin', App\User::jenisKelamin(), null, ['class' => 'form-control rq']) !!}
+		  {!! Form::select('jenis_kelamin', App\User::jenisKelamin(), null, ['class' => 'form-control rq']) !!}
 		  @if($errors->has('jenis_kelamin'))<code>{{ $errors->first('jenis_kelamin') }}</code>@endif
 		</div>
 	</div>

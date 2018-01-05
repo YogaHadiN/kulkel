@@ -10,12 +10,13 @@ use App\Yoga;
 use App\User;
 use DB;
 use Auth;
+use Excel;
 
 class LibraryController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('adminOnly', ['only' => 'update', 'destroy']);
+		$this->middleware('adminOnly', ['only' => ['update', 'destroy']]);
 	}
 
 	public function index(){
@@ -141,26 +142,33 @@ class LibraryController extends Controller
 
 	}
 	public function import(){
-		return Input::all(); 
-		return 'Not Yet Handled';
 		$file      = Input::file('file');
 		$file_name = $file->getClientOriginalName();
 		$file->move('files', $file_name);
 		$results   = Excel::load('files/' . $file_name, function($reader){
 			$reader->all();
 		})->get();
-		$model_plural     = [];
+		$bukus     = [];
 		$timestamp = date('Y-m-d H:i:s');
-		foreach ($results as $result) {
-			$model_plural[] = [
-	
-				// Do insert here
-	
-				'created_at' => $timestamp,
-				'updated_at' => $timestamp
-			];
+		foreach ($results as $resultss) {
+			foreach ($resultss as $result) {
+				if (
+					!empty($result['judul_buku']) &&
+					!empty($result['pengarang'])
+				) {
+					$bukus[] = [
+						'nomor_buku' =>	$result['kode_buku'],
+						'nama_buku' => $result['judul_buku'],
+						'pengarang' => $result['pengarang'],
+						'terbit' => $result['tahun_terbit'],
+						'created_at' => $timestamp,
+						'updated_at' => $timestamp
+					];
+				}
+			}
 		}
-		Model::insert($model_plural);
+		Perpus::truncate();
+		Perpus::insert($bukus);
 		$pesan = Yoga::suksesFlash('Import Data Berhasil');
 		return redirect()->back()->withPesan($pesan);
 	}
