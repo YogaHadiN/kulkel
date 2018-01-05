@@ -9,6 +9,10 @@ use Input;
 
 class StasesController extends Controller
 {
+	public function __construct()
+	{
+		$this->middleware('adminOnly', ['only' => 'update', 'destroy']);
+	}
 	public function index(){
 		$stases = Stase::all();
 		return view('stases.index', compact(

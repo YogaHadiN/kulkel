@@ -13,6 +13,11 @@ use Auth;
 
 class LibraryController extends Controller
 {
+	public function __construct()
+	{
+		$this->middleware('adminOnly', ['only' => 'update', 'destroy']);
+	}
+
 	public function index(){
 		$library = '';
 		return view('library.index', compact(
@@ -105,7 +110,6 @@ class LibraryController extends Controller
 			DB::rollback();
 			throw $e;
 		}
-
 	}
 	
 	public function destroy($id){
@@ -136,8 +140,28 @@ class LibraryController extends Controller
 		return redirect('library')->withPesan($pesan);
 
 	}
+	public function import(){
+		return Input::all(); 
+		return 'Not Yet Handled';
+		$file      = Input::file('file');
+		$file_name = $file->getClientOriginalName();
+		$file->move('files', $file_name);
+		$results   = Excel::load('files/' . $file_name, function($reader){
+			$reader->all();
+		})->get();
+		$model_plural     = [];
+		$timestamp = date('Y-m-d H:i:s');
+		foreach ($results as $result) {
+			$model_plural[] = [
 	
+				// Do insert here
 	
-	
-	
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			];
+		}
+		Model::insert($model_plural);
+		$pesan = Yoga::suksesFlash('Import Data Berhasil');
+		return redirect()->back()->withPesan($pesan);
+	}
 }

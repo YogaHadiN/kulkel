@@ -32,51 +32,58 @@ Kulit Kelamin UNPAD |
 	</style>
 @stop
 @section('content') 
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3 class="panel-title">
-				<div class="panelLeft">
-					Perpustakaan
-				</div>
-				<div class="panelRight">
-
-					<a class="btn btn-primary btn-sm" href="{{ url('library/create') }}"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Buku</a>
-				</div>
-			</h3>
-		</div>
-		<div class="panel-body">
-			<div class="table-responsive">
-				<table id="tableLib" class="table table-hover table-condensed table-bordered">
-					<thead>
-						<tr>
-							<th>ID 
-								<br />
-								{!! Form::text('nomor_buku', null, ['class' => 'form-control searchBar', 'id' =>'nomor_buku', 'onkeyup' => 'search();return false']) !!}
-							</th>
-							<th>Buku
-								<br />
-								{!! Form::text('nama_buku', null, ['class' => 'form-control searchBar', 'id' => 'nama_buku','onkeyup' => 'search();return false']) !!}
-							</th>
-							<th>Pengarang
-								<br />
-								{!! Form::text('pengarang', null, ['class' => 'form-control searchBar', 'id' => 'pengarang', 'onkeyup' => 'search();return false']) !!}
-							</th>
-							<th>Tahun Terbit
-								<br />
-								{!! Form::text('terbit', null, ['class' => 'form-control searchBar', 'id' => 'terbit', 'onkeyup' => 'search();return false']) !!}
-							</th>
-							<th>Action
-								<br />
-								<button class="btn btn-danger btn-sm" type='button' onclick="clearBar();return false;">clear</button>
-							</th>
-						</tr>
-					</thead>
-					<tbody id="daftarBuku">
-					</tbody>
-				</table>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<div class="panelLeft">
+				Perpustakaan
 			</div>
+			<div class="panelRight">
+
+				<a class="btn btn-primary btn-sm" href="{{ url('library/create') }}"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Buku</a>
+			</div>
+		</h3>
+	</div>
+	<div class="panel-body">
+		<div class="table-responsive">
+			<table id="tableLib" class="table table-hover table-condensed table-bordered">
+				<thead>
+					<tr>
+						<th>ID 
+							<br />
+							{!! Form::text('nomor_buku', null, ['class' => 'form-control searchBar', 'id' =>'nomor_buku', 'onkeyup' => 'search();return false']) !!}
+						</th>
+						<th>Buku
+							<br />
+							{!! Form::text('nama_buku', null, ['class' => 'form-control searchBar', 'id' => 'nama_buku','onkeyup' => 'search();return false']) !!}
+						</th>
+						<th>Pengarang
+							<br />
+							{!! Form::text('pengarang', null, ['class' => 'form-control searchBar', 'id' => 'pengarang', 'onkeyup' => 'search();return false']) !!}
+						</th>
+						<th>Tahun Terbit
+							<br />
+							{!! Form::text('terbit', null, ['class' => 'form-control searchBar', 'id' => 'terbit', 'onkeyup' => 'search();return false']) !!}
+						</th>
+						<th>Action
+							<br />
+							<button class="btn btn-danger btn-sm" type='button' onclick="clearBar();return false;">clear</button>
+						</th>
+					</tr>
+				</thead>
+				<tbody id="daftarBuku">
+				</tbody>
+			</table>
 		</div>
 	</div>
+</div>
+{!! Form::open(['url' => 'library/import', 'method' => 'post', 'files' => 'true']) !!}
+	<div class="form-group">
+		{!! Form::label('file', 'Data tidak ditemukan, upload data?') !!}
+		{!! Form::file('file') !!}
+		{!! Form::submit('Upload', ['class' => 'btn btn-primary', 'id' => 'submit']) !!}
+	</div>
+{!! Form::close() !!}
 @stop
 @section('footer') 
 <script type="text/javascript" charset="utf-8">

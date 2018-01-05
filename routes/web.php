@@ -36,14 +36,11 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('dosens', 'DosensController');
 	Route::resource('residens', 'ResidensController');
 	Route::get('karyawans', 'KaryawansController@index');
+	Route::post('library/import', 'LibraryController@import');
 });
 
 Auth::routes();
-
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
-
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
