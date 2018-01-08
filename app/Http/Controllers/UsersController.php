@@ -62,8 +62,8 @@ class UsersController extends Controller
 			$user->password         = bcrypt(Input::get('password'));
 			$user->save();
 
-			$no_telps = Input::get('no_telps');
-			$no_telps = json_decode($no_telps, true);
+			$input_telps = $this->telpEmpty(Input::get('no_telps'));
+			$no_telps = json_decode($input_telps, true);
 
 			$telps = [];
 			$timestamp = date('Y-m-d H:i:s');
@@ -96,7 +96,8 @@ class UsersController extends Controller
 		try {
 
 			$telps = [];
-			$no_telps = json_decode( Input::get('no_telps'), true );
+			$input_telps = $this->telpEmpty(Input::get('no_telps'));
+			$no_telps = json_decode( $input_telps, true );
 			$timestamp = date('Y-m-d H:i:s');
 
 			
@@ -187,4 +188,13 @@ class UsersController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 	}
+	public function telpEmpty($telp){
+		if ( empty( trim( $telp ) ) ) {
+			$input_telps = '[]';
+		}else {
+			$input_telps = $telp;
+		}
+		return $input_telps;
+	}
+	
 }
