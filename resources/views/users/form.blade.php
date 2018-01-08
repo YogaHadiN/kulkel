@@ -11,14 +11,14 @@
 	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 		<div class="form-group" @if($errors->has('inisial')) class="has-error" @endif>
 		  {!! Form::label('inisial', 'Inisial') !!}
-		  {!! Form::text('inisial', null, ['class' => 'form-control rq']) !!}
+		  {!! Form::text('inisial', null, ['class' => 'form-control']) !!}
 		  @if($errors->has('inisial'))<code>{{ $errors->first('inisial') }}</code>@endif
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 		<div class="form-group" @if($errors->has('no_ktp')) class="has-error" @endif>
 		  {!! Form::label('no_ktp', 'Nomor KTP') !!}
-		  {!! Form::text('no_ktp' , null, ['class' => 'form-control rq']) !!}
+		  {!! Form::text('no_ktp' , null, ['class' => 'form-control']) !!}
 		  @if($errors->has('no_ktp'))<code>{{ $errors->first('no_ktp') }}</code>@endif
 		</div>
 	</div>
@@ -34,7 +34,7 @@
 	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 		<div class="form-group" @if($errors->has('nomor_induk')) class="has-error" @endif>
 		  {!! Form::label('nomor_induk', 'Nomor Induk') !!}
-		  {!! Form::text('nomor_induk' , null, ['class' => 'form-control rq']) !!}
+		  {!! Form::text('nomor_induk' , null, ['class' => 'form-control']) !!}
 		  @if($errors->has('nomor_induk'))<code>{{ $errors->first('nomor_induk') }}</code>@endif
 		</div>
 	</div>
@@ -51,10 +51,10 @@
 		<div class="form-group" @if($errors->has('tanggal_lahir')) class="has-error" @endif>
 		  {!! Form::label('tanggal_lahir', 'Tanggal Lahir') !!}
 		  @if( isset($user) )
-			  {!! Form::text('tanggal_lahir', $user->tanggal_lahir_format2, ['class' => 'form-control rq tanggal']) !!}
+			  {!! Form::text('tanggal_lahir', $user->tanggal_lahir_format2, ['class' => 'form-control tanggal']) !!}
 			  @if($errors->has('tanggal_lahir'))<code>{{ $errors->first('tanggal_lahir') }}</code>@endif
 		  @else
-			  {!! Form::text('tanggal_lahir', null, ['class' => 'form-control rq tanggal']) !!}
+			  {!! Form::text('tanggal_lahir', null, ['class' => 'form-control tanggal']) !!}
 			  @if($errors->has('tanggal_lahir'))<code>{{ $errors->first('tanggal_lahir') }}</code>@endif
 		  @endif
 		</div>
@@ -64,7 +64,7 @@
 	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 		<div class="form-group" @if($errors->has('tempat_lahir')) class="has-error" @endif>
 		  {!! Form::label('tempat_lahir', 'Tempat Lahir') !!}
-		  {!! Form::text('tempat_lahir' , null, ['class' => 'form-control rq']) !!}
+		  {!! Form::text('tempat_lahir' , null, ['class' => 'form-control']) !!}
 		  @if($errors->has('tempat_lahir'))<code>{{ $errors->first('tempat_lahir') }}</code>@endif
 		</div>
 	</div>
@@ -72,10 +72,10 @@
 		<div class="form-group" @if($errors->has('bulan_masuk_ppds')) class="has-error" @endif>
 		  {!! Form::label('bulan_masuk_ppds', 'Bulan Masuk') !!}
 		  @if( isset($user) )
-			  {!! Form::text('bulan_masuk_ppds' , $user->bulan_masuk_ppds_format2, ['class' => 'form-control rq bulanTahun']) !!}
+			  {!! Form::text('bulan_masuk_ppds' , $user->bulan_masuk_ppds_format2, ['class' => 'form-control bulanTahun']) !!}
 			  @if($errors->has('bulan_masuk_ppds'))<code>{{ $errors->first('bulan_masuk_ppds') }}</code>@endif
 		  @else
-			  {!! Form::text('bulan_masuk_ppds' , null, ['class' => 'form-control rq bulanTahun']) !!}
+			  {!! Form::text('bulan_masuk_ppds' , null, ['class' => 'form-control bulanTahun']) !!}
 			  @if($errors->has('bulan_masuk_ppds'))<code>{{ $errors->first('bulan_masuk_ppds') }}</code>@endif
 		  @endif
 		</div>
@@ -83,12 +83,12 @@
 </div>
 <div class="form-group" @if($errors->has('alamat_asal')) class="has-error" @endif>
   {!! Form::label('alamat_asal', 'Alamat Asal') !!}
-  {!! Form::textarea('alamat_asal' , null, ['class' => 'form-control textareacustom rq']) !!}
+  {!! Form::textarea('alamat_asal' , null, ['class' => 'form-control textareacustom']) !!}
   @if($errors->has('alamat_asal'))<code>{{ $errors->first('alamat_asal') }}</code>@endif
 </div>
 <div class="form-group" @if($errors->has('alamat_semarang')) class="has-error" @endif>
   {!! Form::label('alamat_semarang', 'Alamat Semarang') !!}
-  {!! Form::textarea('alamat_semarang' , null, ['class' => 'form-control textareacustom rq']) !!}
+  {!! Form::textarea('alamat_semarang' , null, ['class' => 'form-control textareacustom']) !!}
   @if($errors->has('alamat_semarang'))<code>{{ $errors->first('alamat_asal') }}</code>@endif
 </div>
 <div class="row">

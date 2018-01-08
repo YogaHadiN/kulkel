@@ -12,7 +12,8 @@ class UsersController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('adminOnly', ['only' => ['update', 'destroy']]);
+		/* $this->middleware('adminOnly', ['only' => ['update', 'destroy']]); */
+		$this->middleware('adminOnly', ['only' => []]);
 	}
 	public function create(){
 		return view('users.create');
@@ -46,9 +47,13 @@ class UsersController extends Controller
 			$user->nama             = Input::get('nama');
 			$user->inisial             = Input::get('inisial');
 			$user->role_id          = Input::get('role_id');
-			$user->tanggal_lahir    = Yoga::datePrep(Input::get('tanggal_lahir'));
+			if ( !empty( trim( Input::get('tanggal_lahir') ) ) ) {
+				$user->tanggal_lahir    = Yoga::datePrep(Input::get('tanggal_lahir'));
+			}
 			$user->tempat_lahir     = Input::get('tempat_lahir');
-			$user->bulan_masuk_ppds = Yoga::bulanTahun(Input::get('bulan_masuk_ppds')) . '-01';
+			if ( !empty( trim( Input::get('bulan_masuk_ppds') ) ) ) {
+				$user->bulan_masuk_ppds = Yoga::bulanTahun(Input::get('bulan_masuk_ppds')) . '-01';
+			}
 			$user->alamat_asal      = Input::get('alamat_asal');
 			$user->alamat_semarang  = Input::get('alamat_semarang');
 			$user->no_ktp           = Input::get('no_ktp');
@@ -99,9 +104,13 @@ class UsersController extends Controller
 			$user->nama             = Input::get('nama');
 			$user->inisial          = Input::get('inisial');
 			$user->role_id          = Input::get('role_id');
-			$user->tanggal_lahir    = Yoga::datePrep(Input::get('tanggal_lahir'));
+			if ( !empty( Input::get('tanggal_lahir') ) ) {
+				$user->tanggal_lahir    = Yoga::datePrep(Input::get('tanggal_lahir'));
+			}
 			$user->tempat_lahir     = Input::get('tempat_lahir');
-			$user->bulan_masuk_ppds = Yoga::bulanTahun(Input::get('bulan_masuk_ppds')) . '-01';
+			if ( !empty( trim( Input::get('bulan_masuk_ppds') ) ) ) {
+				$user->bulan_masuk_ppds = Yoga::bulanTahun(Input::get('bulan_masuk_ppds')) . '-01';
+			}
 			$user->alamat_asal      = Input::get('alamat_asal');
 			$user->alamat_semarang  = Input::get('alamat_semarang');
 			$user->no_ktp           = Input::get('no_ktp');
