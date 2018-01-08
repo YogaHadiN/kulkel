@@ -90,6 +90,7 @@
 							<li>{!! HTML::link('polis', 'Poli')!!}</li>
 							<li>{!! HTML::link('pembacaans', 'Pembacaan')!!}</li>
                             <li>{!! HTML::link('stases', 'Stase')!!}</li>
+                            <li>{!! HTML::link('ujians', 'Ujian')!!}</li>
                         </ul>
                     </li>
 					<li>
