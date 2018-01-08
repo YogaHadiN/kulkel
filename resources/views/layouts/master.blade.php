@@ -87,15 +87,16 @@
                         <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Data-data</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>{!! HTML::link('users', 'User')!!}</li>
-                        </ul>
-						<ul class="nav nav-second-level">
-                            <li>{!! HTML::link('polis', 'Poli')!!}</li>
-                        </ul>
-						<ul class="nav nav-second-level">
-                            <li>{!! HTML::link('pembacaans', 'Pembacaan')!!}</li>
-                        </ul>
-						<ul class="nav nav-second-level">
+							<li>{!! HTML::link('polis', 'Poli')!!}</li>
+							<li>{!! HTML::link('pembacaans', 'Pembacaan')!!}</li>
                             <li>{!! HTML::link('stases', 'Stase')!!}</li>
+                        </ul>
+                    </li>
+					<li>
+                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Pegangan</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+							<li>{!! HTML::link('pegangans/residen', 'Residen')!!}</li>
+                            <li>{!! HTML::link('pegangans/staf', 'Staf')!!}</li>
                         </ul>
                     </li>
 

@@ -44,6 +44,7 @@ class UsersController extends Controller
 			}
 			$user                   = new User;
 			$user->nama             = Input::get('nama');
+			$user->inisial             = Input::get('inisial');
 			$user->role_id          = Input::get('role_id');
 			$user->tanggal_lahir    = Yoga::datePrep(Input::get('tanggal_lahir'));
 			$user->tempat_lahir     = Input::get('tempat_lahir');
@@ -52,6 +53,7 @@ class UsersController extends Controller
 			$user->alamat_semarang  = Input::get('alamat_semarang');
 			$user->no_ktp           = Input::get('no_ktp');
 			$user->email            = Input::get('email');
+			$user->sex              = Input::get('sex');
 			$user->password         = bcrypt(Input::get('password'));
 			$user->save();
 
@@ -95,6 +97,7 @@ class UsersController extends Controller
 			
 			$user                   = User::find($id);
 			$user->nama             = Input::get('nama');
+			$user->inisial          = Input::get('inisial');
 			$user->role_id          = Input::get('role_id');
 			$user->tanggal_lahir    = Yoga::datePrep(Input::get('tanggal_lahir'));
 			$user->tempat_lahir     = Input::get('tempat_lahir');
@@ -102,6 +105,7 @@ class UsersController extends Controller
 			$user->alamat_asal      = Input::get('alamat_asal');
 			$user->alamat_semarang  = Input::get('alamat_semarang');
 			$user->no_ktp           = Input::get('no_ktp');
+			$user->sex              = Input::get('sex');
 			$user->email            = Input::get('email');
 			if ( !empty( Input::get('password') ) ) {
 				$user->password            = Input::get('password');

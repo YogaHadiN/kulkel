@@ -1,9 +1,18 @@
 <div class="row">
-	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<div class="form-group" @if($errors->has('nama')) class="has-error" @endif>
 		  {!! Form::label('nama', 'Nama') !!}
 		  {!! Form::text('nama', null, ['class' => 'form-control rq']) !!}
 		  @if($errors->has('nama'))<code>{{ $errors->first('nama') }}</code>@endif
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+		<div class="form-group" @if($errors->has('inisial')) class="has-error" @endif>
+		  {!! Form::label('inisial', 'Inisial') !!}
+		  {!! Form::text('inisial', null, ['class' => 'form-control rq']) !!}
+		  @if($errors->has('inisial'))<code>{{ $errors->first('inisial') }}</code>@endif
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -16,10 +25,10 @@
 </div>
 <div class="row">
 	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-		<div class="form-group" @if($errors->has('jenis_kelamin')) class="has-error" @endif>
-		  {!! Form::label('jenis_kelamin', 'Jenis Kelamin') !!}
-		  {!! Form::select('jenis_kelamin', App\User::jenisKelamin(), null, ['class' => 'form-control rq']) !!}
-		  @if($errors->has('jenis_kelamin'))<code>{{ $errors->first('jenis_kelamin') }}</code>@endif
+		<div class="form-group" @if($errors->has('sex')) class="has-error" @endif>
+		  {!! Form::label('sex', 'Jenis Kelamin') !!}
+		  {!! Form::select('sex', App\User::jenisKelamin(), null, ['class' => 'form-control rq']) !!}
+		  @if($errors->has('sex'))<code>{{ $errors->first('sex') }}</code>@endif
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">

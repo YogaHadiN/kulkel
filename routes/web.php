@@ -29,6 +29,8 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('library/pinjam', 'LibraryController@pinjamBuku');
 	});
 	Route::resource('library', 'LibraryController');
+	Route::resource('pegangans/staf', 'StafPegangansController');
+	Route::resource('pegangans/residen', 'ResidenPegangansController');
 	Route::resource('stases', 'StasesController');
 	Route::resource('polis', 'PolisController');
 	Route::resource('pembacaans', 'PembacaansController');
