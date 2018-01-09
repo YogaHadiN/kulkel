@@ -26,10 +26,26 @@ class UsersController extends Controller
 	}
 	
 	public function index(){
+
 		$users = User::all();
+		$admins = [];
+		$residens = [];
+		$dosens = [];
+
+		foreach ($users as $user) {
+			if ( $user->role_id == '1' ) {
+				$residens[] = $user;
+			} elseif ( $user->role_id == '2' ){
+				$dosens[] = $user;
+			} else {
+				$admins[] = $user;
+			}
+		}
 
 		return view('users.index', compact(
-			'users'
+			'residens',
+			'dosens',
+			'admins'
 		));
 	}
 	public function edit($id){

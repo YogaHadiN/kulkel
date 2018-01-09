@@ -33,50 +33,33 @@ Kulkel Undip | User
 					</h3>
 				</div>
 				<div class="panel-body">
-					<div class="table-responsive">
-						<table class="table table-hover table-condensed table-bordered">
-							<thead>
-								<tr>
-									<th>ID</th>
-									<th>Nama</th>
-									<th>Email</th>
-									<th>Role</th>
-									<th>Alamat Semarang</th>
-									<th>No Telp</th>
-									<th>Control</th>
-								</tr>
-							</thead>
-							<tbody>
-								@if($users->count() > 0)
-									@foreach($users as $user)
-										<tr>
-											<td>{{ $user->id }}</td>
-											<td>{{ $user->nama }}</td>
-											<td>{{ $user->email }}</td>
-											<td>{{ $user->role->role }}</td>
-											<td>{{ $user->alamat_semarang }}</td>
-											<td>
-												<ul>
-													@foreach($user->no_telps as $no_telp)	
-														<li>{{ $no_telp->jenisTelpon->jenis_telpon }} : {{ $no_telp->no_telp }}</li>
-													@endforeach
-												</ul>
-											</td>
-											<td> 
-												<a class="btn btn-success btn-sm" href="{{ url('users/' . $user->id ) }}">Show</a>
-											</td>
-										</tr>
-									@endforeach
-								@else
-									<tr>
-										<td colspan="7" class="text-center">
-											Tidak ada data untuk ditampilkan
-										</td>
-									</tr>
-								@endif
-							</tbody>
-						</table>
+					<div>
+					  <!-- Nav tabs -->
+					  <ul class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active"><a href="#residens" aria-controls="residens" role="tab" data-toggle="tab">Residen</a></li>
+						<li role="presentation"><a href="#dosens" aria-controls="dosens" role="tab" data-toggle="tab">Dosen</a></li>
+						<li role="presentation"><a href="#admins" aria-controls="admins" role="tab" data-toggle="tab">Admin</a></li>
+					  </ul>
+
+					  <!-- Tab panes -->
+					  <div class="tab-content">
+						<div role="tabpanel" class="tab-pane active" id="residens">
+							@include('users.table', ['users' => $residens])
+						</div>
+						<div role="tabpanel" class="tab-pane" id="dosens">
+							@include('users.table', ['users' => $dosens])
+						</div>
+						<div role="tabpanel" class="tab-pane" id="admins">
+							@include('users.table', ['users' => $admins])
+						</div>
+					  </div>
+
 					</div>
+
+
+
+
+
 					
 				</div>
 			</div>
