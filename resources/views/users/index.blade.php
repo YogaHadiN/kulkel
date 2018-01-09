@@ -36,9 +36,9 @@ Kulkel Undip | User
 					<div>
 					  <!-- Nav tabs -->
 					  <ul class="nav nav-tabs" role="tablist">
-						<li role="presentation" class="active"><a href="#residens" aria-controls="residens" role="tab" data-toggle="tab">Residen</a></li>
-						<li role="presentation"><a href="#dosens" aria-controls="dosens" role="tab" data-toggle="tab">Dosen</a></li>
-						<li role="presentation"><a href="#admins" aria-controls="admins" role="tab" data-toggle="tab">Admin</a></li>
+						<li role="presentation" class="active"><a href="#residens" aria-controls="residens" role="tab" data-toggle="tab">Residen ({{ count($residens) }})</a></li>
+						<li role="presentation"><a href="#dosens" aria-controls="dosens" role="tab" data-toggle="tab">Dosen ({{ count($dosens) }})</a></li>
+						<li role="presentation"><a href="#admins" aria-controls="admins" role="tab" data-toggle="tab">Admin ({{ count( $admins ) }})</a></li>
 					  </ul>
 
 					  <!-- Tab panes -->
