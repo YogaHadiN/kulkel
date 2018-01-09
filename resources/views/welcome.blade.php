@@ -10,7 +10,6 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{{ url('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-
     <!-- Custom styles for this template -->
     <link href="{{ url('css/business-frontpage.css') }}" rel="stylesheet">
   </head>
@@ -48,9 +47,8 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <h1 class="display-3 text-center text-white mt-4">
-				<img src="{{ url('img/dosen.jpeg') }}" alt="" />
-			</h1>
+            {{-- <h1 class="display-3 text-center text-white mt-4 gambar"> --}}
+			{{-- </h1> --}}
           </div>
         </div>
       </div>
@@ -61,7 +59,7 @@
 
       <div class="row">
         <div class="col-sm-8">
-          <h2 class="mt-4">What We Do</h2>
+          <h2 class="mt-4">Tentang Kami</h2>
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt neque tempore recusandae animi soluta quasi? Asperiores rem dolore eaque vel, porro, soluta unde debitis aliquam laboriosam. Repellat explicabo, maiores!</p>
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis optio neque consectetur consequatur magni in nisi, natus beatae quidem quam odit commodi ducimus totam eum, alias, adipisci nesciunt voluptate. Voluptatum.</p>
           <p>
@@ -92,7 +90,7 @@
       <div class="row">
         <div class="col-sm-4 my-4">
           <div class="card">
-            <img class="card-img-top" src="http://placehold.it/300x200" alt="">
+            <img class="card-img-top" src="{{ url('img/Depositphotos_143866953_s-2015.jpg') }}" alt="">
             <div class="card-body">
               <h4 class="card-title">Card title</h4>
               <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque sequi doloribus.</p>
@@ -104,7 +102,7 @@
         </div>
         <div class="col-sm-4 my-4">
           <div class="card">
-            <img class="card-img-top" src="http://placehold.it/300x200" alt="">
+            <img class="card-img-top" src="{{ url('img/Depositphotos_7700067_s-2015.jpg') }}" alt="">
             <div class="card-body">
               <h4 class="card-title">Card title</h4>
               <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque sequi doloribus totam ut praesentium aut.</p>
@@ -116,7 +114,7 @@
         </div>
         <div class="col-sm-4 my-4">
           <div class="card">
-            <img class="card-img-top" src="http://placehold.it/300x200" alt="">
+            <img class="card-img-top" src="{{ url('img/Depositphotos_80150956_s-2015.jpg') }}" alt="">
             <div class="card-body">
               <h4 class="card-title">Card title</h4>
               <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
