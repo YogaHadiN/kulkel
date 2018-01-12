@@ -92,8 +92,63 @@
   @if($errors->has('alamat_semarang'))<code>{{ $errors->first('alamat_asal') }}</code>@endif
 </div>
 <div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		@include('users.telps')
+	<div class="table-responsive">
+		<table id="tableTelp" class="table table-hover table-condensed table-bordered">
+			<thead>
+				<tr>
+					<th>Jenis Telpon</th>
+					<th>Nomor Telpon</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				@if( isset( $user ) )
+					@foreach( $user->no_telps as $k => $telp )
+						<tr>
+							<td>
+								{!! Form::select('jenis_telpon_id[]' , App\JenisTelpon::list(), $telp->jenis_telpon_id, [
+								  'class' => 'form-control jenis_telpon'
+							  ]) !!}
+							</td>
+							<td>
+								{!! Form::text('no_telp[]', $telp->no_telp, array(
+									'class'         => 'form-control no_telp'
+								))!!}
+							</td>
+							<td>
+								@if( $k == $user->no_telps->count() -1 )
+								<button class="btn btn-primary btn-sm" type="button" onclick="tambahTelp(this);">
+									<i class="fa fa-plus" aria-hidden="true"></i>
+								</button>
+								@else
+								<button class="btn btn-danger btn-sm" type="button" onclick="kurangTelp(this);">
+									<i class="fa fa-minus" ariprimarya-hidden="true"></i>
+								</button>
+								@endif
+							</td>
+						</tr>
+					@endforeach
+				@else
+				<tr>
+					<td>
+					  {!! Form::select('jenis_telpon_id[]' , App\JenisTelpon::list(), null, [
+						  'class' => 'form-control jenis_telpon'
+					  ]) !!}
+					</td>
+					<td>
+						{!! Form::text('no_telp[]', null, array(
+							'class'         => 'form-control no_telp'
+						))!!}
+					</td>
+					<td>
+						<button class="btn btn-primary btn-sm" type="button" onclick="tambahTelp(this);">
+							<i class="fa fa-plus" aria-hidden="true"></i>
+						</button>
+					</td>
+				</tr>
+				@endif
+			</tbody>
+		</table>
 	</div>
 </div>
 <div class="form-group" @if($errors->has('email')) class="has-error" @endif>
@@ -110,4 +165,30 @@
   {!! Form::label('password_confirmation', 'Repeat Password') !!}
   {!! Form::password('password_confirmation', ['class' => 'form-control',  'placeholder' => 'kosongkan bila tidak mau diubah']) !!}
   @if($errors->has('password_confirmation'))<code>{{ $errors->first('password_confirmation') }}</code>@endif
+</div>
+<div class="table-responsive hide">
+	<table class="table table-hover table-condensed table-bordered">
+		<thead>
+			<tr>
+				<th>Jenis Telpon</th>
+				<th>No Telpon</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody id="contoh">
+			<tr>
+				<td>
+					{!! Form::select('jenis_telpon_id[]', App\JenisTelpon::list(), null, ['class' => 'form-control jenis_telpon']) !!}
+				</td>
+				<td>
+					{!! Form::text('no_telp[]', null, ['class' => 'form-control no_telp']) !!}
+				</td>
+				<td>
+					<button class="btn btn-primary btn-sm" type="button" onclick="tambahTelp(this);return false">
+						<i class="fa fa-plus" aria-hidden="true"></i>
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </div>

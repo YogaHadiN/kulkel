@@ -53,7 +53,6 @@ class UsersController extends Controller
 		return view('users.edit', compact('user'));
 	}
 	public function store(Request $request){
-
 		DB::beginTransaction();
 		try {
 			if ($this->valid( Input::all() )) {
@@ -78,22 +77,23 @@ class UsersController extends Controller
 			$user->password         = bcrypt(Input::get('password'));
 			$user->save();
 
-			$input_telps = $this->telpEmpty(Input::get('no_telps'));
-			$no_telps = json_decode($input_telps, true);
+			$no_telps = Input::get('no_telp');
 
 			$telps = [];
 			$timestamp = date('Y-m-d H:i:s');
-			foreach ($no_telps as $telp) {
-				$telps[] = [
-					'user_id'         => $user->id,
-					'no_telp'         => $telp['no_telp'],
-					'jenis_telpon_id' => $telp['id'],
-					'created_at'      => $timestamp,
-					'updated_at'      => $timestamp
-				];
+			$jenis_telps = Input::get('jenis_telpon_id');
+			foreach ($no_telps as $k => $telp) {
+				if ( !empty($telp)) {
+					$telps[] = [
+						'user_id'         => $user->id,
+						'no_telp'         => $telp,
+						'jenis_telpon_id' => $jenis_telps[$k],
+						'created_at'      => $timestamp,
+						'updated_at'      => $timestamp
+					];
+				}
 			}
 			NoTelp::insert($telps);
-
 			$pesan = Yoga::suksesFlash('User baru berhasil dibuat');
 			DB::commit();
 			return redirect('users')->withPesan($pesan);
@@ -110,13 +110,6 @@ class UsersController extends Controller
 		}
 		DB::beginTransaction();
 		try {
-
-			$telps = [];
-			$input_telps = $this->telpEmpty(Input::get('no_telps'));
-			$no_telps = json_decode( $input_telps, true );
-			$timestamp = date('Y-m-d H:i:s');
-
-			
 			$user                   = User::find($id);
 			$user->nama             = Input::get('nama');
 			$user->inisial          = Input::get('inisial');
@@ -140,17 +133,22 @@ class UsersController extends Controller
 
 			NoTelp::where('user_id', $id)->delete();
 
+			$telps         = [];
+			$no_telps      = Input::get('no_telp');
+			$jenis_telpons = Input::get('jenis_telpon_id');
+			$timestamp     = date('Y-m-d H:i:s');
 			
-			foreach ($no_telps as $telp) {
-				$telps[] = [
-					'user_id'         => $user->id,
-					'jenis_telpon_id' => $telp['id'],
-					'no_telp'         => $telp['no_telp'],
-					'created_at'      => $timestamp,
-					'updated_at'      => $timestamp
-				];
+			foreach ($no_telps as $k =>$telp) {
+				if (!empty($telp)) {
+					$telps[] = [
+						'user_id'         => $user->id,
+						'jenis_telpon_id' => $jenis_telpons[$k],
+						'no_telp'         => $telp,
+						'created_at'      => $timestamp,
+						'updated_at'      => $timestamp
+					];
+				}
 			}
-
 			NoTelp::insert($telps);
 			$pesan = Yoga::suksesFlash('User berhasil diupdate');
 			DB::commit();
@@ -162,8 +160,7 @@ class UsersController extends Controller
 	}
 	public function destroy($id){
 		User::destroy($id);
-		$pesan = Yoga::suksesFlash('User berhasil dihapus');
-		return redirect('users')->withPesan($pesan);
+		return redirect('users');
 	}
 	public function import(){
 		return 'Not Yet Handled';

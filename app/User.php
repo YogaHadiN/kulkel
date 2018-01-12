@@ -5,8 +5,61 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use App\Stase;
+use App\Ujian;
+use App\StafPegangan;
+use App\ResidenPegangan;
+use App\Moderator;
+use App\Pembahas;
+use App\Pembacaan;
+use App\NoTelp;
+use App\Event;
+use App\Poli;
+use Session;
+use App\PinjamBuku;
+use App\Penguji;
+
 class User extends Authenticatable
 {
+
+	public static function boot(){
+		parent::boot();
+		self::deleting(function($user){
+			$stases_count            = Stase::where('user_id', $user->id)->count();
+			$ujians_count            = Ujian::where('user_id', $user->id)->count();
+			$staf_pegangans_count    = StafPegangan::where('user_id', $user->id)->orWhere('staf_id', $user->id)->count();
+			$residen_pegangans_count = ResidenPegangan::where('user_id', $user->id)->orWhere('residen_id', $user->id)->count();
+			$moderators_count        = Moderator::where('user_id', $user->id)->count();
+			$pembahass_count         = Pembahas::where('user_id', $user->id)->count();
+			$pembacaans_count        = Pembacaan::where('user_id', $user->id)->count();
+			$no_telps_count          = NoTelp::where('user_id', $user->id)->count();
+			$events_count            = Event::where('user_id', $user->id)->count();
+			$polis_count             = Poli::where('user_id', $user->id)->count();
+			$pinjams_count           = PinjamBuku::where('user_id', $user->id)->count();
+			$pengguji_count          = Penguji::where('user_id', $user->id)->count();
+
+			if (
+				$stases_count ||
+				$ujians_count ||
+				$staf_pegangans_count ||
+				$residen_pegangans_count ||
+				$moderators_count ||
+				$pembahass_count ||
+				$pembacaans_count ||
+				$no_telps_count ||
+				$events_count ||
+				$polis_count ||
+				$pinjams_count ||
+				$pengguji_count
+			) {
+				$pesan = 'Maaf user tidak bisa dihapus, karena masih digunakan di data yang lain';
+				Session::flash('pesan', Yoga::gagalFlash($pesan));
+				return false;
+			}
+		});
+	}
+	
+	
     use Notifiable;
 
     /**

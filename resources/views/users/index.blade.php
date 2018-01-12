@@ -53,14 +53,7 @@ Kulkel Undip | User
 							@include('users.table', ['users' => $admins])
 						</div>
 					  </div>
-
 					</div>
-
-
-
-
-
-					
 				</div>
 			</div>
 		</div>
