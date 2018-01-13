@@ -21,7 +21,10 @@ Kulkel UNDIP |
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h1>
-			{{ \Auth::user()->nama }} <strong>({{ $stases->first()->jenisStase->jenis_stase }})</strong>  
+			{{ \Auth::user()->nama }}
+			@if( isset($stases->first()) )
+				<strong>({{ $stases->first()->jenisStase->jenis_stase }})</strong>  
+			@endif
 		</h1>
 	</div>
 	<div class="panel-body">
