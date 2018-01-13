@@ -33,38 +33,38 @@
 	  @if($errors->has('doi'))<code>{{ $errors->first('doi') }}</code>@endif
 	</div>
 @endif
-<div class="form-group" @if($errors->has('moderators')) class="has-error" @endif>
-  {!! Form::label('moderators', 'Moderator') !!}
+<div class="form-group" @if($errors->has('moderator')) class="has-error" @endif>
+  {!! Form::label('moderator', 'Moderator') !!}
   @if( isset( $pembacaan ) )
-  {!! Form::select('moderators[]', App\User::listNoNull() , $moderator_array_id, [
+  {!! Form::select('moderator[]', App\User::listNoNull() , $moderator_array_id, [
 	  'class'            => 'form-control selectpick',
 	  'multiple'         => 'multiple',
 	  'data-live-search' => 'true'
   ]) !!}
   @else
-  {!! Form::select('moderators[]', App\User::listNoNull() , null, [
+  {!! Form::select('moderator[]', App\User::listNoNull() , null, [
 	  'class'            => 'form-control selectpick',
 	  'multiple'         => 'multiple',
 	  'data-live-search' => 'true'
   ]) !!}
   @endif
-  @if($errors->has('moderators'))<code>{{ $errors->first('moderators') }}</code>@endif
+  @if($errors->has('moderator'))<code>{{ $errors->first('moderator') }}</code>@endif
 </div>
-<div class="form-group" @if($errors->has('pembahases')) class="has-error" @endif>
-  {!! Form::label('pembahases', 'Pembahas') !!}
+<div class="form-group" @if($errors->has('pembahas')) class="has-error" @endif>
+  {!! Form::label('pembahas', 'Pembahas') !!}
   @if( isset($pembacaan) )
-  {!! Form::select('pembahases[]', App\User::listNoNull() , $pembahas_array_id, [
+  {!! Form::select('pembahas[]', App\User::listNoNull() , $pembahas_array_id, [
 	  'class'            => 'form-control selectpick',
 	  'multiple'         => 'multiple',
 	  'data-live-search' => 'true'
   ]) !!}
   @else
-  {!! Form::select('pembahases[]', App\User::listNoNull() , null, [
+  {!! Form::select('pembahas[]', App\User::listNoNull() , null, [
 	  'class'            => 'form-control selectpick',
 	  'multiple'         => 'multiple',
 	  'data-live-search' => 'true'
   ]) !!}
   	
   @endif
-  @if($errors->has('pembahases'))<code>{{ $errors->first('pembahases') }}</code>@endif
+  @if($errors->has('pembahas'))<code>{{ $errors->first('pembahas') }}</code>@endif
 </div>

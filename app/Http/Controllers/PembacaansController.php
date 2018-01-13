@@ -37,26 +37,26 @@ class PembacaansController extends Controller
 			$pembacaan->save();
 
 			$timestamp = date('Y-m-d H:i:s');
-			$moderators = [];
-			$pembahases = [];
-			foreach ( Input::get('moderators') as $moderator) {
-				$moderators[] = [
-					'user_id'      => $moderator,
+			$moderator = [];
+			$pembahas = [];
+			foreach ( Input::get('moderator') as $mod) {
+				$moderator[] = [
+					'user_id'      => $mod,
 					'pembacaan_id' => $pembacaan->id,
 					'created_at'   => $timestamp,
 					'updated_at'   => $timestamp
 				];
 			}
-			foreach ( Input::get('pembahases') as $pembahas) {
-				$pembahases[] = [
-					'user_id'      => $pembahas,
+			foreach ( Input::get('pembahas') as $pemb) {
+				$pembahas[] = [
+					'user_id'      => $pemb,
 					'pembacaan_id' => $pembacaan->id,
 					'created_at'   => $timestamp,
 					'updated_at'   => $timestamp
 				];
 			}
-			Pembahas::insert($pembahases);
-			Moderator::insert($moderators);
+			Pembahas::insert($pembahas);
+			Moderator::insert($moderator);
 
 			$pesan = Yoga::suksesFlash('Pembacaan berhasil diinput');
 			DB::commit();
@@ -76,10 +76,10 @@ class PembacaansController extends Controller
 		$pembacaan = Pembacaan::find( $id );
 		$pembahas_array_id = [];
 
-		foreach ($pembacaan->pembahases as $p) {
+		foreach ($pembacaan->pembahas as $p) {
 			$pembahas_array_id[] = $p->user->id;
 		}
-		foreach ($pembacaan->moderators as $p) {
+		foreach ($pembacaan->moderator as $p) {
 			$moderator_array_id[] = $p->user->id;
 		}
 
@@ -103,19 +103,19 @@ class PembacaansController extends Controller
 		Moderator::where('pembacaan_id', $id)->delete();
 		Pembahas::where('pembacaan_id', $id)->delete();
 
-		$moderators = [];
-		$pembahases = [];
+		$moderator = [];
+		$pembahas = [];
 		$timestamp = date('Y-m-d H:i:s');
-		foreach ( Input::get('moderators') as $moderator) {
-			$moderators[] = [
+		foreach ( Input::get('moderator') as $moderator) {
+			$moderator[] = [
 				'user_id'      => $moderator,
 				'pembacaan_id' => $pembacaan->id,
 				'created_at'   => $timestamp,
 				'updated_at'   => $timestamp
 			];
 		}
-		foreach ( Input::get('pembahases') as $pembahas) {
-			$pembahases[] = [
+		foreach ( Input::get('pembahas') as $pembahas) {
+			$pembahas[] = [
 				'user_id'      => $pembahas,
 				'pembacaan_id' => $pembacaan->id,
 				'created_at'   => $timestamp,
@@ -123,8 +123,8 @@ class PembacaansController extends Controller
 			];
 		}
 
-		Pembahas::insert($pembahases);
-		Moderator::insert($moderators);
+		Pembahas::insert($pembahas);
+		Moderator::insert($moderator);
 
 		$pesan = Yoga::suksesFlash('Pembacaan berhasil di Update');
 		return redirect('pembacaans')->withPesan($pesan);

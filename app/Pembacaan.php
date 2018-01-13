@@ -12,10 +12,10 @@ class Pembacaan extends Model
 	public function jenisPembacaan(){
 		return $this->belongsTo('App\JenisPembacaan');
 	}
-	public function pembahases(){
+	public function pembahas(){
 		return $this->hasMany('App\Pembahas');
 	}
-	public function moderators(){
+	public function moderator(){
 		return $this->hasMany('App\Moderator');
 	}
 	protected $dates = ['tanggal'];

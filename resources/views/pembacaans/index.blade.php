@@ -52,14 +52,14 @@
 											<td>{{ $pembacaan->user->nama }}</td>
 											<td>
 												<ul>
-													@foreach($pembacaan->moderators as $mod)	
+													@foreach($pembacaan->moderator as $mod)	
 														<li>{{ $mod->user->nama }}</li>
 													@endforeach
 												</ul>
 											</td>
 											<td>
 												<ul>
-													@foreach($pembacaan->pembahases as $pembahas)	
+													@foreach($pembacaan->pembahas as $pembahas)	
 														<li>{{ $pembahas->user->nama }}</li>
 													@endforeach
 												</ul>

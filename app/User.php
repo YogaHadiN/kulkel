@@ -15,6 +15,8 @@ use App\Pembacaan;
 use App\NoTelp;
 use App\Event;
 use App\Poli;
+use App\Rsnd;
+use App\Gardenia;
 use Session;
 use App\PinjamBuku;
 use App\Penguji;
@@ -37,6 +39,8 @@ class User extends Authenticatable
 			$polis_count             = Poli::where('user_id', $user->id)->count();
 			$pinjams_count           = PinjamBuku::where('user_id', $user->id)->count();
 			$pengguji_count          = Penguji::where('user_id', $user->id)->count();
+			$gardenis_count          = Gardenia::where('user_id', $user->id)->count();
+			$rsnds_count             = Rsnd::where('user_id', $user->id)->count();
 
 			if (
 				$stases_count ||
@@ -50,6 +54,8 @@ class User extends Authenticatable
 				$events_count ||
 				$polis_count ||
 				$pinjams_count ||
+				$gardenis_count ||
+				$rsnds_count ||
 				$pengguji_count
 			) {
 				$pesan = 'Maaf user tidak bisa dihapus, karena masih digunakan di data yang lain';
