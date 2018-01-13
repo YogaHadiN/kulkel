@@ -5,7 +5,9 @@ use Illuminate\Http\Request;
 use App\User;
 use Input;
 use App\Yoga;
+use App\Pembacaan;
 use App\Role;
+use App\Stase;
 use App\NoTelp;
 use DB;
 class UsersController extends Controller
@@ -20,8 +22,38 @@ class UsersController extends Controller
 	}
 	public function show($id){
 		$user = User::find( $id );
+		$stases = Stase::where('user_id', $id)->orderBy('periode_bulan')->get();
+		$pemb = Pembacaan::where('user_id', $id)->orderBy('tanggal')->get();
+		$pembacaans_sudah = [];
+		$pembacaans_belum = [];
+
+		$stases_belum = [];
+		$stases_sudah = [];
+
+
+		foreach ($pemb as $p) {
+			if ($p->tanggal < date('Y-m-d')) {
+				$pembacaans_sudah[] = $p;
+			} else {
+				$pembacaans_belum[] = $p;
+			}
+		}
+
+		foreach ($stases as $p) {
+			if ($p->periode_bulan < date('Y-m-d')) {
+				$stases_sudah[] = $p;
+			} else {
+				$stases_belum[] = $p;
+			}
+		}
+
 		return view('users.show', compact(
-			'user'
+			'user',
+			'stases_sudah',
+			'stases_belum',
+			'pembacaans_sudah',
+			'pembacaans_belum',
+			'stases'
 		));
 	}
 	
@@ -58,23 +90,23 @@ class UsersController extends Controller
 			if ($this->valid( Input::all() )) {
 				return $this->valid( Input::all() );
 			}
-			$user                   = new User;
-			$user->nama             = Input::get('nama');
-			$user->inisial             = Input::get('inisial');
-			$user->role_id          = Input::get('role_id');
+			$user                       = new User;
+			$user->nama                 = Input::get('nama');
+			$user->inisial              = Input::get('inisial');
+			$user->role_id              = Input::get('role_id');
 			if ( !empty( trim( Input::get('tanggal_lahir') ) ) ) {
 				$user->tanggal_lahir    = Yoga::datePrep(Input::get('tanggal_lahir'));
 			}
-			$user->tempat_lahir     = Input::get('tempat_lahir');
+			$user->tempat_lahir         = Input::get('tempat_lahir');
 			if ( !empty( trim( Input::get('bulan_masuk_ppds') ) ) ) {
 				$user->bulan_masuk_ppds = Yoga::bulanTahun(Input::get('bulan_masuk_ppds')) . '-01';
 			}
-			$user->alamat_asal      = Input::get('alamat_asal');
-			$user->alamat_semarang  = Input::get('alamat_semarang');
-			$user->no_ktp           = Input::get('no_ktp');
-			$user->email            = Input::get('email');
-			$user->sex              = Input::get('sex');
-			$user->password         = bcrypt(Input::get('password'));
+			$user->alamat_asal          = Input::get('alamat_asal');
+			$user->alamat_semarang      = Input::get('alamat_semarang');
+			$user->no_ktp               = Input::get('no_ktp');
+			$user->email                = Input::get('email');
+			$user->sex                  = Input::get('sex');
+			$user->password             = bcrypt(Input::get('password'));
 			$user->save();
 
 			$no_telps = Input::get('no_telp');

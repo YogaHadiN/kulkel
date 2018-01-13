@@ -32,10 +32,9 @@
 				</div>
 				<div class="panel-body">
 					<div class="table-responsive">
-						<table class="table table-hover table-condensed table-bordered">
+						<table class="table table-hover table-condensed table-bordered DT">
 							<thead>
 								<tr>
-									<th>ID</th>
 									<th>Tanggal</th>
 									<th>Presentan</th>
 									<th>Pembahas</th>
@@ -47,20 +46,19 @@
 								@if($pembacaans->count() > 0)
 									@foreach($pembacaans as $pembacaan)
 										<tr>
-											<td>{{ $pembacaan->id }}</td>
-											<td>{{ $pembacaan->tanggal }}</td>
+											<td>{{ $pembacaan->tanggal->format('d M Y') }}</td>
 											<td>{{ $pembacaan->user->nama }}</td>
 											<td>
 												<ul>
-													@foreach($pembacaan->moderator as $mod)	
-														<li>{{ $mod->user->nama }}</li>
+													@foreach($pembacaan->pembahas as $pembahas)	
+														<li>{{ $pembahas->user->nama }}</li>
 													@endforeach
 												</ul>
 											</td>
 											<td>
 												<ul>
-													@foreach($pembacaan->pembahas as $pembahas)	
-														<li>{{ $pembahas->user->nama }}</li>
+													@foreach($pembacaan->moderator as $mod)	
+														<li>{{ $mod->user->nama }}</li>
 													@endforeach
 												</ul>
 											</td>
