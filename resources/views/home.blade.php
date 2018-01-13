@@ -22,7 +22,7 @@ Kulkel UNDIP |
 	<div class="panel-heading">
 		<h1>
 			{{ \Auth::user()->nama }}
-			@if( isset($stases->first()) )
+			@if( $stases->count() )
 				<strong>({{ $stases->first()->jenisStase->jenis_stase }})</strong>  
 			@endif
 		</h1>
