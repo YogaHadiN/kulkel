@@ -6,7 +6,6 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
-        "barryvdh/laravel-debugbar": "^2.2",
         "doctrine/dbal": "^2.6",
         "endroid/qrcode": "^1.7",
         "fideloper/proxy": "~3.3",
@@ -26,6 +25,7 @@
         "watson/rememberable": "^1.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.1",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",

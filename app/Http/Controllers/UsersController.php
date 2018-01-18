@@ -21,9 +21,9 @@ class UsersController extends Controller
 		return view('users.create');
 	}
 	public function show($id){
-		$user = User::find( $id );
-		$stases = Stase::where('user_id', $id)->orderBy('periode_bulan')->get();
-		$pemb = Pembacaan::where('user_id', $id)->orderBy('tanggal')->get();
+		$user             = User::find( $id );
+		$stases           = Stase::with('user')->where('user_id', $id)->orderBy('periode_bulan')->get();
+		$pemb             = Pembacaan::with('user')->where('user_id', $id)->orderBy('tanggal')->get();
 		$pembacaans_sudah = [];
 		$pembacaans_belum = [];
 
@@ -59,10 +59,10 @@ class UsersController extends Controller
 	
 	public function index(){
 
-		$users = User::all();
-		$admins = [];
+		$users    = User::with('no_telps')->get();
+		$admins   = [];
 		$residens = [];
-		$dosens = [];
+		$dosens   = [];
 
 		foreach ($users as $user) {
 			if ( $user->role_id == '1' ) {

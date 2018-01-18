@@ -42,9 +42,11 @@ Kulkel UNDIP |
 						<tbody>
 							@if($poli_bulan_inis->count() > 0)
 								@foreach($poli_bulan_inis as $poli)
-									<tr>
-
-
+									@if( $poli->tanggal-format('Y-m-d') == date('Y-m-d') )
+										<tr class="info">
+									@else
+										<tr>
+									@endif
 										<td>
 											<a class="btn btn-warning btn-sm" href="{{ url('polis/' . $poli->id . '/edit') }}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 											{{ $poli->tanggal->format('d M Y') }}
@@ -75,7 +77,11 @@ Kulkel UNDIP |
 						<tbody>
 							@if($gardenias->count() > 0)
 								@foreach($gardenias as $gardenia)
-									<tr>
+									@if( $gardenia->tanggal-format('Y-m-d') == date('Y-m-d') )
+										<tr class="info">
+									@else
+										<tr>
+									@endif
 										<td>{{ $gardenia->tanggal->format('d M Y') }}</td>
 									</tr>
 								@endforeach
@@ -103,9 +109,13 @@ Kulkel UNDIP |
 						<tbody>
 							@if($rsnds->count() > 0)
 								@foreach($rsnds as $rsnd)
-									<tr>
-										<td>{{ $rsnd->tanggal->format('d M Y') }}</td>
-									</tr>
+									@if( $rsnd->tanggal-format('Y-m-d') == date('Y-m-d') )
+										<tr class="info">
+									@else
+										<tr>
+									@endif
+											<td>{{ $rsnd->tanggal->format('d M Y') }}</td>
+										</tr>
 								@endforeach
 							@else
 								<tr>
@@ -136,7 +146,11 @@ Kulkel UNDIP |
 						<tbody>
 							@if($pembacaan_bulan_inis->count() > 0)
 								@foreach($pembacaan_bulan_inis as $pembacaan)
-									<tr>
+									@if( $pembacaan->tanggal-format('Y-m-d') == date('Y-m-d') )
+										<tr class="info">
+									@else
+										<tr>
+									@endif
 										<td>
 											<a class="btn btn-warning btn-sm" href="{{ url('pembacaans/' . $pembacaan->id . '/edit') }}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
