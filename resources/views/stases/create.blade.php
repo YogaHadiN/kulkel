@@ -42,6 +42,7 @@
 			</div>
 		</div>
 	</div>
+	
 @stop
 @section('footer') 
 <script type="text/javascript" charset="utf-8">
@@ -49,6 +50,29 @@
 		if(validatePass2(control)){
 			$('#submit').click();
 		}
+	}
+	function tambahInput(control){
+		var stase      = $(control).closest('tr').find('.stase').val();
+		var bulanTahun = $(control).closest('tr').find('.bulanTahun').val();
+		if( stase != '' && bulanTahun != '' ){
+			var row        = $(control).closest('tr')[0].outerHTML;
+			$(control).closest('tr').after(row);
+			$(control).closest('tr').next().find('stase');
+			$(control).closest('td').html('<button class="btn btn-danger btn-sm" type="button" onclick="kurangInput(this);return false;"><i class="fa fa-minus" aria-hidden="true"></i></button>');
+			$('.bulanTahun').datepicker({
+				todayBtn: "linked",
+				keyboardNavigation: false,
+				forceParse: false,
+				calendarWeeks: true,
+				autoclose: true,
+				format: 'mm-yyyy',
+				minViewMode: 'months'
+			});
+		
+		}
+	}
+	function kurangInput(control){
+		$(control).closest('tr').remove();
 	}
 </script>
 @stop

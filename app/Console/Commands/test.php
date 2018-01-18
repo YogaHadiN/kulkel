@@ -38,12 +38,14 @@ class test extends Command
      */
     public function handle()
     {
-		$users = User::where('role_id', '1')->get();
+		$users = User::all();
+
 		$data = [];
+
 		foreach ($users as $user) {
-			$data[] = $user->nama;
+			$data[] = $user->email;
 		}
 
-		return dd( $data );
+		return dd($data);
     }
 }

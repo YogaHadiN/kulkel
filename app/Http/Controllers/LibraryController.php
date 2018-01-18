@@ -86,6 +86,7 @@ class LibraryController extends Controller
 		$query .= "AND ( nama_buku like '%{$nama_buku}%' or '{$nama_buku}' = '' ) ";
 		$query .= "AND ( pengarang like '%{$pengarang}%' or '{$pengarang}' = '' ) ";
 		$query .= "AND ( terbit like '%{$terbit}%' or '{$terbit}' = '' ) ";
+		$query .= "AND terbit >= 2000 ";
 		$query .= "Limit 10 ";
 
 		$data = DB::select($query);
@@ -144,27 +145,25 @@ class LibraryController extends Controller
 	public function import(){
 		$file      = Input::file('file');
 		$file_name = $file->getClientOriginalName();
-		$file->move('files');
+		$file->move('files', $file_name);
 		$results   = Excel::load('files/'. $file_name, function($reader){
 			$reader->all();
 		})->get();
 		$bukus     = [];
 		$timestamp = date('Y-m-d H:i:s');
-		foreach ($results as $resultss) {
-			foreach ($resultss as $result) {
-				if (
-					!empty($result['judul_buku']) &&
-					!empty($result['pengarang'])
-				) {
-					$bukus[] = [
-						'nomor_buku' =>	$result['kode_buku'],
-						'nama_buku' => $result['judul_buku'],
-						'pengarang' => $result['pengarang'],
-						'terbit' => $result['tahun_terbit'],
-						'created_at' => $timestamp,
-						'updated_at' => $timestamp
-					];
-				}
+		foreach ($results as $result) {
+			if (
+				!empty($result['judul_buku']) &&
+				!empty($result['pengarang'])
+			) {
+				$bukus[] = [
+					'nomor_buku' => $result['kode_buku'],
+					'nama_buku'  => $result['judul_buku'],
+					'pengarang'  => $result['pengarang'],
+					'terbit'     => $result['tahun_terbit'],
+					'created_at' => $timestamp,
+					'updated_at' => $timestamp
+				];
 			}
 		}
 		Perpus::truncate();

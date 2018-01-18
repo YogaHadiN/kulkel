@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Stase;
+use App\JenisStase;
 use App\Yoga;
+use App\User;
 use Input;
 
 class StasesController extends Controller
@@ -14,10 +16,11 @@ class StasesController extends Controller
 		$this->middleware('adminOnly', ['only' => ['update', 'destroy']]);
 	}
 	public function index(){
-		$stases = Stase::all();
+		$stases = Stase::with('user', 'jenisStase')->orderBy('periode_bulan', 'desc')->get();
 		return view('stases.index', compact(
 			'stases'
 		));
+
 	}
 	public function create(){
 		return view('stases.create');
@@ -38,13 +41,39 @@ class StasesController extends Controller
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
-		$stase                 = new Stase;
-		$stase->user_id        = Input::get('user_id');
-		$stase->periode_bulan  = Yoga::bulanTahun(Input::get('periode_bulan')) . '-01';
-		$stase->jenis_stase_id = Input::get('jenis_stase_id');
-		$stase->save();
+		$data = [];
+		$timestamp = date('Y-m-d H:i:s');
 
-		$pesan = Yoga::suksesFlash('Stase Baru berhasil dibuat');
+		$user_id = Input::get('user_id');
+		$periode_bulans = Input::get('periode_bulan');
+
+		foreach ( Input::get('jenis_stase_id') as $k=>$stase) {
+			$data[] = [
+				'user_id'        => $user_id,
+				'jenis_stase_id' => $stase,
+				'periode_bulan'  => Yoga::bulanTahun( $periode_bulans[$k] ) . '-01',
+				'created_at'     => $timestamp,
+				'updated_at'     => $timestamp
+			];
+		}
+		if (Stase::insert($data)) {
+			$nama_user   = User::find( $user_id )->nama;
+			$stases      = JenisStase::whereIn('id', Input::get('jenis_stase_id') )->get();
+			$data_stases = [];
+			foreach ($stases as $stase) {
+				$data_stases[] = $stase->jenis_stase;
+			}
+			$pesan          = 'Stase <strong>' . $nama_user . ' </strong>pada tanggal ';
+			$pesan         .= '<ul>';
+			foreach ($data as $k=> $d) {
+				$pesan .= '<li>Stase <strong>' . JenisStase::find( $d['jenis_stase_id'] )->jenis_stase . ' </strong>Periode <strong>' .$periode_bulans[$k] . '</strong></li>';
+			}
+			$pesan         .= '</ul>';
+			$pesan         .= 'Berhasil diinput';
+			$pesan          = Yoga::suksesFlash($pesan);
+		} else {
+			$pesan          = Yoga::gagalFlash('Stase gagal diinput');
+		}
 		return redirect('stases')->withPesan($pesan);
 	}
 	public function destroy($id){

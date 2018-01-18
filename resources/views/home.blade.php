@@ -42,7 +42,7 @@ Kulkel UNDIP |
 						<tbody>
 							@if($poli_bulan_inis->count() > 0)
 								@foreach($poli_bulan_inis as $poli)
-									@if( $poli->tanggal-format('Y-m-d') == date('Y-m-d') )
+									@if( $poli->tanggal->format('Y-m-d') == date('Y-m-d') )
 										<tr class="info">
 									@else
 										<tr>
@@ -77,7 +77,7 @@ Kulkel UNDIP |
 						<tbody>
 							@if($gardenias->count() > 0)
 								@foreach($gardenias as $gardenia)
-									@if( $gardenia->tanggal-format('Y-m-d') == date('Y-m-d') )
+									@if( $gardenia->tanggal->format('Y-m-d') == date('Y-m-d') )
 										<tr class="info">
 									@else
 										<tr>
@@ -109,7 +109,7 @@ Kulkel UNDIP |
 						<tbody>
 							@if($rsnds->count() > 0)
 								@foreach($rsnds as $rsnd)
-									@if( $rsnd->tanggal-format('Y-m-d') == date('Y-m-d') )
+									@if( $rsnd->tanggal->format('Y-m-d') == date('Y-m-d') )
 										<tr class="info">
 									@else
 										<tr>
@@ -146,7 +146,7 @@ Kulkel UNDIP |
 						<tbody>
 							@if($pembacaan_bulan_inis->count() > 0)
 								@foreach($pembacaan_bulan_inis as $pembacaan)
-									@if( $pembacaan->tanggal-format('Y-m-d') == date('Y-m-d') )
+									@if( $pembacaan->tanggal->format('Y-m-d') == date('Y-m-d') )
 										<tr class="info">
 									@else
 										<tr>
@@ -186,13 +186,9 @@ Kulkel UNDIP |
 			
 			</div>
 		</div>
-
 		<div role="tabpanel" class="tab-pane" id="pembacaan">
 
 		</div>
-
-
-	
 	</div>
 </div>
 @stop

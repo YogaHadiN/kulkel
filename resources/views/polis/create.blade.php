@@ -40,15 +40,15 @@
 					  {!! Form::select('jagem' , App\User::list(), null, ['class' => 'form-control selectpick', 'data-live-search'  => 'true']) !!}
 					  @if($errors->has('jagem'))<code>{{ $errors->first('jagem') }}</code>@endif
 					</div>
-					<div class="form-group" @if($errors->has('jagut')) class="has-error" @endif>
-					  {!! Form::label('jagut', 'Jagut') !!}
-					  {!! Form::select('jagut' , App\User::list(), null, ['class' => 'form-control selectpick', 'data-live-search'  => 'true']) !!}
-					  @if($errors->has('jagut'))<code>{{ $errors->first('jagut') }}</code>@endif
-					</div>
 					<div class="form-group" @if($errors->has('jabay')) class="has-error" @endif>
 					  {!! Form::label('jabay', 'Jabay') !!}
 					  {!! Form::select('jabay' , App\User::list(), null, ['class' => 'form-control selectpick', 'data-live-search'  => 'true']) !!}
 					  @if($errors->has('jabay'))<code>{{ $errors->first('jabay') }}</code>@endif
+					</div>
+					<div class="form-group" @if($errors->has('jagut')) class="has-error" @endif>
+					  {!! Form::label('jagut', 'Jagut') !!}
+					  {!! Form::select('jagut' , App\User::list(), null, ['class' => 'form-control selectpick', 'data-live-search'  => 'true']) !!}
+					  @if($errors->has('jagut'))<code>{{ $errors->first('jagut') }}</code>@endif
 					</div>
 					<div class="row">
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

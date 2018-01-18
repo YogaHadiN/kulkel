@@ -19,7 +19,7 @@ class testing implements ShouldQueue
      */
     public function __construct()
     {
-        //
+        //$da
     }
 
     /**
@@ -29,8 +29,12 @@ class testing implements ShouldQueue
      */
     public function handle()
     {
-		$user =  User::where('role_id', '1')->get();
-		return dd( $user );
+		$users = User::all();
+		$data = [];
 
+		foreach ($users as $user) {
+			$data[] = $user->email;
+		}
+		return dd($data);
     }
 }

@@ -37,8 +37,8 @@ class User extends Authenticatable
 			$no_telps_count          = NoTelp::where('user_id', $user->id)->count();
 			$events_count            = Event::where('user_id', $user->id)->count();
 			$polis_count             = Poli::where('user_id', $user->id)->count();
-			$pinjams_count           = PinjamBuku::where('user_id', $user->id)->count();
-			$pengguji_count          = Penguji::where('user_id', $user->id)->count();
+			$pinjams_count           = PinjamBuku::where('peminjam_id', $user->id)->orWhere('admin_id', $user->id)->orWhere('admin_kembalikan_id')->count();
+			$pengguji_count          = Penguji::where('penguji_id', $user->id)->count();
 			$gardenis_count          = Gardenia::where('user_id', $user->id)->count();
 			$rsnds_count             = Rsnd::where('user_id', $user->id)->count();
 
@@ -62,6 +62,16 @@ class User extends Authenticatable
 				Session::flash('pesan', Yoga::gagalFlash($pesan));
 				return false;
 			}
+		});
+		self::creating(function($user){
+			$allowed_email = ["yoga.dvjul17@gmail.com","nurwidi_andarbeni@yahoo.co.id","arinal.pahlevi@gmail.com","ihatedurian@live.com.au","adel_hime@yahoo.co.id","rindakulkel@gmail.com","adrianacarissa@yahoo.com","teguhp98@gmail.com","marialeleury@gmail.com","ayakulkel@gmail.com","kiky.dvjul17@gmail.com","fadrianip@gmail.com","dhesiariembi82@gmail.com","amelkulkel@gmail.com","intan.dvjul17@gmail.com","zidni.dvjan18@gmail.com","widi.dvjan18@gmail.com","eunice.dvjan18@gmail.com","meiza.dvjan18@gmail.com","hayra.dvjul17@gmail.com","elin.dvjan18@gmail.com","irvin.dvjan18@gmail.com","husnulcut@gmail.com","lydiaasmadi@gmail.com","permanadha@gmail.com","middahnur@yahoo.com","asihbudiastuti60@gmail.com","aria_kusuma83@yahoo.com","itobuwono@gmail.com","diahadriani@yahoo.com","puguhungaran@gmail.com","renniyuniati@yahoo.com","galih_damayanti@yahoo.com","drholyametati@gmail.com","lizaafriliana@ymail.com","muslimina_ina@yahoo.com","radityastuti@gmail.com","retno_iw@yahoo.com","abyasa17@gmail.com","mamat8194@yahoo.com.sg","prasetyowatisubchan@yahoo.com","tamara.dvjul17@gmail.com","yulitaherdiana88@gmail.com","syamsulkulkel@gmail.com","pratiwi.indriana@yahoo.com","sjt.pak.spkk@gmail.com","meilien_bs@yahoo.com","Frista_martha@yahoo.com","e.afrinia@gmail.com","i.mayamail@gmail.com","milkakulkel@gmail.com","suci2suci@gmail.com","dhiana_ew@yahoo.com","inggrid85.ic@gmail.com","dokter_sapi@yahoo.com","emailnyadokterdjoko@yahoo.com","senorita_nadia@yahoo.com","putnasrarasati@gmail.com","susanto_budi@gmail.com","dokter_ray@yahoo.com","widyaratni@yahoo.com","prof.sinistra@gmail.com","dwi_septiana15@yahoo.com","pipit_ardita@yahoo.com","henykurniawati@gmail.com","drmilanyharirahmawati@gmail.com","donwolidonwoli@yahoo.com","secadiga@gmail.com","maybemayra@gmail.com","novikusuma@gmail.com","witz_84@yahoo.com","subakir@gmail.com","PaulusYogyartono@gmail.com","jushadi3@gmail.com","drlewie@gmail.com","irmamochtar@yahoo.com","drsriredjeki@gmail.com","drsugastiasri@gmail.com"];
+
+			if (!in_array($user->email, $allowed_email)) {
+				Session::flash('pesan', Yoga::gagalFlash('Maaf, email yang anda masukkan tidak diizinkan'));
+				return redirect()->back()->withPesan($pesan);
+			}
+
+
 		});
 	}
 	

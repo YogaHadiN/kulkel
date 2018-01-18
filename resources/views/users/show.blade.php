@@ -119,7 +119,7 @@
 					</div>
 					<div class="panel-body">
 						<div class="table-responsive">
-							<table class="table table-hover table-condensed table-bordered">
+							<table class="table table-hover table-condensed table-bordered DT">
 								<thead>
 									<tr>
 										<th>Tanggal</th>
@@ -161,7 +161,7 @@
 					</div>
 					<div class="panel-body">
 						<div class="table-responsive">
-							<table class="table table-hover table-condensed table-bordered">
+							<table class="table table-hover table-condensed table-bordered DT">
 								<thead>
 									<tr>
 										<th>Tanggal</th>
