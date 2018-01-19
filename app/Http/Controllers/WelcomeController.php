@@ -16,4 +16,8 @@ class WelcomeController extends Controller
 			'events'
 		));
 	}
+
+	public function about(){
+		return view('about');
+	}
 }
