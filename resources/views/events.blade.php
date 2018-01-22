@@ -22,9 +22,10 @@
 @section('content') 
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			<h1>Event</h1>
+			<h1 class="event_title">Event</h1>
 		</div>
 	</div>
+	<hr />
   <div class="row">
 	<div class="col-sm-8">
 		@if( $events->count() )
@@ -36,7 +37,7 @@
 					</div>
 					<div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
 						<h4 class="card-title">{{ $event->title }}</h4>
-						<p class="card-text">{{ App\Yoga::get_words($event->body, 30) }}</p>
+						<p class="card-text">{{ App\Yoga::get_words( json_decode($event->body, true)[0] , 40) }}</p>
 						<a href="{{ url('beritas/' . $event->id) }}" class="btn btn-primary">Read More</a>
 					</div>
 				</div>

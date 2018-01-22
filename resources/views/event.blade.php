@@ -3,17 +3,6 @@
 	Kulkel UNDIP | {{ $event->title }}
 @stop
 @section('head') 
-	<style type="text/css" media="all">
-		.event_title{
-			padding-top:40px;
-		}
-		.blog-image{
-			width:100%;
-		}
-		.img-center{
-			margin: 40px auto !important;
-		}
-	</style>
 @stop
 @section('menu')
 	<li class="nav-item">

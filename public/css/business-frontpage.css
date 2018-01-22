@@ -34,3 +34,13 @@ body {
 	border:1px solid #ddd;
 	padding:20px 0 !important;
 }
+.event_title{
+	padding-top:40px;
+}
+.blog-image{
+	width:100%;
+}
+.img-center{
+	margin: 40px auto !important;
+}
+

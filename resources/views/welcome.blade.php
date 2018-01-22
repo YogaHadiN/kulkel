@@ -73,8 +73,8 @@
 		  <div class="card">
 			  <img class="card-img-top" src="{{ url('img/events/'. $event->image) }}" alt="">
 			<div class="card-body">
-				<h4 class="card-title">{{ $event->image }}</h4>
-				<p class="card-text">{{ App\Yoga::get_words($event->body, 30) }}</p>
+				<h4 class="card-title">{{ $event->title }}</h4>
+				<p class="card-text">{{ App\Yoga::get_words( json_decode( $event->body , true)[0] , 30) }}</p>
 			</div>
 			<div class="card-footer">
 				<a href="{{ url('beritas/' . $event->id) }}" class="btn btn-primary">Read More</a>
