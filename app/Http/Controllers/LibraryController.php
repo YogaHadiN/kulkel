@@ -8,6 +8,7 @@ use App\Perpus;
 use App\PinjamBuku;
 use App\Yoga;
 use App\User;
+use App\Console\Commands\test;
 use DB;
 use Auth;
 use Excel;
@@ -20,7 +21,8 @@ class LibraryController extends Controller
 	}
 
 	public function index(){
-		$library = '';
+		/* $test = new test; */
+		/* $return_test = $test->handle(); */
 		return view('library.index', compact(
 			'library'
 		));

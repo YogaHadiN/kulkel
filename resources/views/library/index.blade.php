@@ -39,7 +39,6 @@ Kulit Kelamin UNPAD |
 				Perpustakaan
 			</div>
 			<div class="panelRight">
-
 				<a class="btn btn-primary btn-sm" href="{{ url('library/create') }}"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Buku</a>
 			</div>
 		</h3>
