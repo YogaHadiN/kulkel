@@ -3,6 +3,34 @@
 @section('title') 
 	Kulkel UNDIP | Tentang Kami
 @stop
+@section('jumbo_image') 
+    <header class="business-header" style="background: url('img/fkundip.png') center center no-repeat scroll;">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            {{-- <h1 class="display-3 text-center text-white mt-4 gambar"> --}}
+			{{-- </h1> --}}
+          </div>
+        </div>
+      </div>
+    </header>
+@stop
+@section('menu')
+	<li class="nav-item">
+	  <a class="nav-link" href="{{ url('/') }}">Home</a>
+	</li>
+	<li class="nav-item">
+	  <a class="nav-link" href="{{ url('beritas') }}">Events</a>
+	</li>
+	<li class="nav-item active">
+	  <a class="nav-link" href="{{ url('about') }}">About
+		<span class="sr-only">(current)</span>
+	  </a>
+	</li>
+	<li class="nav-item">
+	  <a class="nav-link" href="{{ url('login') }}">Login</a>
+	</li>
+@stop
 @section('content') 
   <div class="row">
 	<div class="col-sm-8">

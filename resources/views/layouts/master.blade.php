@@ -102,10 +102,11 @@
                             <li>{!! HTML::link('pegangans/staf', 'Staf')!!}</li>
                         </ul>
                     </li>
-
-
 					<li>
                         <a href="{{ url('library') }}"><i class="fa fa-th-large"></i> <span class="nav-label">E Library</span></a>
+                    </li>
+					<li>
+                        <a href="{{ url('events') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Event</span></a>
                     </li>
                 </ul>
             </div>

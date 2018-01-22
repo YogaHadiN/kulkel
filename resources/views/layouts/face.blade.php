@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>@yield('title')</title>
     <!-- Bootstrap core CSS -->
-    <link href="{{ url('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Custom styles for this template -->
     <link href="{{ url('css/business-frontpage.css') }}" rel="stylesheet">
+	@yield('head')
   </head>
   <body>
     <!-- Navigation -->
@@ -22,35 +22,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url('events') }}">Events</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url('about') }}">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{{ url('login') }}">Login</a>
-            </li>
-          </ul>
+			 @yield('menu') 
+		  </ul>
         </div>
       </div>
     </nav>
     <!-- Header with Background Image -->
-    <header class="business-header">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            {{-- <h1 class="display-3 text-center text-white mt-4 gambar"> --}}
-			{{-- </h1> --}}
-          </div>
-        </div>
-      </div>
-    </header>
+	@yield('jumbo_image')
     <!-- Page Content -->
     <div class="container">
 		@yield('content')
@@ -64,7 +42,6 @@
       </div>
       <!-- /.container -->
     </footer>
-
     <!-- Bootstrap core JavaScript -->
     <script src="{{ url('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ url('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>

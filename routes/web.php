@@ -13,12 +13,15 @@
 
 Route::get('/', 'WelcomeController@index');
 Route::get('about', 'WelcomeController@about');
+Route::get('beritas', 'WelcomeController@events');
+Route::get('beritas/{id}', 'WelcomeController@show');
+
 Auth::routes();
+
 Route::get('logout', 'Auth\LoginController@logout')->name('logout' );
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('home', 'HomeController@index');
 	Route::get('/library/view', 'LibraryController@view');
-
 	Route::group(['middleware' => 'adminOnly'], function () {
 		Route::get('library/pinjam/{id}', 'LibraryController@pinjam');
 		Route::get('library/kembalikan/{id}', 'LibraryController@kembalikan');
@@ -27,6 +30,7 @@ Route::group(['middleware' => 'auth'], function () {
 	});
 	Route::resource('library', 'LibraryController');
 	Route::resource('gardenias', 'GardeniasController');
+	Route::resource('events', 'EventsController');
 	Route::resource('rsnds', 'RsndsController');
 	Route::resource('ujians', 'UjiansController');
 	Route::resource('pegangans/staf', 'StafPegangansController');
