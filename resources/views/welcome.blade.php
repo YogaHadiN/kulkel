@@ -68,6 +68,13 @@
   </div>
   <!-- /.row -->
   <div class="row">
+  	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<hr />
+  		<h1>Berita</h1>
+		<hr />
+  	</div>
+  </div>
+  <div class="row">
 	  @foreach($events as $event)	
 		<div class="col-sm-4 my-4">
 		  <div class="card">
