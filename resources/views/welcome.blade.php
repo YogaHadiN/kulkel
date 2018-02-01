@@ -5,7 +5,7 @@
 @stop
 
 @section('jumbo_image') 
-    <header class="business-header" style="background: url('img/KARIADI.png') center center no-repeat scroll;">
+    <header class="business-header" style="background: url('img/UNDIP2.png') center center no-repeat scroll;">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
