@@ -22,7 +22,11 @@ class UjiansController extends Controller
 	}
 	public function edit($id){
 		$ujian = Ujian::find($id);
-		return view('ujians.edit', compact('ujian'));
+		$edit_penguji = [];
+		foreach ($ujian->penguji as $penguji) {
+			$edit_penguji[] = $penguji->user_id;
+		}
+		return view('ujians.edit', compact('ujian', 'edit_penguji'));
 	}
 	public function store(Request $request){
 		DB::beginTransaction();
@@ -91,6 +95,7 @@ class UjiansController extends Controller
 	}
 	public function destroy($id){
 		Ujian::destroy($id);
+		Penguji::where('ujian_id', $id)->delete();
 		$pesan = Yoga::suksesFlash('Ujian berhasil dihapus');
 		return redirect('ujians')->withPesan($pesan);
 	}

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Penguji extends Model
 {
-	public function penguji(){
+	public function user(){
 		return $this->belongsTo('App\User');
 	}
 }
