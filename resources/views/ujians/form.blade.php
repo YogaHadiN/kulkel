@@ -22,10 +22,18 @@
 </div>
 <div class="form-group" @if($errors->has('penguji[]')) class="has-error" @endif>
   {!! Form::label('penguji[]', 'Penguji') !!}
-  {!! Form::select('penguji[]' , App\User::listNoNull(), null, [
-	  'class'            => 'form-control selectpick rq',
-	  'data-live-search' => 'true',
-	  'multiple'         => 'multiple'
-  ]) !!}
+  @if( isset( $ujian ) )
+	  {!! Form::select('penguji[]' , App\User::listNoNull(), $edit_penguji, [
+		  'class'            => 'form-control selectpick rq',
+		  'data-live-search' => 'true',
+		  'multiple'         => 'multiple'
+	  ]) !!}
+  @else
+	  {!! Form::select('penguji[]' , App\User::listNoNull(), null, [
+		  'class'            => 'form-control selectpick rq',
+		  'data-live-search' => 'true',
+		  'multiple'         => 'multiple'
+	  ]) !!}
+  @endif
   @if($errors->has('penguji[]'))<code>{{ $errors->first('penguji[]') }}</code>@endif
 </div>

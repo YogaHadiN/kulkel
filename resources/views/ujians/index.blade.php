@@ -24,7 +24,7 @@
 							Ujian
 						</div>
 						<div class="panelRight">
-							<a class="btn btn-success" href="{{ url('ujians/create') }}"> Buat Ujian Baru</a>
+							<a class="btn btn-success" href="{{ url('ujians/create') }}"><i class="fa fa-plus" aria-hidden="true"></i> Buat Ujian Baru</a>
 						</div>
 					</h3>
 				</div>
@@ -33,7 +33,6 @@
 						<table class="table table-hover table-condensed table-bordered">
 							<thead>
 								<tr>
-									<th>id</th>
 									<th>Nama</th>
 									<th>Tanggal</th>
 									<th>Penguji</th>
@@ -45,13 +44,12 @@
 								@if($ujians->count() > 0)
 									@foreach($ujians as $ujian)
 										<tr>
-											<td>{{ $ujian->id }}</td>
 											<td>{{ $ujian->user->nama }}</td>
-											<td>{{ $ujian->tanggal }}</td>
+											<td>{{ $ujian->tanggal->format('d M Y') }}</td>
 											<td>
 												<ul>
 													@foreach($ujian->penguji as $penguji)	
-														<li>{{ $penguji->penguji->nama }}</li>
+														<li>{{ $penguji->user->nama }}</li>
 													@endforeach
 													
 												</ul>
