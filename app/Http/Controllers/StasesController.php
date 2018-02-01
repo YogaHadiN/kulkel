@@ -16,7 +16,7 @@ class StasesController extends Controller
 		$this->middleware('adminOnly', ['only' => ['update', 'destroy']]);
 	}
 	public function index(){
-		$stases = Stase::with('user', 'jenisStase')->orderBy('periode_bulan', 'desc')->get();
+		$stases = Stase::with('user', 'jenisStase')->orderBy('mulai', 'desc')->get();
 		return view('stases.index', compact(
 			'stases'
 		));

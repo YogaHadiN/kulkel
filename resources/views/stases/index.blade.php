@@ -49,7 +49,7 @@
 											<td>{{ $stase->id }}</td>
 											<td>{{ $stase->user->nama }}</td>
 											<td>{{ $stase->jenisStase->jenis_stase }}</td>
-											<td>{{ $stase->periode_bulan->format('M Y') }}</td>
+											<td>{{ $stase->mulai->format('M Y') }}</td>
 											<td nowrap class="autofit">
 												{!! Form::open(['url' => 'stases/' . $stase->id, 'method' => 'delete']) !!}
 													<a class="btn btn-warning btn-sm" href="{{ url('stases/' . $stase->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>

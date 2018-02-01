@@ -12,6 +12,6 @@ class Stase extends Model
 	public function jenisStase(){
 		return $this->belongsTo('App\JenisStase');
 	}
-	protected $dates = ['periode_bulan'];
+	protected $dates = ['mulai'];
 	
 }

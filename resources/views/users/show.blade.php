@@ -111,92 +111,47 @@
 		</div>
 </div>
     <div role="tabpanel" class="tab-pane" id="stase">
-		<div class="row">
-			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-				<div class="panel panel-info">
-					<div class="panel-heading">
-						<h3 class="panel-title">Stase Belum</h3>
-					</div>
-					<div class="panel-body">
-						<div class="table-responsive">
-							<table class="table table-hover table-condensed table-bordered DT">
-								<thead>
-									<tr>
-										<th>Tanggal</th>
-										<th>Jenis Stase</th>
-										<th>Action</th>
-									</tr>
-								</thead>
-								<tbody>
-									@if(count($stases_belum) > 0)
-										@foreach($stases_belum as $stase)
-											<tr>
-												<td>{{ $stase->periode_bulan->format('d M Y') }}</td>
-												<td>{{ $stase->jenisStase->jenis_stase }}</td>
-												<td nowrap class="autofit">
-													{!! Form::open(['url' => 'stases/' . $stase->id, 'method' => 'delete']) !!}
-														<a class="btn btn-warning btn-xs" href="{{ url('stases/' . $stase->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
-														<button class="btn btn-danger btn-xs" onclick="return confirm('Anda yakin ingin menghapus jadwal ini?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
-													{!! Form::close() !!}
-												</td>
-											</tr>
-										@endforeach
-									@else
-										<tr>
-											<td colspan="3" class="text-center">
-												Tidak ada data untuk ditampilkan
-											</td>
-										</tr>
-									@endif
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					Stase
+				</h3>
 			</div>
-			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-				<div class="panel panel-danger">
-					<div class="panel-heading">
-						<h3 class="panel-title">Stase Sudah</h3>
-					</div>
-					<div class="panel-body">
-						<div class="table-responsive">
-							<table class="table table-hover table-condensed table-bordered DT">
-								<thead>
-									<tr>
-										<th>Tanggal</th>
-										<th>Jenis Stase</th>
-										<th>Action</th>
-									</tr>
-								</thead>
-								<tbody>
-									@if(count($stases_sudah) > 0)
-										@foreach($stases_sudah as $stase)
-											<tr>
-												<td>{{ $stase->periode_bulan->format('d M Y') }}</td>
-												<td>{{ $stase->jenisStase->jenis_stase }}</td>
-												<td nowrap class="autofit">
-													{!! Form::open(['url' => 'stases/' . $stase->id, 'method' => 'delete']) !!}
-														<a class="btn btn-warning btn-xs" href="{{ url('stases/' . $stase->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
-														<button class="btn btn-danger btn-xs" onclick="return confirm('Anda yakin ingin menghapus jadwal ini?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
-													{!! Form::close() !!}
-												</td>
-											</tr>
-										@endforeach
-									@else
-										<tr>
-											<td colspan="3" class="text-center">
-												Tidak ada data untuk ditampilkan
-											</td>
-										</tr>
-									@endif
-								</tbody>
-							</table>
-						</div>
-					</div>
+			<div class="panel-body">
+				<div class="table-responsive">
+					<table class="table table-hover table-condensed table-bordered">
+						<thead>
+							<tr>
+								<th>Stase</th>
+								<th>Mulai</th>
+								<th>Akhir</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach($ as $stase)
+								<tr>
+									<td>{{ $stase->stase }}</td>
+									<td>
+										{!! Form::text('mulai[]', null, ['class' => 'form-control bulanTahun']) !!}
+									</td>	
+									<td>
+										{!! Form::text('akhir[]', null, ['class' => 'form-control bulanTahun']) !!}
+									</td>
+								</tr>
+							@endforeach
+						</tbody>
+						<tfoot>
+							<tr>
+								
+							</tr>
+						</tfoot>
+					</table>
 				</div>
+				
 			</div>
 		</div>
+	
 	</div>
     <div role="tabpanel" class="tab-pane" id="pembacaan">
 	

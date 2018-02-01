@@ -6,6 +6,7 @@ use App\User;
 use Input;
 use App\Yoga;
 use App\Pembacaan;
+use App\JenisStase;
 use App\Role;
 use App\Stase;
 use App\NoTelp;
@@ -21,8 +22,10 @@ class UsersController extends Controller
 		return view('users.create');
 	}
 	public function show($id){
+		$jenis_stases = JenisStase::all();
 		$user             = User::find( $id );
 		$stases           = Stase::with('user')->where('user_id', $id)->orderBy('periode_bulan')->get();
+		return $stases;
 		$pemb             = Pembacaan::with('user')->where('user_id', $id)->orderBy('tanggal')->get();
 		$pembacaans_sudah = [];
 		$pembacaans_belum = [];
