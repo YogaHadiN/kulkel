@@ -35,7 +35,7 @@ class HomeController extends Controller
 		$month = date('Y-m');
 
 		$poli_bulan_inis      = Poli::where('user_id', $id)->where('tanggal', 'like', $month . '%' )->orderBy('tanggal')->get();
-		$stases    = Stase::where('user_id', $id)->where('periode_bulan', 'like', $month . '%' )->orderBy('periode_bulan')->get();
+		$stases    = Stase::where('user_id', $id)->where('mulai', '>=', $month . '-01' )->where('akhir', '<=', date('Y-m-t') )->get();
 		$gardenias    = Gardenia::where('user_id', $id)->where('tanggal', 'like', $month . '%' )->orderBy('tanggal')->get();
 		$rsnds    = Rsnd::where('user_id', $id)->where('tanggal', 'like', $month . '%' )->orderBy('tanggal')->get();
 		$pembacaan_bulan_inis = Pembacaan::where('user_id', $id)->where('tanggal', 'like', $month . '%' )->orderBy('tanggal')->get();
