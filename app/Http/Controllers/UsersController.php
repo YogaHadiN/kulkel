@@ -1,6 +1,5 @@
 <?php
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\User;
 use Input;
@@ -29,11 +28,7 @@ class UsersController extends Controller
 		$pembacaans_sudah = [];
 		$pembacaans_belum = [];
 
-
-
 		$staseResidens = [];
-
-
 
 		foreach ($jenisStases as $jenisStase) {
 
@@ -42,30 +37,35 @@ class UsersController extends Controller
 			$akhir = '';
 			$stase_id = '';
 			$jenis_stase_id = '';
+
 			foreach ($stases as $stase) {
 				if ($stase->jenis_stase_id == $jenisStase->id) {
-					$ada      = true;
-					$mulai    = $stase->mulai->format('01-m-Y');
-					$akhir    = $stase->akhir->format('t-m-Y');
-					$stase_id = $stase->id;
+					$ada            = true;
+					$mulai          = $stase->mulai->format('01-m-Y');
+					$akhir          = $stase->akhir->format('t-m-Y');
+					$stase_id       = $stase->id;
 					$jenis_stase_id = $jenisStase->id;
 				}
 			}
 			if ($ada) {
 				$staseResidens[] = [
 					'jenis_stase_id' => $jenis_stase_id,
-					'stase_id' => $stase_id,
-					'stase'    => $jenisStase->jenis_stase,
-					'mulai'    => $mulai,
-					'akhir'    => $akhir,
+					'stase_id'       => $stase_id,
+					'stase'          => $jenisStase->jenis_stase,
+					'mulai'          => $mulai,
+					'urut'           => Yoga::datePrep($mulai),
+					'urutAkhir'           => Yoga::datePrep($akhir),
+					'akhir'          => $akhir,
 				];
 			} else {
 				$staseResidens[] = [
 					'jenis_stase_id' => $jenisStase->id,
-					'stase_id' => $stase_id,
-					'stase'    => $jenisStase->jenis_stase,
-					'mulai'    => $mulai,
-					'akhir'    => $akhir,
+					'stase_id'       => $stase_id,
+					'stase'          => $jenisStase->jenis_stase,
+					'urut'           => Yoga::datePrep($mulai),
+					'urutAkhir'           => Yoga::datePrep($akhir),
+					'mulai'          => $mulai,
+					'akhir'          => $akhir,
 				];
 			}
 		}
@@ -80,7 +80,6 @@ class UsersController extends Controller
 				$pembacaans_belum[] = $p;
 			}
 		}
-
 		foreach ($stases as $p) {
 			if ($p->periode_bulan < date('Y-m-d')) {
 				$stases_sudah[] = $p;
@@ -88,6 +87,10 @@ class UsersController extends Controller
 				$stases_belum[] = $p;
 			}
 		}
+
+		usort($staseResidens, function($a, $b) {
+			return $a['urut'] <=> $b['urut'];
+		});
 
 		return view('users.show', compact(
 			'id',

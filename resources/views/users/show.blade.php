@@ -124,7 +124,6 @@
 						</div>
 					</div>
 				</div>
-				
 			</div>
 		</div>
 </div>
@@ -145,15 +144,27 @@
 										<th>Stase</th>
 										<th>Mulai</th>
 										<th>Akhir</th>
+										<th>Urut</th>
+										<th>Now</th>
 										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
 									@foreach($staseResidens as $staseResiden)	
-										<tr>
+										{{-- @if( new DateTime($staseResiden['urut']) >= new DateTime(date('Y-m-01'))) --}}
+										@if(  
+											new DateTime(date('Y-m-d')) >= new DateTime($staseResiden['urut']) &&
+											new DateTime(date('Y-m-d')) <= new DateTime($staseResiden['urutAkhir'])
+										)
+											<tr class="info">
+										@else
+											<tr>
+										@endif
 											<td title="{{ $staseResiden['stase_id'] }}">{{ $staseResiden['stase'] }}</td>
 											<td class="mulai">{{ $staseResiden['mulai'] }}</td>
 											<td class="akhir">{{ $staseResiden['akhir'] }}</td>
+											<td>{{ $staseResiden['urut'] }}</td>
+											<td>{{ date('Y-m-01') }}</td>
 											<td title="{{ $staseResiden['jenis_stase_id'] }}">
 												<button class="btn btn-xs btn-warning btn-block" type="button" onclick="editStase(this);return false;">
 													<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
@@ -165,11 +176,8 @@
 								</tbody>
 							</table>
 						</div>
-						
 					</div>
 				</div>
-			
-			
 			</div>
 		</div>	
 	</div>

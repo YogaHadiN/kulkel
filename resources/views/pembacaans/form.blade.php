@@ -1,7 +1,7 @@
 <div class="form-group" @if($errors->has('user_id')) class="has-error" @endif>
   {!! Form::label('user_id', 'Presentan') !!}
   {!! Form::select('user_id', App\User::list(),null, [
-	  'class'            => 'form-control selectpick',
+	  'class'            => 'form-control selectpick rq',
 	  'data-live-search' => 'true'
   ]) !!}
   @if($errors->has('user_id'))<code>{{ $errors->first('user_id') }}</code>@endif

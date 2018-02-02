@@ -29,7 +29,21 @@ class PembacaansController extends Controller
 	public function store(){
 		DB::beginTransaction();
 		try {
+			$messages = [
+				'required' => ':attribute Harus Diisi',
+			];
+			$rules = [
+				'user_id'            => 'required',
+				'tanggal'            => 'required',
+				'jenis_pembacaan_id' => 'required'
+			];
 			
+			$validator = \Validator::make(Input::all(), $rules, $messages);
+			
+			if ($validator->fails())
+			{
+				return \Redirect::back()->withErrors($validator)->withInput();
+			}
 			$pembacaan                     = new Pembacaan;
 			$pembacaan->user_id            = Input::get('user_id');
 			$pembacaan->jenis_pembacaan_id = Input::get('jenis_pembacaan_id');
@@ -83,7 +97,6 @@ class PembacaansController extends Controller
 			$moderator_array_id[] = $p->user->id;
 		}
 
-
 		return view('pembacaans.edit', compact(
 			'pembacaan',
 			'moderator_array_id',
@@ -129,10 +142,4 @@ class PembacaansController extends Controller
 		$pesan = Yoga::suksesFlash('Pembacaan berhasil di Update');
 		return redirect('pembacaans')->withPesan($pesan);
 	}
-	
-	
-	
-	
-	
-	
 }
