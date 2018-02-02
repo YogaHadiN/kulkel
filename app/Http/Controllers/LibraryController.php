@@ -21,18 +21,14 @@ class LibraryController extends Controller
 	}
 
 	public function index(){
-		/* $test = new test; */
-		/* $return_test = $test->handle(); */
 		return view('library.index', compact(
 			'library'
 		));
 	}
 	public function show($id){
-		$buku = Perpus::find($id);
-
+		$buku           = Perpus::find($id);
 		$masih_dipinjam = PinjamBuku::where('perpus_id', $id)->whereNull('tanggal_kembalikan')->count();
-		$pinjam = PinjamBuku::where('perpus_id',$id)->orderBy('created_at', 'desc')->get();
-		/* return $pinjam->first()->adminKembalikan->nama; */
+		$pinjam         = PinjamBuku::where('perpus_id',$id)->orderBy('created_at', 'desc')->get();
 		$pinjam_by_user = PinjamBuku::where('perpus_id', $id)->where('peminjam_id', Auth::id())->orderBy('created_at', 'desc')->get();
 		return view('library.show', compact(
 			'buku',

@@ -22,17 +22,56 @@ class UsersController extends Controller
 		return view('users.create');
 	}
 	public function show($id){
-		$jenis_stases = JenisStase::all();
+		$jenisStases      = JenisStase::all();
 		$user             = User::find( $id );
-		$stases           = Stase::with('user')->where('user_id', $id)->orderBy('periode_bulan')->get();
-		return $stases;
+		$stases           = Stase::with('user')->where('user_id', $id)->get();
 		$pemb             = Pembacaan::with('user')->where('user_id', $id)->orderBy('tanggal')->get();
 		$pembacaans_sudah = [];
 		$pembacaans_belum = [];
 
+
+
+		$staseResidens = [];
+
+
+
+		foreach ($jenisStases as $jenisStase) {
+
+			$ada = false;
+			$mulai = '';
+			$akhir = '';
+			$stase_id = '';
+			$jenis_stase_id = '';
+			foreach ($stases as $stase) {
+				if ($stase->jenis_stase_id == $jenisStase->id) {
+					$ada      = true;
+					$mulai    = $stase->mulai->format('01-m-Y');
+					$akhir    = $stase->akhir->format('t-m-Y');
+					$stase_id = $stase->id;
+					$jenis_stase_id = $jenisStase->id;
+				}
+			}
+			if ($ada) {
+				$staseResidens[] = [
+					'jenis_stase_id' => $jenis_stase_id,
+					'stase_id' => $stase_id,
+					'stase'    => $jenisStase->jenis_stase,
+					'mulai'    => $mulai,
+					'akhir'    => $akhir,
+				];
+			} else {
+				$staseResidens[] = [
+					'jenis_stase_id' => $jenisStase->id,
+					'stase_id' => $stase_id,
+					'stase'    => $jenisStase->jenis_stase,
+					'mulai'    => $mulai,
+					'akhir'    => $akhir,
+				];
+			}
+		}
+
 		$stases_belum = [];
 		$stases_sudah = [];
-
 
 		foreach ($pemb as $p) {
 			if ($p->tanggal < date('Y-m-d')) {
@@ -51,7 +90,10 @@ class UsersController extends Controller
 		}
 
 		return view('users.show', compact(
+			'id',
 			'user',
+			'jenisStases',
+			'staseResidens',
 			'stases_sudah',
 			'stases_belum',
 			'pembacaans_sudah',
@@ -244,5 +286,27 @@ class UsersController extends Controller
 		}
 		return $input_telps;
 	}
+	public function ajaxUpdateStase(){
+		$mulai    = Input::get('mulai');
+		$akhir    = Input::get('akhir');
+		$stase_id = Input::get('stase_id');
+		$jenis_stase_id = Input::get('jenis_stase_id');
+		$user_id  = Input::get('user_id');
+		if ( empty( trim( $stase_id ) ) ) {
+			$stase           = new Stase;
+			$stase->user_id  = $user_id;
+			$stase->mulai    = Yoga::datePrep($mulai);
+			$stase->akhir    = Yoga::datePrep($akhir);
+			$stase->jenis_stase_id = $jenis_stase_id;
+			$stase->save();
+			return $stase->id;
+		} else {
+			$stase          = Stase::find($stase_id);
+			$stase->mulai   = Yoga::datePrep($mulai);
+			$stase->akhir   = Yoga::datePrep($akhir);
+			$stase->save();
+		}
+	}
+	
 	
 }
