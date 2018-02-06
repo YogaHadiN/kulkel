@@ -26,6 +26,7 @@ class AddAkhirColumnToStasesTableAgain extends Migration
     public function down()
     {
         Schema::table('stases', function (Blueprint $table) {
+			$table->dropColumn('akhir');
         });
     }
 }
