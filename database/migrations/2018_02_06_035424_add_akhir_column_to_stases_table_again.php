@@ -13,7 +13,7 @@ class AddAkhirColumnToStasesTableAgain extends Migration
      */
     public function up()
     {
-        Schema::table('jenis_stases', function (Blueprint $table) {
+        Schema::table('stases', function (Blueprint $table) {
 			$table->date('akhir')->nullable();
         });
     }
@@ -25,7 +25,7 @@ class AddAkhirColumnToStasesTableAgain extends Migration
      */
     public function down()
     {
-        Schema::table('jenis_stases', function (Blueprint $table) {
+        Schema::table('stases', function (Blueprint $table) {
 			$table->dropColumn('akhir');
         });
     }
