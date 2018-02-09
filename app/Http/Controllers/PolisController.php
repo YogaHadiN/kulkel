@@ -176,11 +176,6 @@ class PolisController extends Controller
 			}
 		}
 
-		return [
-			'berhasil' => $berhasils,
-			'gagal'    => $gagals
-		];
-
 		$pesan = Yoga::suksesFlash('Jadwal baru berhasil dibuat');
 		return redirect('polis')->withPesan($pesan);
 	}
