@@ -31,8 +31,9 @@
 					</h3>
 				</div>
 				<div class="panel-body">
+					{{ $stases->links() }}
 					<div class="table-responsive">
-						<table class="table table-hover table-condensed table-bordered DT">
+						<table class="table table-hover table-condensed table-bordered">
 							<thead>
 								<tr>
 									<th>id</th>
@@ -74,7 +75,7 @@
 							</tbody>
 						</table>
 					</div>
-					
+					{{ $stases->links() }}
 				</div>
 			</div>
 		</div>

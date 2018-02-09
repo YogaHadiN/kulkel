@@ -17,8 +17,7 @@ class PembacaansController extends Controller
 		$this->middleware('adminOnly', ['only' => ['update', 'destroy']]);
 	}
 	public function index(){
-		$pembacaans = Pembacaan::all();
-
+		$pembacaans = Pembacaan::orderBy('id', 'desc')->paginate(20);
 		return view('pembacaans.index', compact(
 			'pembacaans'
 		));

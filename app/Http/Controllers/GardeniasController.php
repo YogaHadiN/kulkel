@@ -27,11 +27,19 @@ class GardeniasController extends Controller
 		if ($this->valid( Input::all() )) {
 			return $this->valid( Input::all() );
 		}
-		$gardenia       = new Gardenia;
-		$gardenia->user_id       = Input::get('user_id');
-		$gardenia->tanggal       = Yoga::datePrep(Input::get('tanggal'));
-		// Edit disini untuk simpan data
-		$gardenia->save();
+		$tanggals = Input::get('tanggal');
+		$timestamp = date('Y-m-d H:i:s');
+		$data= [];
+		foreach ($tanggals as $tanggal) {
+			$data[] = [
+				'user_id'    => Input::get('user_id'),
+				'tanggal'    => Yoga::datePrep($tanggal),
+				'created_at' => $timestamp,
+				'updated_at' => $timestamp
+			];
+			
+		}
+		Gardenia::insert($data);
 		$pesan = Yoga::suksesFlash('Gardenia baru berhasil dibuat');
 		return redirect('gardenias')->withPesan($pesan);
 	}

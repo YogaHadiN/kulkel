@@ -31,8 +31,9 @@
 					</h3>
 				</div>
 				<div class="panel-body">
+					{{ $pembacaans->links() }}
 					<div class="table-responsive">
-						<table class="table table-hover table-condensed table-bordered DT">
+						<table class="table table-hover table-condensed table-bordered">
 							<thead>
 								<tr>
 									<th>Tanggal</th>
@@ -87,7 +88,7 @@
 							</tbody>
 						</table>
 					</div>
-					
+					{{ $pembacaans->links() }}
 				</div>
 			</div>
 		</div>

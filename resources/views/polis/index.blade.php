@@ -56,7 +56,6 @@ Kulkel Undip | Poli
 														<a class="btn btn-success btn-sm" href="{{ url('polis/' . $poli->id . '/edit' ) }}">Edit</a>
 														<button class="btn btn-danger btn-sm" type="submit" onclick="return confirm('yakin mau hapus jadwal ini?'); return false;"> Delete</button>
 												{!! Form::close() !!}
-												
 											</td>
 										</tr>
 									@endforeach

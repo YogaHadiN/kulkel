@@ -55,8 +55,8 @@ class PolisController extends Controller
 		$poli      = [];
 		if ( !empty( Input::get('jatul') ) ) {
 			$tanggal = Yoga::datePrep( Input::get('tanggal') );
-			$poli    = Poli::where('tanggal', $tanggal)->where('jaga_id', 1)->first();
-			if ( $poli ) {
+			$poli_ada    = Poli::where('tanggal', $tanggal)->where('jaga_id', 1)->first();
+			if ( $poli_ada ) {
 				$gagals[] = [
 					'baru' => [
 						'user_id' => User::find(Input::get('jatul'))->nama,
@@ -71,8 +71,8 @@ class PolisController extends Controller
 				];
 			} else {
 				$poli[] = [
-					'user_id'    => User::find(Input::get('jatul'))->nama,
-					'jaga_id'    => Jaga::find(1)->jaga,
+					'user_id'    => Input::get('jatul'),
+					'jaga_id'    => 1,
 					'tanggal'    => $tanggal,
 					'created_at' => $timestamp,
 					'updated_at' => $timestamp
@@ -86,8 +86,8 @@ class PolisController extends Controller
 
 		if ( !empty( Input::get('jagem') ) ) {
 			$tanggal = Yoga::datePrep( Input::get('tanggal') );
-			$poli =  Poli::where('tanggal', $tanggal)->where('jaga_id', 2)->first();
-			if ( $poli ) {
+			$poli_ada =  Poli::where('tanggal', $tanggal)->where('jaga_id', 2)->first();
+			if ( $poli_ada ) {
 				$gagals[] = [
 					'baru' => [
 						'user_id' => User::find(Input::get('jagem'))->nama,
@@ -102,8 +102,8 @@ class PolisController extends Controller
 				];
 			} else {
 				$poli[] = [
-					'user_id'    => User::find(Input::get('jagem'))->nama,
-					'jaga_id'    => Jaga::find(2)->jaga,
+					'user_id'    => Input::get('jagem'),
+					'jaga_id'    => 2,
 					'tanggal'    => $tanggal,
 					'created_at' => $timestamp,
 					'updated_at' => $timestamp
@@ -117,8 +117,8 @@ class PolisController extends Controller
 		if ( !empty( Input::get('jagut') ) ) {
 
 			$tanggal = Yoga::datePrep( Input::get('tanggal') );
-			$poli =  Poli::where('tanggal', $tanggal)->where('jaga_id', 3)->first();
-			if ( $poli ) {
+			$poli_ada =  Poli::where('tanggal', $tanggal)->where('jaga_id', 3)->first();
+			if ( $poli_ada ) {
 				$gagals[] = [
 					'baru' => [
 						'user_id' => User::find(Input::get('jagut'))->nama,
@@ -133,8 +133,8 @@ class PolisController extends Controller
 				];
 			} else {
 				$poli[] = [
-					'user_id' => User::find(Input::get('jagut'))->nama,
-					'jaga_id' => Jaga::find(3)->jaga,
+					'user_id' => Input::get('jagut'),
+					'jaga_id' => 3,
 					'tanggal' => $tanggal,
 					'created_at' => $timestamp,
 					'updated_at' => $timestamp
@@ -147,8 +147,8 @@ class PolisController extends Controller
 		}
 		if ( !empty( Input::get('jabay') ) ) {
 			$tanggal = Yoga::datePrep( Input::get('tanggal') );
-			$poli =  Poli::where('tanggal', $tanggal)->where('jaga_id', 4)->first();
-			if ( $poli ) {
+			$poli_ada =  Poli::where('tanggal', $tanggal)->where('jaga_id', 4)->first();
+			if ( $poli_ada ) {
 				$gagals[] = [
 					'baru' => [
 						'user_id' => User::find(Input::get('jabay'))->nama,
@@ -163,8 +163,8 @@ class PolisController extends Controller
 				];
 			} else {
 				$poli[] = [
-					'user_id' => User::find(Input::get('jabay'))->nama,
-					'jaga_id' => Jaga::find(4)->jaga,
+					'user_id' => Input::get('jabay'),
+					'jaga_id' => 4,
 					'tanggal' => $tanggal,
 					'created_at' => $timestamp,
 					'updated_at' => $timestamp
@@ -175,6 +175,9 @@ class PolisController extends Controller
 				];
 			}
 		}
+
+
+		Poli::insert($poli);
 
 		$pesan = Yoga::suksesFlash('Jadwal baru berhasil dibuat');
 		return redirect('polis')->withPesan($pesan);
