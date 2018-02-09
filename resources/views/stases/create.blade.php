@@ -28,15 +28,6 @@
 				<div class="panel-body">
 				{!! Form::open(['url' => 'stases', 'method' => 'post']) !!}
 					@include('stases.form')
-					<div class="row">
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<button class="btn btn-success btn-block" type="button" onclick='dummySubmit(this);return false;'>Submit</button>
-							{!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
-						</div>
-						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<a class="btn btn-danger btn-block" href="{{ url('stases') }}">Cancel</a>
-						</div>
-					</div>
 				{!! Form::close() !!}
 				</div>
 			</div>

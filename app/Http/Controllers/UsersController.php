@@ -21,82 +21,17 @@ class UsersController extends Controller
 		return view('users.create');
 	}
 	public function show($id){
-		$jenisStases      = JenisStase::all();
 		$user             = User::find( $id );
-		$stases           = Stase::with('user')->where('user_id', $id)->get();
+		$stases           = Stase::with('user', 'jenisStase')->where('user_id', $id)->orderBy('mulai')->get();
 		$pemb             = Pembacaan::with('user')->where('user_id', $id)->orderBy('tanggal')->get();
 		$pembacaans_sudah = [];
 		$pembacaans_belum = [];
-
 		$staseResidens = [];
-
-		foreach ($jenisStases as $jenisStase) {
-
-			$ada = false;
-			$mulai = '';
-			$akhir = '';
-			$stase_id = '';
-			$jenis_stase_id = '';
-
-			foreach ($stases as $stase) {
-				if ($stase->jenis_stase_id == $jenisStase->id) {
-					$ada            = true;
-					$mulai          = $stase->mulai->format('01-m-Y');
-					$akhir          = $stase->akhir->format('t-m-Y');
-					$stase_id       = $stase->id;
-					$jenis_stase_id = $jenisStase->id;
-				}
-			}
-			if ($ada) {
-				$staseResidens[] = [
-					'jenis_stase_id' => $jenis_stase_id,
-					'stase_id'       => $stase_id,
-					'stase'          => $jenisStase->jenis_stase,
-					'mulai'          => $mulai,
-					'urut'           => Yoga::datePrep($mulai),
-					'urutAkhir'           => Yoga::datePrep($akhir),
-					'akhir'          => $akhir,
-				];
-			} else {
-				$staseResidens[] = [
-					'jenis_stase_id' => $jenisStase->id,
-					'stase_id'       => $stase_id,
-					'stase'          => $jenisStase->jenis_stase,
-					'urut'           => Yoga::datePrep($mulai),
-					'urutAkhir'           => Yoga::datePrep($akhir),
-					'mulai'          => $mulai,
-					'akhir'          => $akhir,
-				];
-			}
-		}
-
-		$stases_belum = [];
-		$stases_sudah = [];
-
-		foreach ($pemb as $p) {
-			if ($p->tanggal < date('Y-m-d')) {
-				$pembacaans_sudah[] = $p;
-			} else {
-				$pembacaans_belum[] = $p;
-			}
-		}
-		foreach ($stases as $p) {
-			if ($p->periode_bulan < date('Y-m-d')) {
-				$stases_sudah[] = $p;
-			} else {
-				$stases_belum[] = $p;
-			}
-		}
-
-		usort($staseResidens, function($a, $b) {
-			return $a['urut'] <=> $b['urut'];
-		});
 
 		return view('users.show', compact(
 			'id',
 			'user',
 			'jenisStases',
-			'staseResidens',
 			'stases_sudah',
 			'stases_belum',
 			'pembacaans_sudah',
@@ -107,7 +42,7 @@ class UsersController extends Controller
 	
 	public function index(){
 
-		$users    = User::with('no_telps')->get();
+		$users    = User::with('no_telps.jenisTelpon', 'role')->get();
 		$admins   = [];
 		$residens = [];
 		$dosens   = [];
@@ -310,6 +245,17 @@ class UsersController extends Controller
 			$stase->save();
 		}
 	}
-	
-	
+	public function stase_edit($user_id, $stase_id){
+		$stase = Stase::find($stase_id);
+		return view('stases.edit', compact(
+			'stase',
+			'user_id'
+		));
+	}
+
+	public function stase_create($user_id){
+		return view('stases.create', compact(
+			'user_id'
+		));
+	}
 }

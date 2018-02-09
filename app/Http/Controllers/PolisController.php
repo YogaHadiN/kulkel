@@ -16,7 +16,7 @@ class PolisController extends Controller
 		$this->middleware('adminOnly', ['only' => ['update', 'destroy']]);
 	}
 	public function index(){
-		$polis = Poli::all();
+		$polis = Poli::with('user', 'jaga')->get();
 		return view('polis.index', compact(
 			'polis'
 		));

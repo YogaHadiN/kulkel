@@ -87,11 +87,7 @@ $(document).ready(function () {
         $(this).val(parseInt(before) || '');
     });
 
-
-
-    
 });
-
 
 // For demo purpose - animation css script
 function animationHover(element, animation){

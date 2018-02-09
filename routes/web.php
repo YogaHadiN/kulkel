@@ -15,11 +15,13 @@ Route::get('/', 'WelcomeController@index');
 Route::get('about', 'WelcomeController@about');
 Route::get('beritas', 'WelcomeController@events');
 Route::get('beritas/{id}', 'WelcomeController@show');
-
 Auth::routes();
 
 Route::get('logout', 'Auth\LoginController@logout')->name('logout' );
 Route::group(['middleware' => 'auth'], function () {
+	Route::get('users/{user_id}/stase/{stase_id}/edit', 'UsersController@stase_edit');
+	Route::get('users/{user_id}/stase/create', 'UsersController@stase_create');
+	Route::get('users/{user_id}/stase/{$stase_id}', 'UsersController@stase_create');
 	Route::get('home', 'HomeController@index');
 	Route::get('/library/view', 'LibraryController@view');
 	Route::group(['middleware' => 'adminOnly'], function () {

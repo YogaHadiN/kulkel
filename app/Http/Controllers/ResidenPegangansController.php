@@ -10,7 +10,7 @@ use App\Yoga;
 class ResidenPegangansController extends Controller
 {
 	public function index(){
-		$pegangans = ResidenPegangan::all();
+		$pegangans = ResidenPegangan::with('user','residen')->orderBy('user_id')->get();
 		return view('residen_pegangans.index', compact(
 			'pegangans'
 		));

@@ -261,6 +261,7 @@
                 format: 'dd-mm-yyyy'
             });
 
+			$('.tanggal').attr('placeholder', 'dd-mm-YYYY');
             $('.bulanTahun').datepicker({
                 todayBtn: "linked",
                 keyboardNavigation: false,
