@@ -31,6 +31,7 @@ Kulkel Undip | Poli
 					</h3>
 				</div>
 				<div class="panel-body">
+					{{ $polis->links() }}
 					<div class="table-responsive">
 						<table class="table table-hover table-condensed table-bordered">
 							<thead>
@@ -54,8 +55,6 @@ Kulkel Undip | Poli
 												{!! Form::open(['url' => 'polis/' . $poli->id, 'method' => 'delete']) !!}
 														<a class="btn btn-success btn-sm" href="{{ url('polis/' . $poli->id . '/edit' ) }}">Edit</a>
 														<button class="btn btn-danger btn-sm" type="submit" onclick="return confirm('yakin mau hapus jadwal ini?'); return false;"> Delete</button>
-												</div>
-
 												{!! Form::close() !!}
 												
 											</td>
@@ -70,6 +69,7 @@ Kulkel Undip | Poli
 								@endif
 							</tbody>
 						</table>
+						{{ $polis->links() }}
 					</div>
 				</div>
 			</div>
