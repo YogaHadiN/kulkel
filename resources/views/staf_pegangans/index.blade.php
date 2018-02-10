@@ -26,7 +26,7 @@
 							Staf Pegangan
 						</div>
 						<div class="panelRight">
-							<a class="btn btn-success" href="{{ url('pegangans/staf/create') }}">Buat Staf Pegangan Baru</a>
+							<a class="btn btn-success" href="{{ url('pegangans/staf/create') }}"><i class="fa fa-plus" aria-hidden="true"></i> Buat Staf Pegangan Baru</a>
 						</div>
 					</h3>
 				</div>
