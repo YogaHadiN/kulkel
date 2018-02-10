@@ -40,7 +40,7 @@
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 							{!! Form::open(['url' => 'users/' . $user->id, 'method' => 'delete']) !!}
-							  {!! Form::submit('delete', [
+							  {!! Form::submit('Delete', [
 								  'class' => 'btn btn-warning btn-block',
 								  'onclick' => 'return confirm("anda yakin mau menghapus ' .$user->nama .'?"); return false;'
 							  ]) !!}

@@ -32,6 +32,7 @@
 				</div>
 				<div class="panel-body">
 					<div class="table-responsive">
+						{{ $rsnds->links() }}
 						<table class="table table-hover table-condensed table-bordered">
 							<thead>
 								<tr>
@@ -49,7 +50,7 @@
 											<td nowrap class="autofit">
 												{!! Form::open(['url' => 'rsnds/' . $rsnd->id, 'method' => 'delete']) !!}
 													<a class="btn btn-warning btn-sm" href="{{ url('rsnds/' . $rsnd->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
-													<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus jadwal ini ?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
+													<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus jadwal {{ $rsnd->user->nama }} di Gardenia tanggal {{ $rsnd->tanggal->format('d M Y') }} ?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
 												{!! Form::close() !!}
 											</td>
 										</tr>
@@ -61,6 +62,7 @@
 								@endif
 							</tbody>
 						</table>
+						{{ $rsnds->links() }}
 					</div>
 					
 				</div>

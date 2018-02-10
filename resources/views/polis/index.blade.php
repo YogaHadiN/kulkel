@@ -26,7 +26,7 @@ Kulkel Undip | Poli
 							Data User
 						</div>
 						<div class="panelRight">
-							<a class="btn btn-success btn-sm" href="{{ url('polis/create') }}"><i class="fa fa-plus" aria-hidden="true"></i> Jadwal Baru</a>
+							<a class="btn btn-success btn-sm" href="{{ url('polis/create') }}">Jadwal Baru / Tukar</a>
 						</div>
 					</h3>
 				</div>
@@ -53,8 +53,8 @@ Kulkel Undip | Poli
 											<td>{{ $poli->tanggal->format('d M Y') }}</td>
 											<td> 
 												{!! Form::open(['url' => 'polis/' . $poli->id, 'method' => 'delete']) !!}
-														<a class="btn btn-success btn-sm" href="{{ url('polis/' . $poli->id . '/edit' ) }}">Edit</a>
-														<button class="btn btn-danger btn-sm" type="submit" onclick="return confirm('yakin mau hapus jadwal ini?'); return false;"> Delete</button>
+													<a class="btn btn-warning btn-sm" href="{{ url('polis/' . $poli->id . '/edit') }}">Edit</a>
+													<button class="btn btn-danger btn-sm" type="submit" onclick="return confirm('yakin mau hapus jadwal {{ $poli->user->nama }} pada tanggal {{ $poli->tanggal->format("d M Y") }} sebagai {{ $poli->jaga->jaga }}?'); return false;"> Delete</button>
 												{!! Form::close() !!}
 											</td>
 										</tr>

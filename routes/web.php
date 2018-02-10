@@ -39,6 +39,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('pegangans/residen', 'ResidenPegangansController');
 	Route::resource('stases', 'StasesController');
 	Route::resource('polis', 'PolisController');
+	Route::get('polis/ajax/get/jaga', 'PolisController@getPoliJaga');
+
 	Route::resource('pembacaans', 'PembacaansController');
 	Route::resource('users', 'UsersController');
 	Route::post('users/ajax', 'UsersController@ajaxUpdateStase');

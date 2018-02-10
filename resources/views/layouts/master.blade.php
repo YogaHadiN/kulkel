@@ -37,6 +37,9 @@
 			width:100% !important;
 		}
 		
+		input.has-error{
+			border: 0.2px solid red;
+		}
 
 		@media (max-width: 767px) {
 		  .table-responsive .dropdown-menu,
@@ -262,6 +265,7 @@
             });
 
 			$('.tanggal').attr('placeholder', 'dd-mm-YYYY');
+			$('.bulanTahun').attr('placeholder', 'mm-YYYY');
             $('.bulanTahun').datepicker({
                 todayBtn: "linked",
                 keyboardNavigation: false,

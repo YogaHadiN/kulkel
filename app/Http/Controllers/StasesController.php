@@ -16,7 +16,7 @@ class StasesController extends Controller
 		$this->middleware('adminOnly', ['only' => ['update', 'destroy']]);
 	}
 	public function index(){
-		$stases = Stase::with('user', 'jenisStase')->orderBy('id', 'desc')->paginate(20);
+		$stases = Stase::with('user', 'jenisStase')->orderBy('updated_at', 'desc')->paginate(20);
 		return view('stases.index', compact(
 			'stases'
 		));
@@ -80,8 +80,9 @@ class StasesController extends Controller
 		return redirect('stases')->withPesan($pesan);
 	}
 	public function destroy($id){
+		$stase = Stase::find( $id );
+		$pesan = Yoga::suksesFlash('Stase <strong>' .$stase->user->nama . '</strong> di <strong>' . $stase->jenisStase->jenis_stase . '</strong> periode <strong>' . $stase->mulai->format('01 M Y'). '</strong> s/d <strong>' .$stase->akhir->format('t M Y'). '</strong> berhasil dihapus');
 		Stase::destroy( $id );
-		$pesan = Yoga::suksesFlash('Stase berhasil dihapus');
 		return redirect('stases')->withPesan($pesan);
 	}
 	public function edit($id){
@@ -118,7 +119,7 @@ class StasesController extends Controller
 		$stase->save();
 
 		$pesan = Yoga::suksesFlash('Stase berhasil diubah');
-		return redirect('users/' . Input::get('user_id'))->withPesan($pesan);
+		return redirect('stases')->withPesan($pesan);
 	}
 	
 	

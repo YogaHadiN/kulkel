@@ -12,7 +12,7 @@ use Auth;
 class EventsController extends Controller
 {
 	public function index(){
-		$events = Event::all();
+		$events = Event::with('user')->orderBy('updated_at', 'desc')->paginate(5);
 		return view('events.index', compact(
 			'events'
 		));
@@ -25,34 +25,50 @@ class EventsController extends Controller
 		return view('events.edit', compact('event'));
 	}
 	public function store(Request $request){
-		if ($this->valid( Input::all() )) {
-			return $this->valid( Input::all() );
-		}
-		$event        = new Event;
-		$event->body  = json_encode( explode(PHP_EOL, Input::get('body')) );
-		$event->title = Input::get('title');
-		$event->user_id = Auth::id();
-		$event->save();
-		$event->image = $this->imageUpload('event','image', $event->id);
-		$event->save();
+		DB::beginTransaction();
+		try {
+			
+			if ($this->valid( Input::all() )) {
+				return $this->valid( Input::all() );
+			}
+			$event        = new Event;
+			$event->body  = json_encode( explode(PHP_EOL, Input::get('body')) );
+			$event->title = Input::get('title');
+			$event->user_id = Auth::id();
+			$event->save();
+			$event->image = $this->imageUpload('event','image', $event->id);
+			$event->save();
 
-		$pesan = Yoga::suksesFlash('Event baru berhasil dibuat');
-		return redirect('events')->withPesan($pesan);
+			$pesan = Yoga::suksesFlash('Event baru berhasil dibuat');
+			DB::commit();
+			return redirect('events')->withPesan($pesan);
+		} catch (\Exception $e) {
+			DB::rollback();
+			throw $e;
+		}
 	}
 	public function update($id, Request $request){
-		if ($this->valid( Input::all() )) {
-			return $this->valid( Input::all() );
+		DB::beginTransaction();
+		try {
+			
+			if ($this->valid( Input::all() )) {
+				return $this->valid( Input::all() );
+			}
+			$event          = Event::find($id);
+			$event->body  = json_encode( explode(PHP_EOL, Input::get('body')) );
+			$event->title   = Input::get('title');
+			$event->user_id = Auth::id();
+			if (Input::hasFile('image')) {
+				$event->image   = $this->imageUpload('event','image', $event->id);
+			}
+			$event->save();
+			$pesan = Yoga::suksesFlash('Event berhasil diupdate');
+			DB::commit();
+			return redirect('events')->withPesan($pesan);
+		} catch (\Exception $e) {
+			DB::rollback();
+			throw $e;
 		}
-		$event          = Event::find($id);
-		$event->body    = Input::get('body');
-		$event->title   = Input::get('title');
-		$event->user_id = Auth::id();
-		if (Input::hasFile('image')) {
-			$event->image   = $this->imageUpload('event','image', $event->id);
-		}
-		$event->save();
-		$pesan = Yoga::suksesFlash('Event berhasil diupdate');
-		return redirect('events')->withPesan($pesan);
 	}
 	public function destroy($id){
 		Event::destroy($id);

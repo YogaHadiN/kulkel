@@ -38,6 +38,7 @@
 								<tr>
 									<th>Tanggal</th>
 									<th>Presentan</th>
+									<th>Jenis</th>
 									<th>Pembahas</th>
 									<th>Moderator</th>
 									<th>Action</th>
@@ -49,6 +50,7 @@
 										<tr>
 											<td>{{ $pembacaan->tanggal->format('d M Y') }}</td>
 											<td>{{ $pembacaan->user->nama }}</td>
+											<td>{{ $pembacaan->jenisPembacaan->jenis_pembacaan }}</td>
 											<td>
 												<ul>
 													@foreach($pembacaan->pembahas as $pembahas)	
@@ -67,7 +69,7 @@
 											<td nowrap class="autofit">
 												{!! Form::open(['url' => 'pembacaans/' . $pembacaan->id, 'method' => 'delete']) !!}
 													<a class="btn btn-warning btn-sm" href="{{ url('pembacaans/' . $pembacaan->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
-													<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus Pembacaan ini?');return false" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
+													<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus Pembacaan {{ $pembacaan->user->nama }} pada tanggal {{ $pembacaan->tanggal->format('d M Y') }}?');return false" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
 												{!! Form::close() !!}
 											</td>
 										</tr>

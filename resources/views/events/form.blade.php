@@ -11,7 +11,11 @@
 	<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
 		<div class="form-group" @if($errors->has('body')) class="has-error" @endif>
 		  {!! Form::label('body', 'body') !!}
-		  {!! Form::textarea('body' , null, ['class' => 'form-control rq']) !!}
+		  @if( isset($event) )
+			  {!! Form::textarea('body' , $event->bodyedit, ['class' => 'form-control rq']) !!}
+		  @else
+			  {!! Form::textarea('body' , null, ['class' => 'form-control rq']) !!}
+		  @endif
 		  @if($errors->has('body'))<code>{{ $errors->first('body') }}</code>@endif
 		</div>
 	</div>

@@ -26,12 +26,13 @@
 							Residen Pegangan
 						</div>
 						<div class="panelRight">
-							<a class="btn btn-success" href="{{ url('pegangans/residen/create') }}"> Buat Residen Pegangan Baru</a>
+							<a class="btn btn-success" href="{{ url('pegangans/residen/create') }}"><i class="fa fa-plus" aria-hidden="true"></i> Buat Residen Pegangan Baru</a>
 						</div>
 					</h3>
 				</div>
 				<div class="panel-body">
 					<div class="table-responsive">
+						{{ $pegangans->links() }}
 						<table class="table table-hover table-condensed table-bordered">
 							<thead>
 								<tr>
@@ -51,7 +52,7 @@
 											<td nowrap class="autofit">
 												{!! Form::open(['url' => 'pegangans/residen/' . $pegangan->id, 'method' => 'delete']) !!}
 													<a class="btn btn-warning btn-sm" href="{{ url('pegangans/residen/' . $pegangan->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
-													<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus ?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
+													<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus {{ $pegangan->residen->nama }} sebagai pegangan dari {{ $pegangan->user->nama }}?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
 												{!! Form::close() !!}
 											</td>
 										</tr>
@@ -71,6 +72,7 @@
 								@endif
 							</tbody>
 						</table>
+						{{ $pegangans->links() }}
 					</div>
 					
 				</div>

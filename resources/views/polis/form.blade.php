@@ -1,10 +1,6 @@
 <div class="form-group" @if($errors->has('user_id')) class="has-error" @endif>
   {!! Form::label('user_id', 'Nama Residen') !!}
-  @if( isset( $poli ) )
-	  {!! Form::select('user_id' , App\User::list(), null, ['class' => 'form-control rq', 'readonly' => 'true']) !!}
-  @else
-	  {!! Form::select('user_id' , App\User::list(), null, ['class' => 'form-control selectpick rq', 'data-live-search' => 'true']) !!}
-  @endif
+  {!! Form::select('user_id' , App\User::list(), null, ['class' => 'form-control selectpick rq', 'data-live-search' => 'true']) !!}
   @if($errors->has('user_id'))<code>{{ $errors->first('user_id') }}</code>@endif
 </div>
 <div class="form-group" @if($errors->has('jaga_id')) class="has-error" @endif>

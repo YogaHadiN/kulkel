@@ -17,7 +17,7 @@ class PembacaansController extends Controller
 		$this->middleware('adminOnly', ['only' => ['update', 'destroy']]);
 	}
 	public function index(){
-		$pembacaans = Pembacaan::orderBy('id', 'desc')->paginate(20);
+		$pembacaans = Pembacaan::with('user', 'pembahas.user', 'moderator.user', 'jenisPembacaan')->orderBy('updated_at', 'desc')->paginate(20);
 		return view('pembacaans.index', compact(
 			'pembacaans'
 		));
@@ -80,8 +80,9 @@ class PembacaansController extends Controller
 		}
 	}
 	public function destroy($id){
+		$pembacaan = Pembacaan::find( $id );
+		$pesan = Yoga::suksesFlash('Pembacaan <strong>' . $pembacaan->user->nama . '</strong> pada tanggal <strong>' .$pembacaan->tanggal->format('d M Y'). ' </strong>berhasil dihapus');
 		Pembacaan::destroy( $id );
-		$pesan = Yoga::suksesFlash('Pembacaan berhasil dihapus');
 		return redirect('pembacaans')->withPesan($pesan);
 	}
 	public function edit($id){

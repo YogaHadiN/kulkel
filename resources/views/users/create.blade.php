@@ -45,7 +45,6 @@
 	<script type="text/javascript" charset="utf-8">
 		$('#telps').val('');
 		function dummySubmit(control){
-			alert('yuhuu');
 			var submitNih = true;
 
 			$('#tableTelp tbody tr').each( function(i){

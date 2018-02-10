@@ -32,6 +32,7 @@
 				</div>
 				<div class="panel-body">
 					<div class="table-responsive">
+						{{ $pegangans->links() }}
 						<table class="table table-hover table-condensed table-bordered">
 							<thead>
 								<tr>
@@ -71,6 +72,7 @@
 								@endif
 							</tbody>
 						</table>
+						{{ $pegangans->links() }}
 					</div>
 					
 				</div>

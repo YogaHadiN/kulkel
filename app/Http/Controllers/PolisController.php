@@ -16,7 +16,7 @@ class PolisController extends Controller
 		$this->middleware('adminOnly', ['only' => ['update', 'destroy']]);
 	}
 	public function index(){
-		$polis = Poli::with('user', 'jaga')->orderBy('id', 'desc')->paginate(20);
+		$polis = Poli::with('user', 'jaga')->orderBy('updated_at', 'desc')->paginate(20);
 		return view('polis.index', compact(
 			'polis'
 		));
@@ -25,8 +25,9 @@ class PolisController extends Controller
 		return view('polis.create');
 	}
 	public function destroy($id){
-		Poli::destroy( $id );
-		$pesan = Yoga::suksesFlash('Jadwal berhasil dihapus');
+		$poli = Poli::find( $id );
+		Poli::destroy($id);
+		$pesan = Yoga::suksesFlash('Jadwal <strong>' .$poli->user->nama .'</strong> pada tanggal <strong>' . $poli->tanggal->format('d M Y'). '</strong> sebagai <strong> ' . $poli->jaga->jaga . '</strong> berhasil dihapus');
 		return redirect('polis')->withPesan($pesan);
 	}
 	public function update($id){
@@ -49,137 +50,109 @@ class PolisController extends Controller
 	
 	
 	public function store(){
-		$gagals    = [];
-		$berhasils = [];
-		$timestamp = date('Y-m-d H:i:s');
-		$poli      = [];
-		if ( !empty( Input::get('jatul') ) ) {
-			$tanggal = Yoga::datePrep( Input::get('tanggal') );
-			$poli_ada    = Poli::where('tanggal', $tanggal)->where('jaga_id', 1)->first();
-			if ( $poli_ada ) {
-				$gagals[] = [
-					'baru' => [
-						'user_id' => User::find(Input::get('jatul'))->nama,
-						'tanggal' => $tanggal,
-						'jaga_id' => Jaga::find(1)->jaga
-					],
-					'lama' => [
-						'user_id' => $poli->user->nama,
-						'tanggal' => $poli->tanggal->format('d-m-Y'),
-						'jaga_id' => Jaga::find(1)->jaga
-					]
-				];
-			} else {
-				$poli[] = [
-					'user_id'    => Input::get('jatul'),
-					'jaga_id'    => 1,
-					'tanggal'    => $tanggal,
-					'created_at' => $timestamp,
-					'updated_at' => $timestamp
-				];
-				$berhasils[] = [
-					'user'    => User::find(Input::get('jatul'))->nama,
-					'jaga_id' => 1
-				];
-			}
+		/* return Input::all(); */ 
+		$messages = [
+			'required' => ':attribute Harus Diisi',
+		];
+		$rules = [
+			'tanggal' => 'required',
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules, $messages);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		if ( !empty( Input::get('jagem') ) ) {
-			$tanggal = Yoga::datePrep( Input::get('tanggal') );
-			$poli_ada =  Poli::where('tanggal', $tanggal)->where('jaga_id', 2)->first();
-			if ( $poli_ada ) {
-				$gagals[] = [
-					'baru' => [
-						'user_id' => User::find(Input::get('jagem'))->nama,
-						'tanggal' => $tanggal,
-						'jaga_id' => Jaga::find(2)->jaga
-					],
-					'lama' => [
-						'user_id' => $poli->user->nama,
-						'tanggal' => $poli->tanggal->format('d-m-Y'),
-						'jaga_id' => Jaga::find(2)->jaga
-					]
-				];
-			} else {
-				$poli[] = [
-					'user_id'    => Input::get('jagem'),
-					'jaga_id'    => 2,
-					'tanggal'    => $tanggal,
-					'created_at' => $timestamp,
-					'updated_at' => $timestamp
-				];
-				$berhasils[] = [
-					'user'    => User::find(Input::get('jagem'))->nama,
-					'jaga_id' => Jaga::find(2)->jaga
-				];
+		$tanggal   = Input::get('tanggal');
+		$tanggal   = Yoga::datePrep($tanggal);
+
+		$polis['create']     = [];
+		$polis['update']     = [];
+		
+		$polis     = $this->updateAtauBuatPoli($polis, $tanggal, Input::get('jatul'), 'jatul', 1);
+		$polis     = $this->updateAtauBuatPoli($polis, $tanggal, Input::get('jagem'), 'jagem', 2);
+		$polis     = $this->updateAtauBuatPoli($polis, $tanggal, Input::get('jagut'), 'jagut', 3);
+		$polis     = $this->updateAtauBuatPoli($polis, $tanggal, Input::get('jabay'), 'jabay', 4);
+
+
+		Poli::insert($polis['create']);
+		$pesan = '';
+
+		if ( count( $polis['create'] ) ) {
+			$pesan .= '<br />Jaga poli yang berhasil ditambahkan : ';
+			$pesan .= '<ul>';
+			foreach ($polis['create'] as $poli) {
+				$pesan .= '<li>';
+				$pesan .= '<strong>' . User::find($poli['user_id'])->nama . '</strong> berhasil didaftarkan jaga tanggal <strong>' . Yoga::updateDatePrep($tanggal) .  ' </strong>sebagai <strong>' . Jaga::find($poli['jaga_id'])->jaga . '</strong>' ;
+				$pesan .= '</li>';
 			}
+			$pesan .= '</ul>';
 		}
-		if ( !empty( Input::get('jagut') ) ) {
+		if ( count( $polis['update'] ) ) {
+			$pesan .= 'Poli yang berhasil diupdate';
+			$pesan .= '<ul>';
+			foreach ($polis['update'] as $poli) {
+				$pesan .= '<li>';
+				$pesan .= '<strong>' . User::find($poli['user_id'])->nama . '</strong> berhasil diubah menjadi tanggal <strong>' . Yoga::updateDatePrep($tanggal) .  ' </strong>sebagai <strong>' . Jaga::find($poli['jaga_id'])->jaga . '</strong>' ;
+				$pesan .= '</li>';
 
-			$tanggal = Yoga::datePrep( Input::get('tanggal') );
-			$poli_ada =  Poli::where('tanggal', $tanggal)->where('jaga_id', 3)->first();
-			if ( $poli_ada ) {
-				$gagals[] = [
-					'baru' => [
-						'user_id' => User::find(Input::get('jagut'))->nama,
-						'tanggal' => $tanggal,
-						'jaga_id' => Jaga::find(3)->jaga
-					],
-					'lama' => [
-						'user_id' => $poli->user->nama,
-						'tanggal' => $poli->tanggal->format('d-m-Y'),
-						'jaga_id' => Jaga::find(3)->jaga
-					]
-				];
-			} else {
-				$poli[] = [
-					'user_id' => Input::get('jagut'),
-					'jaga_id' => 3,
-					'tanggal' => $tanggal,
-					'created_at' => $timestamp,
-					'updated_at' => $timestamp
-				];
-				$berhasils[] = [
-					'user' => Input::get('jagut'),
-					'jaga_id' => 3
-				];
 			}
+			$pesan .= '</ul>';
 		}
-		if ( !empty( Input::get('jabay') ) ) {
-			$tanggal = Yoga::datePrep( Input::get('tanggal') );
-			$poli_ada =  Poli::where('tanggal', $tanggal)->where('jaga_id', 4)->first();
-			if ( $poli_ada ) {
-				$gagals[] = [
-					'baru' => [
-						'user_id' => User::find(Input::get('jabay'))->nama,
-						'tanggal' => $tanggal,
-						'jaga_id' => Jaga::find(4)->jaga
-					],
-					'lama' => [
-						'user_id' => $poli->user->nama,
-						'tanggal' => $poli->tanggal->format('d-m-Y'),
-						'jaga_id' => Jaga::find(4)->jaga
-					]
-				];
-			} else {
-				$poli[] = [
-					'user_id' => Input::get('jabay'),
-					'jaga_id' => 4,
-					'tanggal' => $tanggal,
-					'created_at' => $timestamp,
-					'updated_at' => $timestamp
-				];
-				$berhasils[] = [
-					'user' => User::find(Input::get('jabay'))->nama,
-					'jaga_id' => Jaga::find(4)->jaga
-				];
-			}
-		}
-
-
-		Poli::insert($poli);
-
-		$pesan = Yoga::suksesFlash('Jadwal baru berhasil dibuat');
+		$pesan = Yoga::suksesFlash($pesan);
 		return redirect('polis')->withPesan($pesan);
+
 	}
+	public function getPoliJaga(){
+		$tanggal = Input::get('tanggal');
+		$tanggal = Yoga::datePrep($tanggal);
+		$polis   = Poli::where('tanggal', $tanggal)->get();
+
+		$data['jatul'] = null;
+		$data['jagem'] = null;
+		$data['jabay'] = null;
+		$data['jagut'] = null;
+		foreach ($polis as $poli) {
+			if ($poli->jaga_id == 1) {
+				$data['jatul'] = $poli->user_id;
+			} elseif( $poli->jaga_id == 2){
+				$data['jagem'] = $poli->user_id;
+			} elseif( $poli->jaga_id == 3 ){
+				$data['jagut'] = $poli->user_id;
+			} elseif( $poli->jaga_id == 4 ){
+				$data['jabay'] = $poli->user_id;
+			}
+		}
+		return $data;
+	}
+	private function updateAtauBuatPoli($data, $tanggal, $user_id, $jaga, $jaga_id){
+		if(!is_null($user_id)){
+			$timestamp = date('Y-m-d H:i:s');
+			try {
+				$poli          = Poli::where('tanggal', $tanggal)->where('jaga_id', $jaga_id)->firstOrFail();
+				$poli->user_id = $user_id;
+				$poli->jaga_id = $jaga_id;
+				$poli->updated_at = $timestamp;
+				$poli->save();
+
+				$data['update'][] = [
+					'user_id' => $user_id,
+					'jaga_id' => $jaga_id,
+					'tanggal' => $tanggal,
+				];
+			} catch (\Exception $e) {
+				$data['create'][] = [
+					'user_id'    => $user_id,
+					'jaga_id'    => $jaga_id,
+					'tanggal'    => $tanggal,
+					'created_at' => $timestamp,
+					'updated_at' => $timestamp
+				];
+			}
+		}
+		return $data;
+	}
+	
 }

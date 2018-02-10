@@ -39,7 +39,8 @@
 									<th>id</th>
 									<th>Nama Residen</th>
 									<th>Stase</th>
-									<th>Periode Bulan</th>
+									<th>Awal Periode</th>
+									<th>Akhir Periode</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -51,10 +52,11 @@
 											<td>{{ $stase->user->nama }}</td>
 											<td>{{ $stase->jenisStase->jenis_stase }}</td>
 											<td>{{ $stase->mulai->format('M Y') }}</td>
+											<td>{{ $stase->akhir->format('M Y') }}</td>
 											<td nowrap class="autofit">
 												{!! Form::open(['url' => 'stases/' . $stase->id, 'method' => 'delete']) !!}
 													<a class="btn btn-warning btn-sm" href="{{ url('stases/' . $stase->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
-													<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus Stase Ini?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
+													<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus Stase {{ $stase->user->nama }} di {{ $stase->jenisStase->jenis_stase }} Periode {{ $stase->mulai->format('01 M Y') }} s/d {{ $stase->akhir->format('t M Y') }}?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
 												{!! Form::close() !!}
 											</td>
 										</tr>

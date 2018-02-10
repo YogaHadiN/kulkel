@@ -10,7 +10,7 @@ use App\Yoga;
 class ResidenPegangansController extends Controller
 {
 	public function index(){
-		$pegangans = ResidenPegangan::with('user','residen')->orderBy('user_id')->get();
+		$pegangans = ResidenPegangan::with('user','residen')->orderBy('updated_at', 'desc')->paginate(20);
 		return view('residen_pegangans.index', compact(
 			'pegangans'
 		));
@@ -72,9 +72,10 @@ class ResidenPegangansController extends Controller
 		
 	}
 	public function destroy($id){
+		$residen = ResidenPegangan::find( $id );
+		$pesan   =  '<strong>' . $residen->residen->nama . '</strong> berhasil dihapus sebagai pegangan dari <strong>' . $residen->user->nama . '</strong>';
+		$pesan   = Yoga::suksesFlash($pesan);
 		ResidenPegangan::destroy( $id );
-
-		$pesan = Yoga::suksesFlash('Residen Pegangan berhasil dihapus');
 		return redirect('pegangans/residen')->withPesan($pesan);
 	}
 	

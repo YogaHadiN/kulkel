@@ -11,7 +11,7 @@ use DB;
 class StafPegangansController extends Controller
 {
 	public function index(){
-		$pegangans = StafPegangan::all();
+		$pegangans = StafPegangan::with('user', 'staf')->orderBy('updated_at', 'desc')->paginate(20);
 		return view('staf_pegangans.index', compact(
 			'pegangans'
 		));

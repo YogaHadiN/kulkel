@@ -72,6 +72,26 @@
 			$('#submit').click();
 		}
 	}
+	$('.tanggal').datepicker({
+		todaybtn:           "linked",
+		keyboardnavigation: false,
+		forceparse:         false,
+		calendarweeks:      true,
+		autoclose:          true,
+		format:             'dd-mm-yyyy'
+	}).on('changeDate', function(e){
+		$.get( '{{ url('polis/ajax/get/jaga') }}',
+			{ 'tanggal': $(this).val() },
+			function (data, textstatus, jqxhr) {
+				$('#jagut').val(data['jagut']);
+				$('#jagem').val(data['jagem']);
+				$('#jatul').val(data['jatul']);
+				$('#jabay').val(data['jabay']);
+				$('.selectpick').selectpicker('refresh');
+			}
+		);
+	});
+
 </script>
 	
 @stop

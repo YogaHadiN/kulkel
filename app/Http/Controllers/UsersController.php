@@ -9,6 +9,7 @@ use App\JenisStase;
 use App\Role;
 use App\Stase;
 use App\NoTelp;
+use App\Http\Controllers\HomeController;
 use DB;
 class UsersController extends Controller
 {
@@ -22,13 +23,27 @@ class UsersController extends Controller
 	}
 	public function show($id){
 		$user             = User::find( $id );
-		$stases           = Stase::with('user', 'jenisStase')->where('user_id', $id)->orderBy('mulai')->get();
+		$stasesResidens           = Stase::with('user', 'jenisStase')->where('user_id', $id)->orderBy('mulai')->get();
 		$pemb             = Pembacaan::with('user')->where('user_id', $id)->orderBy('tanggal')->get();
 		$pembacaans_sudah = [];
 		$pembacaans_belum = [];
 		$staseResidens = [];
 
+		$userThis = new HomeController;
+
+		$poli_bulan_inis      = $userThis->paramIndex($id)['poli_bulan_inis'];
+		$stases               = $userThis->paramIndex($id)['stases'];
+		$gardenias            = $userThis->paramIndex($id)['gardenias'];
+		$rsnds                = $userThis->paramIndex($id)['rsnds'];
+		$pembacaan_bulan_inis = $userThis->paramIndex($id)['pembacaan_bulan_inis'];
+
+
 		return view('users.show', compact(
+			'poli_bulan_inis',
+			'stasesResidens',
+			'gardenias',
+			'rsnds',
+			'pembacaan_bulan_inis',
 			'id',
 			'user',
 			'jenisStases',
@@ -42,7 +57,7 @@ class UsersController extends Controller
 	
 	public function index(){
 
-		$users    = User::with('no_telps.jenisTelpon', 'role')->get();
+		$users    = User::with('no_telps.jenisTelpon', 'role')->orderBy('id', 'desc')->get();
 		$admins   = [];
 		$residens = [];
 		$dosens   = [];
@@ -120,9 +135,22 @@ class UsersController extends Controller
 
 	}
 	public function update($id, Request $request){
-		if ($this->valid( Input::all() )) {
-			return $this->valid( Input::all() );
+		$messages = [
+			'required' => ':attribute Harus Diisi',
+		];
+		$rules = [
+			'nama'             => 'required',
+			'email'            => 'required|unique:users,email,' . $id,
+			'password'         => 'confirmed'
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules, $messages);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
+
 		DB::beginTransaction();
 		try {
 			$user                   = User::find($id);
@@ -206,7 +234,7 @@ class UsersController extends Controller
 		];
 		$rules = [
 			'nama'             => 'required',
-			'email'            => 'required',
+			'email'            => 'required|unique:users,email',
 			'password'         => 'confirmed'
 		];
 		$validator = \Validator::make($data, $rules, $messages);

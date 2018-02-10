@@ -23,20 +23,28 @@
 							</tr>
 						</thead>
 						<tbody>
-							@foreach($stases as $staseResiden)	
+							@if( $stasesResidens->count() )	
+								@foreach($stasesResidens as $staseResiden)	
+									<tr>
+										<td>{{ $staseResiden->jenisStase->jenis_stase }}</td>
+										<td>{{ $staseResiden->mulai->format('d M Y') }}</td>
+										<td>{{ $staseResiden->akhir->format('t M Y') }}</td>
+										<td> 
+
+
+											{!! Form::open(['url' => 'stases/' . $staseResiden->id , 'method' => 'delete']) !!}
+											<a class="btn btn-warning btn-sm" href="{{ url('users/' . $user->id . '/stase/' . $staseResiden->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
+											<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus stase ini?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
+											{!! Form::close() !!}
+										</td> 
+									</tr>
+								@endforeach
+							@else
 								<tr>
-									<td>{{ $staseResiden->jenisStase->jenis_stase }}</td>
-									<td>{{ $staseResiden->mulai->format('d M Y') }}</td>
-									<td>{{ $staseResiden->akhir->format('t M Y') }}</td>
-									<td> 
-
-
-										{!! Form::open(['url' => 'stases/' . $staseResiden->id , 'method' => 'delete']) !!}
-										<a class="btn btn-warning btn-sm" href="{{ url('users/' . $user->id . '/stase/' . $staseResiden->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
-										<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus stase ini?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
-										{!! Form::close() !!}
+									<td class='text-center' colspan="4"> Tidak ada data untuk ditampilkan </td>
 								</tr>
-							@endforeach
+							@endif
+						
 						</tbody>
 					</table>
 				</div>

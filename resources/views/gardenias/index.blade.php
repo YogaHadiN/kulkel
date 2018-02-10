@@ -32,6 +32,7 @@
 				</div>
 				<div class="panel-body">
 					<div class="table-responsive">
+						{{ $gardenias->links() }}
 						<table class="table table-hover table-condensed table-bordered">
 							<thead>
 								<tr>
@@ -49,7 +50,7 @@
 											<td nowrap class="autofit">
 												{!! Form::open(['url' => 'gardenias/' . $gardenia->id, 'method' => 'delete']) !!}
 													<a class="btn btn-warning btn-sm" href="{{ url('gardenias/' . $gardenia->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
-													<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus jadwal ini ?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
+													<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus jadwal {{ $gardenia->user->nama }} di Gardenia tanggal {{ $gardenia->tanggal->format('d M Y') }} ?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
 												{!! Form::close() !!}
 											</td>
 										</tr>
@@ -61,6 +62,7 @@
 								@endif
 							</tbody>
 						</table>
+						{{ $gardenias->links() }}
 					</div>
 					
 				</div>

@@ -62,7 +62,7 @@
 					</table>
 					<div class="row">
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-							<a class="btn btn-primary btn-sm btn-block" href="{{ url('users/' . $user->id . '/edit') }}">Edit</a>
+							<a class="btn btn-primary btn-block" href="{{ url('users/' . $user->id . '/edit') }}">Edit</a>
 						</div>
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 							<a class="btn btn-danger btn-block" href="{{ url('users') }}">Cancel</a>

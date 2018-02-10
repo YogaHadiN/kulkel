@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use App\Gardenia;
 use Input;
 use App\Yoga;
+use App\User;
 use DB;
 
 class GardeniasController extends Controller
 {
 	public function index(){
-		$gardenias = Gardenia::all();
+		$gardenias = Gardenia::with('user')->orderBy('updated_at', 'desc')->paginate(20);
 		return view('gardenias.index', compact(
 			'gardenias'
 		));
@@ -24,9 +25,27 @@ class GardeniasController extends Controller
 		return view('gardenias.edit', compact('gardenia'));
 	}
 	public function store(Request $request){
-		if ($this->valid( Input::all() )) {
-			return $this->valid( Input::all() );
-		}
+			$messages = [
+				'required' => ':attribute Harus Diisi',
+			];
+			$rules = [
+				'user_id' => 'required',
+				'tanggal.*' => 'date_format:"d-m-Y"'
+			];
+			
+			$validator = \Validator::make(Input::all(), $rules, $messages);
+			
+			if ($validator->fails())
+			{
+				$tanggale = [];
+				foreach ($validator->errors()->messages() as $k => $message) {
+					if ( strpos($k, 'tanggal') !== false ) {
+						$key = explode('.',$k);
+						$tanggale[] = $key[1];
+					}
+				}
+				return \Redirect::back()->withErrors($validator)->withInput()->withTanggale($tanggale);
+			}
 		$tanggals = Input::get('tanggal');
 		$timestamp = date('Y-m-d H:i:s');
 		$data= [];
@@ -40,23 +59,35 @@ class GardeniasController extends Controller
 			
 		}
 		Gardenia::insert($data);
-		$pesan = Yoga::suksesFlash('Gardenia baru berhasil dibuat');
+		$pesan = 'Jadwal Gardenia baru untuk ' . User::find( Input::get('user_id') )->nama . ' untuk tanggal :';
+		$pesan .= '<ul>';
+		foreach ( Input::get('tanggal') as $tanggal) {
+			$pesan .= '<li>';
+			$pesan .= $tanggal;
+			$pesan .= '</li>';
+		}
+		$pesan .= '</ul>';
+		$pesan .= ' berhasil dibuat';
+		$pesan = Yoga::suksesFlash($pesan);
 		return redirect('gardenias')->withPesan($pesan);
 	}
 	public function update($id, Request $request){
 		if ($this->valid( Input::all() )) {
 			return $this->valid( Input::all() );
 		}
-		$gardenia     = Gardenia::find($id);
-		$gardenia->user_id       = Input::get('user_id');
-		$gardenia->tanggal       = Yoga::datePrep(Input::get('tanggal'));
+		$gardenia          = Gardenia::find($id);
+		$gardenia->user_id = Input::get('user_id');
+		$gardenia->tanggal = Yoga::datePrep(Input::get('tanggal'));
 		$gardenia->save();
-		$pesan = Yoga::suksesFlash('Gardenia berhasil diupdate');
+		$pesan = 'Jadwal Gardenia <strong>' . User::find( Input::get('user_id') )->nama . '</strong> pada tanggal<strong> ' . Input::get('tanggal') . '</strong> berhasil diupdate';
+		$pesan = Yoga::suksesFlash($pesan);
 		return redirect('gardenias')->withPesan($pesan);
 	}
 	public function destroy($id){
+		$gardenia = Gardenia::find($id);
+		$pesan = 'Jadwal Gardenia untuk <strong>' . $gardenia->user->nama. ' </strong> pada tanggal ' . $gardenia->tanggal->format('d M Y') . ' berhasil dihapus';
+		$pesan = Yoga::suksesFlash($pesan);
 		Gardenia::destroy($id);
-		$pesan = Yoga::suksesFlash('Gardenia berhasil dihapus');
 		return redirect('gardenias')->withPesan($pesan);
 	}
 	public function import(){
@@ -87,8 +118,8 @@ class GardeniasController extends Controller
 			'required' => ':attribute Harus Diisi',
 		];
 		$rules = [
-			'user_id'           => 'required',
-			'tanggal'           => 'required'
+			'user_id'   => 'required',
+			'tanggal.*' => 'required|date_format:"d-m-Y"'
 		];
 		$validator = \Validator::make($data, $rules, $messages);
 		

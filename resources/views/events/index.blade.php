@@ -32,6 +32,7 @@ Kulkel Undip | Events
 			</div>
 			<div class="panel-body">
 				<div class="table-responsive">
+					{{ $events->links() }}
 					<table class="table table-hover table-condensed table-bordered">
 						<thead>
 							<tr>
@@ -77,6 +78,7 @@ Kulkel Undip | Events
 							@endif
 						</tbody>
 					</table>
+					{{ $events->links() }}
 				</div>
 				
 			</div>

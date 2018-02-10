@@ -46,6 +46,7 @@
 	<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Detil {{ $user->role->role }}</a></li>
     <li role="presentation"><a href="#stase" aria-controls="stase" role="tab" data-toggle="tab">Stase</a></li>
     <li role="presentation"><a href="#pembacaan" aria-controls="pembacaan" role="tab" data-toggle="tab">Pembacaan</a></li>
+    <li role="presentation"><a href="#tugas" aria-controls="tugas" role="tab" data-toggle="tab">Tugas</a></li>
   </ul>
 
   <!-- Tab panes -->
@@ -58,6 +59,13 @@
 	</div>
 	<div role="tabpanel" class="tab-pane" id="pembacaan">
 		@include('users.pembacaan')	
+	</div>
+	<div role="tabpanel" class="tab-pane" id="tugas">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				@include('tugas')
+			</div>
+		</div>
 	</div>
 </div>
 </div>
