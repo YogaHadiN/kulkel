@@ -25,28 +25,28 @@
 				</div>
 				<div class="panel-body">
 				{!! Form::open(['url' => 'polis', 'method' => 'post']) !!}
-					<div class="form-group" @if($errors->has('tanggal')) class="has-error" @endif>
-					  {!! Form::label('tanggal', 'Tanggal') !!}
+					<div class="form-group @if($errors->has('tanggal')) has-error @endif">
+						{!! Form::label('tanggal', 'Tanggal', ['class' => 'control-label']) !!}
 					  {!! Form::text('tanggal' , null, ['class' => 'form-control tanggal rq']) !!}
 					  @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
 					</div>
-					<div class="form-group" @if($errors->has('jatul')) class="has-error" @endif>
-					  {!! Form::label('jatul', 'Jatul') !!}
+					<div class="form-group @if($errors->has('jatul')) has-error @endif">
+						{!! Form::label('jatul', 'Jatul', ['class' => 'control-label']) !!}
 					  {!! Form::select('jatul' , App\User::list(), null, ['class' => 'form-control selectpick', 'data-live-search'  => 'true']) !!}
 					  @if($errors->has('jatul'))<code>{{ $errors->first('jatul') }}</code>@endif
 					</div>
-					<div class="form-group" @if($errors->has('jagem')) class="has-error" @endif>
-					  {!! Form::label('jagem', 'Jagem') !!}
+					<div class="form-group @if($errors->has('jagem')) has-error @endif">
+					  {!! Form::label('jagem', 'Jagem', ['class' => 'control-label']) !!}
 					  {!! Form::select('jagem' , App\User::list(), null, ['class' => 'form-control selectpick', 'data-live-search'  => 'true']) !!}
 					  @if($errors->has('jagem'))<code>{{ $errors->first('jagem') }}</code>@endif
 					</div>
-					<div class="form-group" @if($errors->has('jabay')) class="has-error" @endif>
-					  {!! Form::label('jabay', 'Jabay') !!}
+					<div class="form-group @if($errors->has('jabay')) has-error @endif">
+					  {!! Form::label('jabay', 'Jabay', ['class' => 'control-label']) !!}
 					  {!! Form::select('jabay' , App\User::list(), null, ['class' => 'form-control selectpick', 'data-live-search'  => 'true']) !!}
 					  @if($errors->has('jabay'))<code>{{ $errors->first('jabay') }}</code>@endif
 					</div>
-					<div class="form-group" @if($errors->has('jagut')) class="has-error" @endif>
-					  {!! Form::label('jagut', 'Jagut') !!}
+					<div class="form-group @if($errors->has('jagut')) has-error @endif">
+					  {!! Form::label('jagut', 'Jagut', ['class' => 'control-label']) !!}
 					  {!! Form::select('jagut' , App\User::list(), null, ['class' => 'form-control selectpick', 'data-live-search'  => 'true']) !!}
 					  @if($errors->has('jagut'))<code>{{ $errors->first('jagut') }}</code>@endif
 					</div>

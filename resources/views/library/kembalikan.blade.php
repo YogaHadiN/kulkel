@@ -47,13 +47,13 @@ Klinik Jati Elok | Kembalikan Buku Perpustakaan
 						</table>
 					</div>
 					{!! Form::open(['url' => 'library/kembalikan/' . $pinjam->id, 'method' => 'put']) !!}
-						<div class="form-group" @if($errors->has('admin_kembalikan')) class="has-error" @endif>
-						  {!! Form::label('admin_kembalikan_id', 'Admin Kembalikan') !!}
+						<div class="form-group @if($errors->has('admin_kembalikan')) has-error @endif">
+							{!! Form::label('admin_kembalikan_id', 'Admin Kembalikan', ['class' => 'control-label']) !!}
 						  {!! Form::text('admin_kembalikan_id' , \Auth::id(), ['class' => 'form-control', 'readonly' => 'readonly']) !!}
 						  @if($errors->has('admin_kembalikan_id'))<code>{{ $errors->first('admin_kembalikan_id') }}</code>@endif
 						</div>
-						<div class="form-group" @if($errors->has('tanggal_kembalikan')) class="has-error" @endif>
-						  {!! Form::label('tanggal_kembalikan', 'Tanggal Kembalikan') !!}
+						<div class="form-group @if($errors->has('tanggal_kembalikan')) has-error @endif">
+							{!! Form::label('tanggal_kembalikan', 'Tanggal Kembalikan', ['class' =>'control-label']) !!}
 						  {!! Form::text('tanggal_kembalikan', date('d-m-Y'), ['class' => 'form-control tanggal']) !!}
 						  @if($errors->has('tanggal_kembalikan'))<code>{{ $errors->first('tanggal_kembalikan') }}</code>@endif
 						</div>

@@ -24,19 +24,19 @@
 			<h3>Register to KK UNDIP+</h3>
 			<p>Create account to see it in action.</p>
 			{!! Form::open(['url' => 'register', 'method' => 'post']) !!}
-				<div class="form-group" @if($errors->has('nama')) class="has-error" @endif>
+				<div class="form-group @if($errors->has('nama')) has-error @endif">
 					{!! Form::text('nama' , null, ['class' => 'form-control rq', 'placeholder' => 'Nama']) !!}
 				  @if($errors->has('nama'))<code>{{ $errors->first('nama') }}</code>@endif
 				</div>
-				<div class="form-group" @if($errors->has('email')) class="has-error" @endif>
+				<div class="form-group @if($errors->has('email')) has-error @endif">
 					{!! Form::email('email', null, ['class' => 'form-control rq', 'placeholder' => 'Email']) !!}
 				  @if($errors->has('email'))<code>{{ $errors->first('email') }}</code>@endif
 				</div>
-				<div class="form-group" @if($errors->has('password')) class="has-error" @endif>
+				<div class="form-group @if($errors->has('password')) has-error @endif">
 				  {!! Form::password('password', ['class' => 'form-control rq', 'placeholder' => 'Password']) !!}
 				  @if($errors->has('password'))<code>{{ $errors->first('password') }}</code>@endif
 				</div>
-				<div class="form-group" @if($errors->has('password_confirmation')) class="has-error" @endif>
+				<div class="form-group @if($errors->has('password_confirmation')) has-error @endif">
 					{!! Form::password('password_confirmation', ['class' => 'form-control rq', 'placeholder' => 'Retype password']) !!}
 				  @if($errors->has('password_confirmation'))<code>{{ $errors->first('password_confirmation') }}</code>@endif
 				</div>

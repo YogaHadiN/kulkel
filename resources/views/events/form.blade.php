@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<div class="form-group" @if($errors->has('title')) class="has-error" @endif>
-		  {!! Form::label('title', 'titile') !!}
+		<div class="form-group @if($errors->has('title')) has-error @endif">
+			{!! Form::label('title', 'titile', ['class' => 'control-label']) !!}
 		  {!! Form::text('title' , null, ['class' => 'form-control rq']) !!}
 		  @if($errors->has('title'))<code>{{ $errors->first('title') }}</code>@endif
 		</div>
@@ -9,8 +9,8 @@
 </div>
 <div class="row">
 	<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
-		<div class="form-group" @if($errors->has('body')) class="has-error" @endif>
-		  {!! Form::label('body', 'body') !!}
+		<div class="form-group @if($errors->has('body')) has-error @endif">
+			{!! Form::label('body', 'body', ['class' => 'control-label']) !!}
 		  @if( isset($event) )
 			  {!! Form::textarea('body' , $event->bodyedit, ['class' => 'form-control rq']) !!}
 		  @else

@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<div class="form-group @if($errors->has('nama'))has-error @endif">
+		<div class="form-group @if($errors->has('nama')) has-error @endif">
 		  {!! Form::label('nama', 'Nama', ['class' => 'control-label']) !!}
 			{!! Form::text('nama', null, array(
 				'class'         => 'form-control rq'

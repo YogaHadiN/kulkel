@@ -1,20 +1,20 @@
-<div class="form-group" @if($errors->has('nomor_buku')) class="has-error" @endif>
-  {!! Form::label('nomor_buku', 'Nomor Buku') !!}
+<div class="form-group @if($errors->has('nomor_buku')) has-error @endif">
+	{!! Form::label('nomor_buku', 'Nomor Buku', ['class' => 'control-label']) !!}
   {!! Form::text('nomor_buku', null, ['class' => 'form-control rq']) !!}
   @if($errors->has('nomor_buku'))<code>{{ $errors->first('nomor_buku') }}</code>@endif
 </div>
-<div class="form-group" @if($errors->has('nama_buku')) class="has-error" @endif>
-  {!! Form::label('nama_buku', 'Nama Buku') !!}
+<div class="form-group @if($errors->has('nama_buku')) has-error @endif">
+	{!! Form::label('nama_buku', 'Nama Buku', ['class' => 'control-label']) !!}
   {!! Form::text('nama_buku', null, ['class' => 'form-control rq']) !!}
   @if($errors->has('nama_buku'))<code>{{ $errors->first('nama_buku') }}</code>@endif
 </div>
-<div class="form-group" @if($errors->has('pengarang')) class="has-error" @endif>
-  {!! Form::label('pengarang', 'Pengarang') !!}
+<div class="form-group @if($errors->has('pengarang')) has-error @endif">
+	{!! Form::label('pengarang', 'Pengarang', ['class' => 'control-label']) !!}
   {!! Form::text('pengarang' , null, ['class' => 'form-control rq']) !!}
   @if($errors->has('pengarang'))<code>{{ $errors->first('pengarang') }}</code>@endif
 </div>
-<div class="form-group" @if($errors->has('terbit')) class="has-error" @endif>
-  {!! Form::label('terbit', 'Tahun Terbit') !!}
+<div class="form-group @if($errors->has('terbit')) has-error @endif">
+	{!! Form::label('terbit', 'Tahun Terbit', ['class' => 'control-label']) !!}
   {!! Form::text('terbit' , null, ['class' => 'form-control rq']) !!}
   @if($errors->has('terbit'))<code>{{ $errors->first('terbit') }}</code>@endif
 </div>
