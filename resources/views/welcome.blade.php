@@ -70,7 +70,7 @@
   <div class="row">
   	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<hr />
-  		<h1>Berita</h1>
+			<h1>Berita</h1>
 		<hr />
   	</div>
   </div>
@@ -90,6 +90,12 @@
 		</div>
 	  @endforeach
   </div>
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<a href="{{ url('beritas') }}" class="btn btn-primary">Lihat Berita Lainnya</a>
+		</div>
+	  </div>
+	  <br />
 @stop
 @section('footer') 
 	
