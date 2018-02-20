@@ -7,6 +7,8 @@ use App\Ujian;
 use Input;
 use App\Yoga;
 use App\Penguji;
+use App\JenisUjian;
+use App\SubBagian;
 use DB;
 
 class UjiansController extends Controller
@@ -151,6 +153,18 @@ class UjiansController extends Controller
 		}
 		return $edit_penguji;
 	}
+	public function getPenguji(){
+		$jenis_ujian_id = Input::get('jenis_ujian_id');
+		$jenis_ujian    = JenisUjian::find( $jenis_ujian_id );
+		$jenis_stase_id = $jenis_ujian->jenis_stase_id;
+		$sub_bagians    = SubBagian::where('jenis_stase_id', $jenis_stase_id)->get();
+		$user_ids = [];
+		foreach ($sub_bagians as $sub_bagian) {
+			$user_ids[] = $sub_bagian->user_id;
+		}
+		return $user_ids;
+	}
+	
 	
 	
 }

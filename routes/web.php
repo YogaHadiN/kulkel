@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('gardenias', 'GardeniasController');
 	Route::resource('events', 'EventsController');
 	Route::resource('rsnds', 'RsndsController');
+	Route::get('ujians/getPenguji', 'UjiansController@getPenguji');
 	Route::resource('ujians', 'UjiansController');
 	Route::resource('pegangans/staf', 'StafPegangansController');
 	Route::resource('pegangans/residen', 'ResidenPegangansController');

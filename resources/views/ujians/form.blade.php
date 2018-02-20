@@ -26,19 +26,24 @@
 </div>
 <div class="form-group @if($errors->has('jenis_ujian_id')) has-error @endif">
 	{!! Form::label('jenis_ujian_id', 'Jenis Ujian', ['class' => 'control-label']) !!}
-  {!! Form::select('jenis_ujian_id' , App\JenisUjian::list(), null, ['class' => 'form-control rq']) !!}
+	{!! Form::select('jenis_ujian_id' , App\JenisUjian::list(), null, [
+		'class' => 'form-control rq',
+		'onchange' => 'jenisUjianBlur(this);return false;',
+	]) !!}
   @if($errors->has('jenis_ujian_id'))<code>{{ $errors->first('jenis_ujian_id') }}</code>@endif
 </div>
 <div class="form-group @if($errors->has('penguji[]')) has-error @endif">
 	{!! Form::label('penguji[]', 'Penguji', ['class' => 'control-label']) !!}
   @if( isset( $ujian ) )
 	  {!! Form::select('penguji[]' , App\User::listNoNull(), $edit_penguji, [
+		  'id'            => 'penguji',
 		  'class'            => 'form-control selectpick rq',
 		  'data-live-search' => 'true',
 		  'multiple'         => 'multiple'
 	  ]) !!}
   @else
 	  {!! Form::select('penguji[]' , App\User::listNoNull(), null, [
+		  'id'            => 'penguji',
 		  'class'            => 'form-control selectpick rq',
 		  'data-live-search' => 'true',
 		  'multiple'         => 'multiple'

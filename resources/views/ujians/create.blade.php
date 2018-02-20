@@ -48,6 +48,22 @@
 				$('#submit').click();
 			}
 		}
+		function jenisUjianBlur(control){
+			var jenis_ujian_id = $(control).val();
+			console.log(jenis_ujian_id);
+			$.get('{{ url('ujians/getPenguji') }}',
+				{ 'jenis_ujian_id': jenis_ujian_id },
+				function (data, textStatus, jqXHR) {
+					console.log(data);
+					for (var i = 0; i < data.length; i++) {
+						console.log(data[i]);
+						$('#penguji option[value="' + data[i] + '"]').prop('selected', true);
+					}
+					$('#penguji').selectpicker('refresh');
+				}
+
+			);
+		}
 	</script>
 @stop
 
