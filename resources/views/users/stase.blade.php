@@ -25,7 +25,12 @@
 						<tbody>
 							@if( $stasesResidens->count() )	
 								@foreach($stasesResidens as $staseResiden)	
+									{{-- if( 16-02-2018 >= 01-01-2018 && 31-03-2018 >= 16-02-2018 ) --}}
+									@if( strtotime(date('Y-m-d H:i:s')) >= strtotime($staseResiden->mulai) && strtotime($staseResiden->akhir) >= strtotime(date('Y-m-d H:i:s')) )
+									<tr class="info">
+									@else
 									<tr>
+									@endif
 										<td>{{ $staseResiden->jenisStase->jenis_stase }}</td>
 										<td>{{ $staseResiden->mulai->format('d M Y') }}</td>
 										<td>{{ $staseResiden->akhir->format('t M Y') }}</td>

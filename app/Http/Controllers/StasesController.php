@@ -7,7 +7,9 @@ use App\Stase;
 use App\JenisStase;
 use App\Yoga;
 use App\User;
+use Carbon\Carbon;
 use Input;
+use DB;
 
 class StasesController extends Controller
 {
@@ -26,63 +28,76 @@ class StasesController extends Controller
 		return view('stases.create');
 	}
 	public function store(){
-		$messages = [
-			'required' => ':attribute Harus Diisi',
-		];
-		$rules = [
-			'user_id'        => 'required',
-			'mulai'          => 'required',
-			'akhir'          => 'required',
-			'jenis_stase_id' => 'required'
-		];
-		
-		$validator = \Validator::make(Input::all(), $rules, $messages);
-		
-		if ($validator->fails())
-		{
-			return \Redirect::back()->withErrors($validator)->withInput();
-		}
-		$data = [];
-		$timestamp = date('Y-m-d H:i:s');
-
-		$user_id = Input::get('user_id');
-		$mulais  = Input::get('mulai');
-		$akhirs  = Input::get('akhir');
-
-		foreach ( Input::get('jenis_stase_id') as $k=>$stase) {
-			$data[] = [
-				'user_id'        => $user_id,
-				'jenis_stase_id' => $stase,
-				'mulai'          => Yoga::bulanTahun( $mulais[$k] ) . '-01',
-				'akhir'          => date("Y-m-t", strtotime(Yoga::bulanTahun( $akhirs[$k] ) . '-01')),
-				'created_at'     => $timestamp,
-				'updated_at'     => $timestamp
+		DB::beginTransaction();
+		try {
+			$messages = [
+				'required' => ':attribute Harus Diisi',
 			];
-		}
-		if (Stase::insert($data)) {
-			$nama_user   = User::find( $user_id )->nama;
-			$stases      = JenisStase::whereIn('id', Input::get('jenis_stase_id') )->get();
-			$data_stases = [];
-			foreach ($stases as $stase) {
-				$data_stases[] = $stase->jenis_stase;
+			$rules = [
+				'user_id'        => 'required',
+				'mulai'          => 'required',
+				'akhir'          => 'required',
+				'jenis_stase_id' => 'required'
+			];
+			
+			$validator = \Validator::make(Input::all(), $rules, $messages);
+			
+			if ($validator->fails())
+			{
+				return \Redirect::back()->withErrors($validator)->withInput();
 			}
-			$pesan          = 'Stase <strong>' . $nama_user . ' </strong>pada tanggal ';
-			$pesan         .= '<ul>';
-			foreach ($data as $k=> $d) {
-				$pesan .= '<li>Stase <strong>' . JenisStase::find( $d['jenis_stase_id'] )->jenis_stase . ' </strong>Periode <strong>01-' .$mulais[$k] . '</strong> sampai dengan <strong>01-' .date("Y-m-t", strtotime(Yoga::bulanTahun( $akhirs[$k] ))) . '</strong></li>';
+			$data = [];
+			$timestamp = date('Y-m-d H:i:s');
+
+			$user_id = Input::get('user_id');
+			$mulais  = Input::get('mulai');
+			$akhirs  = Input::get('akhir');
+
+			foreach ( Input::get('jenis_stase_id') as $k=>$stase) {
+				$data[] = [
+					'user_id'        => $user_id,
+					'jenis_stase_id' => $stase,
+					'mulai'          => Yoga::bulanTahun( $mulais[$k] ) . '-01',
+					'akhir'          => date("Y-m-t", strtotime(Yoga::bulanTahun( $akhirs[$k] ) . '-01')),
+					'created_at'     => $timestamp,
+					'updated_at'     => $timestamp
+				];
 			}
-			$pesan         .= '</ul>';
-			$pesan         .= 'Berhasil diinput';
-			$pesan          = Yoga::suksesFlash($pesan);
-		} else {
-			$pesan          = Yoga::gagalFlash('Stase gagal diinput');
+			if (Stase::insert($data)) {
+				$nama_user   = User::find( $user_id )->nama;
+				$stases      = JenisStase::whereIn('id', Input::get('jenis_stase_id') )->get();
+				$data_stases = [];
+				foreach ($stases as $stase) {
+					$data_stases[] = $stase->jenis_stase;
+				}
+				$pesan          = 'Stase <strong>' . $nama_user . ' </strong>pada tanggal ';
+				$pesan         .= '<ul>';
+				foreach ($data as $k=> $d) {
+					$pesan .= '<li>Stase <strong>' . JenisStase::find( $d['jenis_stase_id'] )->jenis_stase . ' </strong>Periode <strong>01-' .$mulais[$k] . '</strong> sampai dengan <strong>01-' .date("Y-m-t", strtotime(Yoga::bulanTahun( $akhirs[$k] ))) . '</strong></li>';
+				}
+				$pesan         .= '</ul>';
+				$pesan         .= 'Berhasil diinput';
+				$pesan          = Yoga::suksesFlash($pesan);
+			} else {
+				$pesan          = Yoga::gagalFlash('Stase gagal diinput');
+			}
+			DB::commit();
+			if ( !is_null( Input::get('user_create') ) ) {
+				return redirect('users/' . Input::get('user_id'))->withPesan($pesan);
+			}
+			return redirect('stases')->withPesan($pesan);
+		} catch (\Exception $e) {
+			DB::rollback();
+			throw $e;
 		}
-		return redirect('stases')->withPesan($pesan);
 	}
 	public function destroy($id){
 		$stase = Stase::find( $id );
 		$pesan = Yoga::suksesFlash('Stase <strong>' .$stase->user->nama . '</strong> di <strong>' . $stase->jenisStase->jenis_stase . '</strong> periode <strong>' . $stase->mulai->format('01 M Y'). '</strong> s/d <strong>' .$stase->akhir->format('t M Y'). '</strong> berhasil dihapus');
 		Stase::destroy( $id );
+		if ( !is_null( Input::get('user_create') ) ) {
+			return redirect('users/' . Input::get('user_id'))->withPesan($pesan);
+		}
 		return redirect('stases')->withPesan($pesan);
 	}
 	public function edit($id){
@@ -119,8 +134,24 @@ class StasesController extends Controller
 		$stase->save();
 
 		$pesan = Yoga::suksesFlash('Stase berhasil diubah');
+		if ( !is_null( Input::get('user_create') ) ) {
+			return redirect('users/' . Input::get('user_id'))->withPesan($pesan);
+		}
 		return redirect('stases')->withPesan($pesan);
 	}
+
+	public function getMonth(){
+		$jenis_stase_id = Input::get('jenis_stase_id');
+		$jenis_stase    = JenisStase::find($jenis_stase_id);
+		$bulan          = $jenis_stase->bulan;
+		$mulai          = Input::get('mulai');
+		$mulai          = Yoga::bulanTahun($mulai) . '-01';
+		$mulai          = Carbon::parse($mulai);
+		$akhir          = $mulai->addMonths($bulan -1);
+		$akhir          = date('m-Y', strtotime($akhir));
+		return $akhir;
+	}
+	
 	
 	
 	

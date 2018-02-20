@@ -162,6 +162,10 @@ class User extends Authenticatable
 	public function no_telps(){
 		return $this->hasMany('App\NoTelp');
 	}
+	public function ujian(){
+		return $this->hasMany('App\Ujian');
+	}
+	
 	public function getArraytelpAttribute(){
 		$no_telps = $this->no_telps;
 		$data = [];

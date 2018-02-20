@@ -21,11 +21,8 @@ class UjiansController extends Controller
 		return view('ujians.create');
 	}
 	public function edit($id){
-		$ujian = Ujian::find($id);
-		$edit_penguji = [];
-		foreach ($ujian->penguji as $penguji) {
-			$edit_penguji[] = $penguji->user_id;
-		}
+		$ujian        = Ujian::find($id);
+		$edit_penguji = $this->edit_penguji($ujian);
 		return view('ujians.edit', compact('ujian', 'edit_penguji'));
 	}
 	public function store(Request $request){
@@ -46,7 +43,7 @@ class UjiansController extends Controller
 			foreach ($pengujis as $penguji) {
 				$penguji_array[] = [
 					'ujian_id'   => $ujian->id,
-					'penguji_id' => $penguji,
+					'user_id' => $penguji,
 					'created_at' => $timestamp,
 					'updated_at' => $timestamp
 				];
@@ -54,6 +51,9 @@ class UjiansController extends Controller
 			Penguji::insert($penguji_array);
 			$pesan = Yoga::suksesFlash('Ujian baru berhasil dibuat');
 			DB::commit();
+			if (!is_null( Input::get('user_create') )) {
+				return redirect('users/' . Input::get('user_id'))->withPesan($pesan);
+			}
 			return redirect('ujians')->withPesan($pesan);
 		} catch (\Exception $e) {
 			DB::rollback();
@@ -78,7 +78,7 @@ class UjiansController extends Controller
 			foreach ($pengujis as $penguji) {
 				$penguji_array[] = [
 					'ujian_id'   => $id,
-					'penguji_id' => $penguji,
+					'user_id'    => $penguji,
 					'created_at' => $timestamp,
 					'updated_at' => $timestamp
 				];
@@ -87,6 +87,9 @@ class UjiansController extends Controller
 			Penguji::insert($penguji_array);
 			$pesan = Yoga::suksesFlash('Ujian baru berhasil dibuat');
 			DB::commit();
+			if ( !is_null( Input::get('user_create') )) {
+				return redirect('users/' . Input::get('user_id'))->withPesan($pesan);
+			}
 			return redirect('ujians')->withPesan($pesan);
 		} catch (\Exception $e) {
 			DB::rollback();
@@ -97,6 +100,9 @@ class UjiansController extends Controller
 		Ujian::destroy($id);
 		Penguji::where('ujian_id', $id)->delete();
 		$pesan = Yoga::suksesFlash('Ujian berhasil dihapus');
+		if ( !is_null( Input::get('user_delete') ) ) {
+			return redirect('users/' . Input::get('user_id'))->withPesan($pesan);
+		}
 		return redirect('ujians')->withPesan($pesan);
 	}
 	public function import(){
@@ -138,5 +144,13 @@ class UjiansController extends Controller
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
 	}
+	public function edit_penguji($ujian){
+		$edit_penguji = [];
+		foreach ($ujian->penguji as $penguji) {
+			$edit_penguji[] = $penguji->user_id;
+		}
+		return $edit_penguji;
+	}
+	
 	
 }

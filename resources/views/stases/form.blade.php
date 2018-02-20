@@ -1,7 +1,9 @@
 <div class="form-group @if($errors->has('user_id')) has-error @endif">
 	{!! Form::label('user_id', 'Nama Residen', ['class' => 'control-label']) !!}
   @if(isset( $user_id ))
-	  {!! Form::select('user_id' , App\User::list(), $user_id, ['class' => 'form-control rq', 'readonly' => 'true']) !!}
+	  {!! Form::select('user_ids' , App\User::list(), $user_id, ['class' => 'form-control rq', 'disabled' => 'disabled']) !!}
+	  {!! Form::hidden('user_id', $user_id, ['class' => 'form-control']) !!}
+	  {!! Form::hidden('user_create', $user_id, ['class' => 'form-control']) !!}
   @else
 	  {!! Form::select('user_id' , App\User::list(), null, ['class' => 'form-control selectpick rq', 'data-live-search' => 'true']) !!}
   @endif
@@ -44,19 +46,24 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td>{!! Form::select('jenis_stase_id[]' , App\JenisStase::list(), null, ['class' => 'form-control rq stase']) !!}</td>
+				<td>{!! Form::select('jenis_stase_id[]' , App\JenisStase::list(), null, [
+					'class' => 'form-control rq stase'
+				]) !!}</td>
 				<td>
 					  @if( isset( $stase ) )
-						  {!! Form::text('mulai[]' , $stase->mulai->format('m-Y'), ['class' => 'form-control bulanTahun']) !!}
+						  {!! Form::text('mulai[]' , $stase->mulai->format('m-Y'), ['class' => 'form-control bulanTahun mulai']) !!}
 					  @else
-						  {!! Form::text('mulai[]' , null, ['class' => 'form-control bulanTahun']) !!}
+						  {!! Form::text('mulai[]' , null, [
+							  'class' => 'form-control bulanTahun mulai',
+							  'onblur' => 'mulaiChange(this); return false;',
+						  ]) !!}
 					  @endif
 				</td>
 				<td>
 					  @if( isset( $stase ) )
-						  {!! Form::text('akhir[]' , $stase->akhir->format('m-Y'), ['class' => 'form-control bulanTahun']) !!}
+						  {!! Form::text('akhir[]' , $stase->akhir->format('m-Y'), ['class' => 'form-control bulanTahun akhir']) !!}
 					  @else
-						  {!! Form::text('akhir[]' , null, ['class' => 'form-control bulanTahun']) !!}
+						  {!! Form::text('akhir[]' , null, ['class' => 'form-control bulanTahun akhir']) !!}
 					  @endif
 				</td>
 				<td><button class="btn btn-success btn-sm" onclick="tambahInput(this);return false;" type="button"> <i class="fa fa-plus" aria-hidden="true"></i>  </button></td>

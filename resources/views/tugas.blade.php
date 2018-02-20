@@ -1,6 +1,8 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-		<h2>Poli {{ date('M Y') }}</h2>
+		<h2>
+			Poli {{ date('M Y') }}
+		</h2>
 		<div class="table-responsive">
 			<table class="table table-hover table-condensed table-bordered">
 				<thead>

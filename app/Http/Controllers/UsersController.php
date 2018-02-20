@@ -4,12 +4,15 @@ use Illuminate\Http\Request;
 use App\User;
 use Input;
 use App\Yoga;
+use App\Ujian;
 use App\Pembacaan;
 use App\JenisStase;
 use App\Role;
 use App\Stase;
 use App\NoTelp;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UjiansController;
+use App\Http\Controllers\PembacaansController;
 use DB;
 class UsersController extends Controller
 {
@@ -23,8 +26,8 @@ class UsersController extends Controller
 	}
 	public function show($id){
 		$user             = User::find( $id );
-		$stasesResidens           = Stase::with('user', 'jenisStase')->where('user_id', $id)->orderBy('mulai')->get();
-		$pemb             = Pembacaan::with('user')->where('user_id', $id)->orderBy('tanggal')->get();
+		$stasesResidens   = Stase::with('user', 'jenisStase')->where('user_id', $id)->orderBy('mulai')->get();
+		$pembacaans       = Pembacaan::with('user')->where('user_id', $id)->orderBy('tanggal', 'desc')->get();
 		$pembacaans_sudah = [];
 		$pembacaans_belum = [];
 		$staseResidens = [];
@@ -36,7 +39,6 @@ class UsersController extends Controller
 		$gardenias            = $userThis->paramIndex($id)['gardenias'];
 		$rsnds                = $userThis->paramIndex($id)['rsnds'];
 		$pembacaan_bulan_inis = $userThis->paramIndex($id)['pembacaan_bulan_inis'];
-
 
 		return view('users.show', compact(
 			'poli_bulan_inis',
@@ -51,6 +53,7 @@ class UsersController extends Controller
 			'stases_belum',
 			'pembacaans_sudah',
 			'pembacaans_belum',
+			'pembacaans',
 			'stases'
 		));
 	}
@@ -286,4 +289,38 @@ class UsersController extends Controller
 			'user_id'
 		));
 	}
+	public function create_ujian($user_id){
+		return view('ujians.create', compact(
+			'user_id'
+		));
+	}
+	public function edit_ujian($user_id, $ujian_id){
+		$ujian        = Ujian::find($ujian_id);
+		$uji          = new UjiansController;
+		$edit_penguji = $uji->edit_penguji($ujian);
+		return view('ujians.edit', compact(
+			'user_id', 'ujian_id', 'ujian', 'edit_penguji'
+		));
+	}
+	public function create_pembacaan($user_id){
+		return view('pembacaans.create', compact(
+			'user_id'
+		));
+	}
+	public function edit_pembacaan($user_id, $pembacaan_id){
+		$pembacaan          = Pembacaan::find($pembacaan_id);
+		$pemb               = new PembacaansController;
+		$moderator_array_id = $pemb->moderator_pembahas_array($pembacaan)['moderator_array_id'];
+		$pembahas_array_id  = $pemb->moderator_pembahas_array($pembacaan)['pembahas_array_id'];
+		return view('pembacaans.edit', compact(
+			'user_id',
+			'moderator_array_id',
+			'pembahas_array_id',
+			'pembacaan'
+		));
+	}
+	
+	
+	
+	
 }

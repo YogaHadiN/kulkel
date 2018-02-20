@@ -1,9 +1,19 @@
+
 <div class="form-group @if($errors->has('user_id')) has-error @endif">
 	{!! Form::label('user_id', 'Presentan', ['class' => 'control-label']) !!}
-  {!! Form::select('user_id', App\User::list(),null, [
-	  'class'            => 'form-control selectpick rq',
-	  'data-live-search' => 'true'
-  ]) !!}
+	@if(isset($user_id))
+	  {!! Form::select('user_ids', App\User::list(), $user_id, [
+		  'class' => 'form-control',
+		  'disabled' => 'disabled'
+	  ]) !!}
+	  {!! Form::hidden('user_id', $user_id, ['class' => 'form-control']) !!}
+	  {!! Form::hidden('user_create', $user_id, ['class' => 'form-control']) !!}
+	@else
+	  {!! Form::select('user_id', App\User::list(), null, [
+		  'class' => 'form-control selectpick rq', 
+		  'data-live-search' => 'true'
+	  ]) !!}
+	@endif
   @if($errors->has('user_id'))<code>{{ $errors->first('user_id') }}</code>@endif
 </div>
 <div class="form-group @if($errors->has('jenis_pembacaan_id')) has-error @endif">
@@ -24,12 +34,12 @@
 @if( isset( $pembacaan ) )
 	<div class="form-group @if($errors->has('judul')) has-error @endif">
 		{!! Form::label('judul', 'Judul', ['class' => 'control-label']) !!}
-	  {!! Form::text('judul' , null, ['class' => 'form-control']) !!}
+		{!! Form::text('judul' , $pembacaan->judul, ['class' => 'form-control']) !!}
 	  @if($errors->has('judul'))<code>{{ $errors->first('judul') }}</code>@endif
 	</div>
 	<div class="form-group @if($errors->has('doi')) has-error @endif">
 		{!! Form::label('doi', 'DOI', ['class' => 'control-label']) !!}
-	  {!! Form::text('doi' , null, ['class' => 'form-control']) !!}
+		{!! Form::text('doi' , $pembacaan->doi, ['class' => 'form-control']) !!}
 	  @if($errors->has('doi'))<code>{{ $errors->first('doi') }}</code>@endif
 	</div>
 @endif

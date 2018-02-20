@@ -65,6 +65,23 @@
 	function kurangInput(control){
 		$(control).closest('tr').remove();
 	}
+	function mulaiChange(control){
+
+	setTimeout( function() {
+		var jenis_stase_id = $(control).closest('tr').find('select').val();
+		var mulai = $(control).closest('tr').find('.mulai').val();
+		$.get('{{ url('stases/getMonth') }}',
+			{ 
+				'jenis_stase_id': jenis_stase_id,
+				'mulai': mulai
+			},
+			function (data, textStatus, jqXHR) {
+				data = $.trim(data);
+				$(control).closest('tr').find('.akhir').val(data);
+			}
+		);
+	  }, 200);
+	}
 </script>
 @stop
 

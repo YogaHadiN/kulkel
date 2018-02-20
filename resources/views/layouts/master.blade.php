@@ -96,6 +96,7 @@
                             <li>{!! HTML::link('rsnds', 'Rsnd')!!}</li>
                             <li>{!! HTML::link('gardenias', 'Gardenia')!!}</li>
                             <li>{!! HTML::link('ujians', 'Ujian')!!}</li>
+                            <li>{!! HTML::link('sub_bagians', 'Sub Bagian')!!}</li>
                         </ul>
                     </li>
 					<li>
