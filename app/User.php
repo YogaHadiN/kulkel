@@ -190,7 +190,7 @@ class User extends Authenticatable
 		 
 	}
 	public static function listNoNull(){
-		return  User::pluck('nama',  'id')->all();
+		return  User::pluck('panggilan',  'id')->all();
 	}
 	
 	
