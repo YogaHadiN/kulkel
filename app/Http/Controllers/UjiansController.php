@@ -157,7 +157,7 @@ class UjiansController extends Controller
 		$jenis_ujian_id = Input::get('jenis_ujian_id');
 		$jenis_ujian    = JenisUjian::find( $jenis_ujian_id );
 		$jenis_stase_id = $jenis_ujian->jenis_stase_id;
-		$sub_bagians    = SubBagian::where('jenis_stase_id', $jenis_stase_id)->get();
+		$sub_bagians    = SubBagian::where('jenis_stase_id', $jenis_stase_id)->whereIn('jenis_penguji_id', [2,3,4])->get();
 		$user_ids = [];
 		foreach ($sub_bagians as $sub_bagian) {
 			$user_ids[] = $sub_bagian->user_id;

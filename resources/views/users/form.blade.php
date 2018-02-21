@@ -1,9 +1,16 @@
 <div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 		<div class="form-group @if($errors->has('nama')) has-error @endif">
 		  {!! Form::label('nama', 'Nama', ['class' => 'control-label']) !!}
 		  {!! Form::text('nama', null, ['class' => 'form-control rq']) !!}
 		  @if($errors->has('nama'))<code>{{ $errors->first('nama') }}</code>@endif
+		</div>
+	</div>
+	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+		<div class="form-group @if($errors->has('panggilan')) has-error @endif">
+		  {!! Form::label('panggilan', 'Panggilan', ['class' => 'control-label']) !!}
+		  {!! Form::text('panggilan', null, ['class' => 'form-control rq']) !!}
+		  @if($errors->has('panggilan'))<code>{{ $errors->first('panggilan') }}</code>@endif
 		</div>
 	</div>
 </div>

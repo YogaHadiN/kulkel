@@ -93,6 +93,7 @@ class UsersController extends Controller
 			}
 			$user                       = new User;
 			$user->nama                 = Input::get('nama');
+			$user->panggilan                 = Input::get('panggilan');
 			$user->inisial              = Input::get('inisial');
 			$user->role_id              = Input::get('role_id');
 			if ( !empty( trim( Input::get('tanggal_lahir') ) ) ) {
@@ -143,6 +144,7 @@ class UsersController extends Controller
 		];
 		$rules = [
 			'nama'             => 'required',
+			'panggilan'             => 'required',
 			'email'            => 'required|unique:users,email,' . $id,
 			'password'         => 'confirmed'
 		];
@@ -158,6 +160,7 @@ class UsersController extends Controller
 		try {
 			$user                   = User::find($id);
 			$user->nama             = Input::get('nama');
+			$user->panggilan                 = Input::get('panggilan');
 			$user->inisial          = Input::get('inisial');
 			$user->role_id          = Input::get('role_id');
 			if ( !empty( Input::get('tanggal_lahir') ) ) {
@@ -237,6 +240,7 @@ class UsersController extends Controller
 		];
 		$rules = [
 			'nama'             => 'required',
+			'panggilan'             => 'required',
 			'email'            => 'required|unique:users,email',
 			'password'         => 'confirmed'
 		];
