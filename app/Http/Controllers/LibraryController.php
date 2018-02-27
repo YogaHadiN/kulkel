@@ -150,6 +150,16 @@ class LibraryController extends Controller
 		$pinjam->admin_kembalikan_id = Input::get('admin_kembalikan_id');
 		$pinjam->save();
 
+		$user = User::find( Input::get('peminjam_id') );
+		$buku = Perpus::find( Input::get('perpus_id') );
+
+		$data = [
+			'nama'        => $pinjam->peminjam->nama,
+			'nama_buku'   => $pinjam->perpus->nama_buku,
+			'email'       => $pinjam->peminjam->email,
+			'subject'     => 'Konfirmasi Pengembalian Buku'
+		];
+		$this->EmailKembalikan($data);
 		$pesan = Yoga::suksesFlash('Buku <strong>' . $pinjam->perpus->nama_buku . ' </strong>berhasil dikembalikan oleh <strong>' . $pinjam->peminjam->nama . '</strong>');
 		return redirect('library')->withPesan($pesan);
 
@@ -209,6 +219,14 @@ class LibraryController extends Controller
 			'pinjams'
 		));
 	}
+	public function EmailKembalikan($data){
+		Mail::send('emails.kembalikan', $data, function($message) use ($data){
+			$message->from( 'admin@dvundip.com', 'Admin DV UNDIP' );
+			$message->to($data['email']);
+			$message->subject($data['subject']);
+		});
+	}
+	
 	
 	
 }
