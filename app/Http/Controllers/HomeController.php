@@ -32,7 +32,6 @@ class HomeController extends Controller
     {
 		$id = Auth::id();
 
-
 		$poli_bulan_inis      = $this->paramIndex($id)['poli_bulan_inis'];
 		$stases               = $this->paramIndex($id)['stases'];
 		$gardenias            = $this->paramIndex($id)['gardenias'];

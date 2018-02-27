@@ -13,4 +13,7 @@ class JenisStase extends Model
 	public function user(){
 		return $this->belongsTo('App\User');
 	}
+	public function jenisUjian(){
+		return $this->belongsTo('App\JenisUjian');
+	}
 }

@@ -20,6 +20,9 @@ Auth::routes();
 Route::get('logout', 'Auth\LoginController@logout')->name('logout' );
 Route::group(['middleware' => 'auth'], function () {
 
+	Route::get('emails', 'EmailController@index');
+	Route::post('emails', 'EmailController@postMail');
+	Route::resource('email', 'EmailController');
 	Route::get('users/{user_id}/pembacaans/{pembacaan_id}/edit', 'UsersController@edit_pembacaan');
 	Route::get('users/{user_id}/pembacaans/create', 'UsersController@create_pembacaan');
 	Route::get('users/{user_id}/ujians/{ujian_id}/edit', 'UsersController@edit_ujian');

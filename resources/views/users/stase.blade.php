@@ -19,6 +19,7 @@
 								<th>Stase</th>
 								<th>Mulai</th>
 								<th>Akhir</th>
+								<th>Bulan</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -34,6 +35,7 @@
 										<td>{{ $staseResiden->jenisStase->jenis_stase }}</td>
 										<td>{{ $staseResiden->mulai->format('d M Y') }}</td>
 										<td>{{ $staseResiden->akhir->format('t M Y') }}</td>
+										<td>{{ App\Ujian::monthPassed($staseResiden->mulai, $staseResiden->akhir) }} bulan</td>
 										<td> 
 
 

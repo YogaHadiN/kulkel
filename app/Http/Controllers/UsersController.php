@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Input;
 use App\Yoga;
+use App\JenisUjian;
 use App\Ujian;
 use App\Pembacaan;
 use App\JenisStase;
@@ -25,7 +26,8 @@ class UsersController extends Controller
 		return view('users.create');
 	}
 	public function show($id){
-		$user             = User::find( $id );
+
+		$user             = User::with('role', 'no_telps')->where('id', $id )->first();
 		$stasesResidens   = Stase::with('user', 'jenisStase')->where('user_id', $id)->orderBy('mulai')->get();
 		$pembacaans       = Pembacaan::with('user')->where('user_id', $id)->orderBy('tanggal', 'desc')->get();
 		$pembacaans_sudah = [];
@@ -33,23 +35,33 @@ class UsersController extends Controller
 		$staseResidens = [];
 
 		$userThis = new HomeController;
+		$thisUser = $userThis->paramIndex($id);
 
-		$poli_bulan_inis      = $userThis->paramIndex($id)['poli_bulan_inis'];
-		$stases               = $userThis->paramIndex($id)['stases'];
-		$gardenias            = $userThis->paramIndex($id)['gardenias'];
-		$rsnds                = $userThis->paramIndex($id)['rsnds'];
-		$pembacaan_bulan_inis = $userThis->paramIndex($id)['pembacaan_bulan_inis'];
+		$poli_bulan_inis      = $thisUser['poli_bulan_inis'];
+		$stases               = $thisUser['stases'];
+		$gardenias            = $thisUser['gardenias'];
+		$rsnds                = $thisUser['rsnds'];
+		$pembacaan_bulan_inis = $thisUser['pembacaan_bulan_inis'];
 
+		$stases = Stase::with('jenisStase.jenisUjian')
+						->where('user_id', $id)
+						->where('akhir', '<=', date('Y-m-d H:i:s'))
+						->get();
+
+		$ujian_sudahs   = Ujian::where('user_id', $id)->where('tanggal', '<=', date('Y-m-d'))->get(['jenis_ujian_id']);
+		$tundaan_ujians = $this->tundaan_ujian($stases, $ujian_sudahs, $id);
 		return view('users.show', compact(
 			'poli_bulan_inis',
 			'stasesResidens',
 			'gardenias',
+			'tundaan_ujians',
 			'rsnds',
 			'pembacaan_bulan_inis',
 			'id',
 			'user',
 			'jenisStases',
 			'stases_sudah',
+			'jenis_ujian_belum',
 			'stases_belum',
 			'pembacaans_sudah',
 			'pembacaans_belum',
@@ -323,6 +335,55 @@ class UsersController extends Controller
 			'pembacaan'
 		));
 	}
+	public function tundaan_ujian($stases, $ujian_sudahs, $id){
+		$data                       = [];
+		$stase_selesai              = [];
+		$jenis_stase_harusnya_ujian = [];
+		foreach ($stases as $stase) {
+			$data[$stase->jenis_stase_id]['jenis_stase']    = $stase->JenisStase->jenis_stase;
+			$data[$stase->jenis_stase_id]['jenis_stase_id'] = $stase->jenis_stase_id;
+			if (isset($data[$stase->jenis_stase_id]['bulan'])) {
+				$data[$stase->jenis_stase_id]['bulan'] += Ujian::monthPassed($stase->mulai, $stase->akhir);
+			} else {
+				$data[$stase->jenis_stase_id]['bulan'] =  Ujian::monthPassed($stase->mulai, $stase->akhir);
+			}
+			if (isset($data[$stase->jenis_stase_id]['bulan']) && $data[$stase->jenis_stase_id]['bulan'] >= $stase->jenisStase->bulan) {
+				$stase_selesai[ $stase->jenis_stase_id ]['jenis_stase']    = $stase->jenisStase->jenis_stase;
+				$stase_selesai[ $stase->jenis_stase_id ]['akhir_stase']    = $stase->akhir;
+				$stase_selesai[ $stase->jenis_stase_id ]['jenis_ujians']    = $stase->jenisStase;
+				$stase_selesai[ $stase->jenis_stase_id ]['jenis_stase_id'] = $stase->jenis_stase_id;
+				if (isset($stase_selesai[ $stase->jenis_stase_id ]['bulan'])) {
+					$stase_selesai[ $stase->jenis_stase_id ]['bulan'] += Ujian::monthPassed($stase->mulai, $stase->akhir);
+				}else {
+					$stase_selesai[ $stase->jenis_stase_id ]['bulan'] = $data[$stase->jenis_stase_id]['bulan'];
+				}
+				$jenis_stase_harusnya_ujian[] = $stase->jenis_stase_id;
+			}
+		}
+		$harusnya_ujian = JenisUjian::whereIn('jenis_stase_id', $jenis_stase_harusnya_ujian)->get();
+		$harusnya_ujian_ids = [];
+		foreach ($harusnya_ujian as $jenis_ujian) {
+			$harusnya_ujian_ids[] = $jenis_ujian->id;
+		}
+		$tundaan_ujians  = [];
+		$ujian_sudah_ids = [];
+		foreach ($ujian_sudahs as $ujian) {
+			$ujian_sudah_ids[] = $ujian->jenis_ujian_id;
+		}
+		foreach ($harusnya_ujian as $k => $harusnya) {
+			if ( !in_array($harusnya->id, $ujian_sudah_ids) ) {
+				$tundaan_ujians[] = [
+					'tundaan' => $harusnya,
+					'akhir'   => Stase::where('user_id', $id)->where('jenis_stase_id', $harusnya->jenis_stase_id)->orderBy('akhir', 'desc')->first()->akhir
+				];
+			}
+		}
+		usort($tundaan_ujians, function($a, $b) {
+			return $a['akhir'] <=> $b['akhir'];
+		});
+		return $tundaan_ujians;
+	}
+	
 	
 	
 	
