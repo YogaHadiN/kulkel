@@ -44,7 +44,7 @@ class EmailController extends Controller
 		];
 
 		Mail::send('emails.formMail', $data, function($message) use ($data){
-			$message->from( 'ppdsdvkontak@gmail.com', 'laravel2' );
+			$message->from( 'admin@dvundip.com', 'Admin DV UNDIP' );
 			$message->to($data['email']);
 			$message->subject($data['subject']);
 		});
