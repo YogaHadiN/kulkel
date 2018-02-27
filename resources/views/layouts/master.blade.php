@@ -107,7 +107,11 @@
                         </ul>
                     </li>
 					<li>
-                        <a href="{{ url('library') }}"><i class="fa fa-th-large"></i> <span class="nav-label">E Library</span></a>
+                        <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">E Library</span><span class="fa arrow"></span></a>
+						<ul class="nav nav-second-level">
+                            <li>{!! HTML::link('library', 'Daftar Buku')!!}</li>
+                            <li>{!! HTML::link('library/riwayatPeminjaman', 'Riwayat Peminjaman')!!}</li>
+                        </ul>
                     </li>
 					<li>
                         <a href="{{ url('events') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Event</span></a>

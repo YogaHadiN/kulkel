@@ -15,6 +15,7 @@ Route::get('/', 'WelcomeController@index');
 Route::get('about', 'WelcomeController@about');
 Route::get('beritas', 'WelcomeController@events');
 Route::get('beritas/{id}', 'WelcomeController@show');
+Route::get('library/{token}/konfirmasi', 'LibraryController@konfirmasi');
 Auth::routes();
 
 Route::get('logout', 'Auth\LoginController@logout')->name('logout' );
@@ -37,6 +38,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('library/kembalikan/{id}', 'LibraryController@kembalikan');
 		Route::put('library/kembalikan/{id}', 'LibraryController@kembalikanBuku');
 		Route::post('library/pinjam', 'LibraryController@pinjamBuku');
+		Route::get('library/riwayatPeminjaman', 'LibraryController@riwayatPeminjaman');
 	});
 	Route::resource('library', 'LibraryController');
 	Route::resource('gardenias', 'GardeniasController');

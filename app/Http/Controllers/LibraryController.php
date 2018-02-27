@@ -12,6 +12,7 @@ use App\Console\Commands\test;
 use DB;
 use Auth;
 use Excel;
+use Mail;
 
 class LibraryController extends Controller
 {
@@ -38,11 +39,11 @@ class LibraryController extends Controller
 		));
 	}
 	public function store(){
-		$perpus       = new Perpus;
-		$perpus->nomor_buku   = Input::get('nomor_buku');
-		$perpus->nama_buku   = Input::get('nama_buku');
-		$perpus->pengarang   = Input::get('pengarang');
-		$perpus->terbit   = Input::get('terbit');
+		$perpus             = new Perpus;
+		$perpus->nomor_buku = Input::get('nomor_buku');
+		$perpus->nama_buku  = Input::get('nama_buku');
+		$perpus->pengarang  = Input::get('pengarang');
+		$perpus->terbit     = Input::get('terbit');
 		$perpus->save();
 	
 		$pesan = Yoga::suksesFlash('Buku baru berhasil dibuat');
@@ -93,7 +94,9 @@ class LibraryController extends Controller
 	public function pinjamBuku(){
 		DB::beginTransaction();
 		try {
+			$token                                = Yoga::generate_salt(15);
 			$pinjam                               = new PinjamBuku;
+			$pinjam->token                        = $token;
 			$pinjam->peminjam_id                  = Input::get('peminjam_id');
 			$pinjam->admin_id                     = Input::get('admin_id');
 			$pinjam->perpus_id                    = Input::get('perpus_id');
@@ -101,11 +104,21 @@ class LibraryController extends Controller
 			$pinjam->perkiraan_tanggal_kembalikan = Yoga::datePrep(Input::get('perkiraan_tanggal_kembalikan'));
 			$pinjam->save();
 
-			$buku = Perpus::find( Input::get('perpus_id') );
 			$user = User::find( Input::get('peminjam_id') );
+			$buku = Perpus::find( Input::get('perpus_id') );
+
+			$data = [
+				'nama'        => $user->nama,
+				'nama_buku'   => $buku->nama_buku,
+				'email'       => $user->email,
+				'token'       => $token,
+				'subject'     => 'Konfirmasi Peminjaman Buku',
+				'bodyMessage' => Input::get('message')
+			];
+			$this->EmailPerpus($data);
 
 			DB::commit();
-			return redirect('library');
+			return redirect('library/riwayatPeminjaman');
 		} catch (\Exception $e) {
 			DB::rollback();
 			throw $e;
@@ -131,9 +144,10 @@ class LibraryController extends Controller
 		));
 	}
 	public function kembalikanBuku($id){
-		$pinjam                     = PinjamBuku::find($id);
-		$pinjam->tanggal_kembalikan = Yoga::datePrep( Input::get('tanggal_kembalikan') );
-		$pinjam->admin_kembalikan_id   = Input::get('admin_kembalikan_id');
+
+		$pinjam                      = PinjamBuku::find($id);
+		$pinjam->tanggal_kembalikan  = Yoga::datePrep( Input::get('tanggal_kembalikan') );
+		$pinjam->admin_kembalikan_id = Input::get('admin_kembalikan_id');
 		$pinjam->save();
 
 		$pesan = Yoga::suksesFlash('Buku <strong>' . $pinjam->perpus->nama_buku . ' </strong>berhasil dikembalikan oleh <strong>' . $pinjam->peminjam->nama . '</strong>');
@@ -169,4 +183,32 @@ class LibraryController extends Controller
 		$pesan = Yoga::suksesFlash('Import Data Berhasil');
 		return redirect()->back()->withPesan($pesan);
 	}
+	public function EmailPerpus($data){
+		Mail::send('emails.formMail', $data, function($message) use ($data){
+			$message->from( 'admin@dvundip.com', 'Admin DV UNDIP' );
+			$message->to($data['email']);
+			$message->subject($data['subject']);
+		});
+	}
+	public function konfirmasi($token){
+		$buku          = PinjamBuku::where('token', $token)->first();
+		$buku->confirm = 1;
+		$buku->token   = null;
+		if($buku->save()){
+			return 'peminjaman berhasil';
+		} else {
+			return 'peminjaman tidak berhasil';
+		}
+
+		
+		
+	}
+	public function riwayatPeminjaman(){
+		$pinjams = PinjamBuku::orderBy('updated_at', 'desc')->get();
+		return view('library.riwayat', compact(
+			'pinjams'
+		));
+	}
+	
+	
 }

@@ -8,7 +8,7 @@ class CreatePinjamBukusTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+ terima kasih    *
      * @return void
      */
     public function up()
