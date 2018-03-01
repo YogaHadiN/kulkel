@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Poli;
+use App\Ujian;
 use App\Stase;
 use App\Gardenia;
 use App\Rsnd;
 use App\Pembacaan;
-
+use App\Http\Controllers\UsersController;
 
 class HomeController extends Controller
 {
@@ -37,11 +38,19 @@ class HomeController extends Controller
 		$gardenias            = $this->paramIndex($id)['gardenias'];
 		$rsnds                = $this->paramIndex($id)['rsnds'];
 		$pembacaan_bulan_inis = $this->paramIndex($id)['pembacaan_bulan_inis'];
+		$stases = Stase::with('jenisStase.jenisUjian')
+						->where('user_id', $id)
+						->where('akhir', '<=', date('Y-m-d H:i:s'))
+						->get();
 
+		$userController = new UsersController;
+		$ujian_sudahs   = Ujian::where('user_id', $id)->where('tanggal', '<=', date('Y-m-d'))->get(['jenis_ujian_id']);
+		$tundaan_ujians = $userController->tundaan_ujian($stases, $ujian_sudahs, $id);
 
 		return view('home', compact(
 			'poli_bulan_inis',
 			'stases',
+			'tundaan_ujians',
 			'rsnds',
 			'gardenias',
 			'pembacaan_bulan_inis'

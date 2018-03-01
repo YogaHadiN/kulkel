@@ -94,7 +94,7 @@ class LibraryController extends Controller
 	public function pinjamBuku(){
 		DB::beginTransaction();
 		try {
-			$token                                = Yoga::generate_salt(15);
+			$token                                = Yoga::generate_salt(32);
 			$pinjam                               = new PinjamBuku;
 			$pinjam->token                        = $token;
 			$pinjam->peminjam_id                  = Input::get('peminjam_id');
@@ -201,17 +201,17 @@ class LibraryController extends Controller
 		});
 	}
 	public function konfirmasi($token){
-		$buku          = PinjamBuku::where('token', $token)->first();
-		$buku->confirm = 1;
-		$buku->token   = null;
-		if($buku->save()){
-			return 'peminjaman berhasil';
-		} else {
-			return 'peminjaman tidak berhasil';
+		try {
+			$buku          = PinjamBuku::where('token', $token)->firstOrFail();
+			if ($buku->confirm) {
+				return '<h1>peminjaman telah berhasil</h1>';
+			}
+			$buku->confirm = 1;
+			$buku->save()
+			return '<h1>peminjaman berhasil</h1>';
+		} catch (\Exception $e) {
+			return '<h1>peminjaman tidak berhasil</h1>';
 		}
-
-		
-		
 	}
 	public function riwayatPeminjaman(){
 		$pinjams = PinjamBuku::orderBy('updated_at', 'desc')->get();

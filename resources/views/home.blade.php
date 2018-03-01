@@ -28,7 +28,22 @@ Kulkel UNDIP |
 		</h1>
 	</div>
 	<div class="panel-body">
-		@include('tugas')
+		<div>
+		  <!-- Nav tabs -->
+		  <ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Tugas</a></li>
+			<li role="presentation"><a href="#tundaan_ujian" aria-controls="tundaan_ujian" role="tab" data-toggle="tab">Tundaan Ujian</a></li>
+		  </ul>
+		  <!-- Tab panes -->
+		  <div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="home">
+				@include('tugas')
+			</div>
+			<div role="tabpanel" class="tab-pane" id="tundaan_ujian">
+				@include('users.tundaan_ujians')
+			</div>
+		  </div>
+		</div>
 	</div>
 </div>
 @stop
