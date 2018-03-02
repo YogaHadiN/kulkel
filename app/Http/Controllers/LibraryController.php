@@ -207,7 +207,7 @@ class LibraryController extends Controller
 				return '<h1>peminjaman telah berhasil</h1>';
 			}
 			$buku->confirm = 1;
-			$buku->save()
+			$buku->save();
 			return '<h1>peminjaman berhasil</h1>';
 		} catch (\Exception $e) {
 			return '<h1>peminjaman tidak berhasil</h1>';
