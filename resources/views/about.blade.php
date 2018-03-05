@@ -45,7 +45,7 @@
      <p>Klinik Bedah Kulit mengalami banyak kemajuan, saat ini dapat dilakukan tindakan eksisi, bedah listrik, bedah beku, dermabrasi, augmentasi jaringan lunak dan skleroterapi dan Bedah Laser.</p>
      <p>Klinik Bedah Kulit mengalami banyak kemajuan, saat ini dapat dilakukan tindakan eksisi, bedah listrik, bedah beku, dermabrasi, augmentasi jaringan lunak dan skleroterapi dan Bedah Laser.</p>
 	  <h2 class="mt-4">Visi</h2>
-	  <p>Menjadi program studi yang menghasilkan lulusan dokter Spesialis Dermatovenereologi yang diakui tingkat nasional dan internasional 2020.  </p>
+	  <p>Menjadi program studi yang menghasilkan lulusan dokter Spesialis Kulit dan Kelamin yang unggul dibidang kedokteran dan kesehatan khususnya Ilmu Kesehatan Kulit dan Kelamin pada tahun 2025.</p>
 	  <h2 class="mt-4">Misi</h2>
 	  <p>
 	  <ol>
