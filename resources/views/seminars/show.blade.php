@@ -63,7 +63,6 @@
 							<th>Topik</th>
 							<th>Pembicara</th>
 							<th>Jam Mulai</th>
-							<th>Jam Selesai</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -75,7 +74,6 @@
 									<td> <a class="" href="{{ $topik->link_materi }}">{{ $topik->topik }}</a> </td>
 									<td>{{ $topik->pembicara }}</td>
 									<td>{{ $topik->jam_mulai }}</td>
-									<td>{{ $topik->jam_selesai }}</td>
 									<td nowrap class="autofit"> 
 										{!! Form::open(['url' => 'topiks/' .$topik->id, 'method' => 'delete']) !!}
 											<a class="btn btn-info btn-xs" href="{{ $topik->link_materi }}"><span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span></a>

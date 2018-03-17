@@ -289,15 +289,12 @@
                 autoclose: true,
                 format: 'dd-mm-yyyy'
             });
-			            $('#timepicker5').timepicker({
-                template: false,
-                showInputs: false,
-                minuteStep: 5
-            });
 
             $('.jam').timepicker({
                 showInputs: false,
                 defaultTime: 'current',
+                maxHours: 24,
+				showMeridian : false,
                 minuteStep: 5
             });
 			$('.tanggal').attr('placeholder', 'dd-mm-YYYY');
