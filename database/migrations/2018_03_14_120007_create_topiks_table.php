@@ -21,7 +21,6 @@ class CreateTopiksTable extends Migration
             $table->string('link_materi')->nullable();
             $table->string('nama_file_materi')->nullable();
             $table->time('jam_mulai');
-            $table->time('jam_selesai');
             $table->timestamps();
         });
     }

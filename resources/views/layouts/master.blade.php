@@ -202,23 +202,34 @@
         </div>
         </div>
             {{--{!! HTML::script("js/all.js")!!}--}}
-    <script src="{!! asset('js/all.js') !!}"></script>
-    <script src="{!! asset('js/Numeral-js/min/numeral.min.js') !!}"></script>
+    {{-- <script src="{!! asset('js/all.js') !!}"></script> --}}
+    <script src="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js') !!}"></script>
+    {{-- <script src="{!! asset('js/Numeral-js/min/numeral.min.js') !!}"></script> --}}
+    {{-- <script src="{!! url('js/jquery-2.1.1.js') !!}"></script> --}}
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    {{-- <script src="{!! url('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js') !!}"></script> --}}
     <script src="{!! url('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js') !!}"></script>
-    <!-- Mainly scripts 
-    <script src="{!! url('js/jquery-2.1.1.js') !!}"></script>
-    <script src="{!! url('js/bootstrap.min.js') !!}"></script>
-    <script src="{!! url('js/plugins/metisMenu/jquery.metisMenu.js') !!}"></script>
-    <script src="{!! url('js/plugins/slimscroll/jquery.slimscroll.min.js') !!}"></script>
-    <script src="{!! url('js/plugins/jeditable/jquery.jeditable.js') !!}"></script>
-    <script src="{!! url('js/bootstrap-select.min.js') !!}"></script>
-    <script src="{!! url('js/plugins/datepicker/bootstrap-datepicker.js') !!}" type="text/javascript"></script>
-    <script src="{!! url('js/plugins/dataTables/jquery.dataTables.min.js') !!}"></script>
-    <script src="{!! url('js/plugins/dataTables/dataTables.bootstrap.min.js') !!}"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    {{-- <script src="{!! url('js/bootstrap.min.js') !!}"></script> --}}
+    <script src="{!! url('https://cdnjs.cloudflare.com/ajax/libs/metisMenu/2.7.4/metisMenu.min.js') !!}"></script>
+    {{-- <script src="{!! url('js/plugins/metisMenu/jquery.metisMenu.js') !!}"></script> --}}
+    <script src="{!! url('https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.8/jquery.slimscroll.min.js') !!}"></script>
+    {{-- <script src="{!! url('js/plugins/slimscroll/jquery.slimscroll.min.js') !!}"></script> --}}
+    <script src="{!! url('https://cdnjs.cloudflare.com/ajax/libs/jeditable.js/1.7.3/jeditable.min.js') !!}"></script>
+    {{-- <script src="{!! url('js/plugins/jeditable/jquery.jeditable.js') !!}"></script> --}}
+    <script src="{!! url('https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap-select/0.14.0/js/bootstrap-select.min.js') !!}"></script>
+    {{-- <script src="{!! url('js/bootstrap-select.min.js') !!}"></script> --}}
+    <script src="{!! url('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js') !!}" type="text/javascript"></script>
+    {{-- <script src="{!! url('js/plugins/datepicker/bootstrap-datepicker.js') !!}" type="text/javascript"></script> --}}
+    <script src="{!! url('https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/js/jquery.dataTables.min.js') !!}"></script>
+    {{-- <script src="{!! url('js/plugins/dataTables/jquery.dataTables.min.js') !!}"></script> --}}
+    <script src="{!! url('https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/js/dataTables.bootstrap.min.js') !!}"></script>
+    {{-- <script src="{!! url('js/plugins/dataTables/dataTables.bootstrap.min.js') !!}"></script> --}}
     <script src="{!! url('js/plugins/dataTables/dataTables.responsive.min.js') !!}"></script>
     <script src="{!! url('js/inspinia.js') !!}"></script>
-    <script src="{!! url('js/plugins/pace/pace.min.js') !!}"></script>
-    WebCam -->
+    <script src="{!! url('https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js') !!}"></script>
+    {{-- <script src="{!! url('js/plugins/pace/pace.min.js') !!}"></script> --}}
     <script>
         $.ajaxSetup({
             headers: {

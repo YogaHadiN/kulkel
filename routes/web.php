@@ -23,7 +23,6 @@ Auth::routes();
 Route::get('logout', 'Auth\LoginController@logout')->name('logout' );
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('topiks/create/{id}', 'TopiksController@createTopik');
-	Route::resource('seminars', 'SeminarsController');
 	Route::resource('topiks', 'TopiksController');
 	Route::get('emails', 'EmailController@index');
 	Route::post('emails', 'EmailController@postMail');
@@ -37,12 +36,14 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('users/{user_id}/stase/{$stase_id}', 'UsersController@stase_create');
 	Route::get('home', 'HomeController@index');
 	Route::get('/library/view', 'LibraryController@view');
+	Route::get('seminars', 'SeminarsController@index');
 	Route::group(['middleware' => 'adminOnly'], function () {
 		Route::get('library/pinjam/{id}', 'LibraryController@pinjam');
 		Route::get('library/kembalikan/{id}', 'LibraryController@kembalikan');
 		Route::put('library/kembalikan/{id}', 'LibraryController@kembalikanBuku');
 		Route::post('library/pinjam', 'LibraryController@pinjamBuku');
 		Route::get('library/riwayatPeminjaman', 'LibraryController@riwayatPeminjaman');
+		Route::resource('seminars', 'SeminarsController');
 	});
 	Route::resource('library', 'LibraryController');
 	Route::resource('gardenias', 'GardeniasController');

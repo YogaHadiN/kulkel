@@ -1,9 +1,29 @@
-// Custom scripts
+// Custom script
 $(document).ready(function () {
+
+	$('.carousel').carousel({
+		interval: false
+	});
+
+	$("input[type='file']").on('change', function(){
+		readURL(this);
+	});
+   $('input, select, textarea').on('keyup change', function(){
+      $(this).parent()
+      .removeClass('has-error')
+      .find('code')
+      .fadeOut('1000', function() {
+          $(this).remove();
+      });
+   })   
     // MetsiMenu
     $('#side-menu').metisMenu();
 
     imgError();
+
+    $('.modal').on('hidden.bs.modal', function(){
+        $('.btn').removeAttr('disabled');
+    });
 
     // Collapse ibox function
     $('.collapse-link').click( function() {
@@ -59,16 +79,6 @@ $(document).ready(function () {
 
     $('.nav-tabs').addClass('nav-justified')
 
-    // Fixed Sidebar
-    // unComment this only whe you have a fixed-sidebar
-            //    $(window).bind("load", function() {
-            //        if($("body").hasClass('fixed-sidebar')) {
-            //            $('.sidebar-collapse').slimScroll({
-            //                height: 'auto',
-            //                railOpacity: 0.9,
-            //            });
-            //        }
-            //    })
 
     $(window).bind("load resize click scroll", function() {
         if(!$("body").hasClass('body-small')) {
@@ -86,8 +96,13 @@ $(document).ready(function () {
         var before = $(this).val();
         $(this).val(parseInt(before) || '');
     });
-
+    
+    $('form').on('submit', function(){
+        $('.btn').attr('disabled', 'disabled'); // but this doesn't work
+    });
+    
 });
+
 
 // For demo purpose - animation css script
 function animationHover(element, animation){
@@ -191,6 +206,7 @@ function WinMove() {
     .find('code')
     .hide()
     .fadeIn(1000);
+
 
    selector.on('keyup change', function(){
       $(this).parent()
@@ -316,14 +332,13 @@ function imgError() {
 
 function cleanUang(uang){
 
-    if (uang == '' || undefined) {
+    uang = uang.replace(/\./g,'');
+    uang = uang.split(",")[0];
+    uang = uang.split(" ")[1];
+    if (uang == 0) {
         uang = 0;
-    } else {
-        uang = uang.replace(/\./g,'');
-        uang = uang.split(",")[0];
-        uang = uang.split(" ")[1];
     }
-    return parseInt( uang );
+    return uang;
 }
 
 function validatePass(){
@@ -347,19 +362,165 @@ function validatePass(){
     }
     return pass;
 }
-
+function validatePass2(control){
+    var pass = true;
+    var string = '';
+    $(control).closest('form').find('.rq:not(div)').each(function(index, el) {
+      if ($(this).val() == '') {
+        string += $(this).closest('.form-group').find('label').html() + ', ';
+        validasi1($(this), 'Harus Diisi!!');
+        pass = false;
+      }
+    });
+    if (!pass) {
+        alert(string + ' tidak boleh dikosongkan');
+        $(control).closest('form').find('.rq').each(function(index, el) {
+          if ($(this).val() == '') {
+            $(this).focus();
+            return false;
+          }
+        });
+    }
+    return pass;
+}
 function formatUang(){
     $('.uang:not(:contains("Rp."))').each(function() {
         var number = $(this).html();
         number = number.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
-        $(this).html('Rp. ' + number + ',-');
+        $(this).html('Rp. ' + number.trim() + ',-');
     });
 }
 
 
 function uang(content){
-        var number = content;
-        number = number.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
-        return 'Rp. ' + number + ',-';
+    var number = content;
+    number = number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
+    return 'Rp. ' + number.trim() + ',-';
 }
 
+function uang2(content){
+    var number = content;
+    number = number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
+    return 'Rp. ' + number.trim();
+}
+
+function rupiahDibayarPasien(control) {
+    var number = $(control).val();
+    if (number.indexOf("Rp. ") >= 0){
+        number = clean(number);
+    }
+    number = number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1."); // 43,434
+    $(control).val('Rp. ' + number);
+}
+function print_tanpa_dialog(){
+    console.log('im in');
+    // set portrait orientation
+    jsPrintSetup.setOption('orientation', jsPrintSetup.kPortraitOrientation);
+    // set top margins in millimeters
+    jsPrintSetup.setOption('marginTop', 15);
+    jsPrintSetup.setOption('marginBottom', 15);
+    jsPrintSetup.setOption('marginLeft', 20);
+    jsPrintSetup.setOption('marginRight', 10);
+    // set page header
+    jsPrintSetup.setOption('headerStrLeft', 'My custom header');
+    jsPrintSetup.setOption('headerStrCenter', '');
+    jsPrintSetup.setOption('headerStrRight', '&PT');
+    // set empty page footer
+    jsPrintSetup.setOption('footerStrLeft', '');
+    jsPrintSetup.setOption('footerStrCenter', '');
+    jsPrintSetup.setOption('footerStrRight', '');
+    // Suppress print dialog
+    jsPrintSetup.setSilentPrint(true);
+    // Do Print
+    window.print();
+    // Restore print dialog
+    jsPrintSetup.setSilentPrint(false);
+}
+function date() {
+    var currentdate = new Date(); 
+    var date = currentdate.getDate() + "-"
+                    + (currentdate.getMonth()+1)  + "-" 
+                    + currentdate.getFullYear();
+    var time = currentdate.getHours() + ":"  
+                    + currentdate.getMinutes() + ":" 
+                    + currentdate.getSeconds();
+    return date;
+}
+function time() {
+    var currentdate = new Date(); 
+    var date = currentdate.getDate() + "-"
+                    + (currentdate.getMonth()+1)  + "-" 
+                    + currentdate.getFullYear();
+    var time = currentdate.getHours() + ":"  
+                    + currentdate.getMinutes() + ":" 
+                    + currentdate.getSeconds();
+    return time;
+}
+
+function rata100(biaya){
+    if (biaya == 0 || biaya == '') {
+        return 0;
+    }
+    for (var i = 0; i < biaya; i = i+100) {
+    }
+    return i;
+
+}
+function readURL(input) {
+
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+
+		reader.onload = function (e) {
+			$(input).closest('div').find('img').attr('src', e.target.result);
+		}
+
+		reader.readAsDataURL(input.files[0]);
+	}
+}
+function pcareSubmit(){
+
+	$('.pcareSubmit').focus(function(){
+		$(this).closest('form').find('.previous').val($(this).val());
+	}).change(function(){
+		var text = $(this).find('option:selected').text();
+		var nama = $(this).closest('form').find('.nama').val();
+		var r = confirm('Anda yakin ' + nama + ' ' + text + '?' );
+		if(r){
+			$(this).closest('form').find('.submit').click();
+		} else {
+			var previous = $(this).closest('form').find('.previous').val();
+			$(this).val(previous);
+			$(this).closest('form').find('.previous').val('');
+		}
+	}).blur(function(){
+		$(this).closest('form').find('.previous').val('');
+	});
+}
+function testDate(str) {
+  return str.match(/^(\d{1,2})-(\d{1,2})-(\d{4})$/);
+}
+function modalAlasan(control, pasien_id, nama_pasien){
+	if( validatePass2(control) ){
+		var r = confirm('Anda yakin mau menghapus dari antrian?');
+		if (r) {
+			$(control).closest('div').find('.submit').click();
+			$('.btn').attr('disabled', 'disabled');
+		}
+	}}
+
+function strTime(time){
+	return new Date(time.split("-").reverse().join("-")).getTime();
+}
+function isEven(n) {
+   return n % 2 == 0;
+}
+function isOdd(n) {
+   return Math.abs(n % 2) == 1;
+}
+function daysInMonth(month, year) {
+	int_d = new Date( year, parseInt(month),1);
+	d = new Date(int_d - 1);
+	return d;
+	//return d.getDate() + '-' + d.getMonth() + '-' + d.getYear();
+}

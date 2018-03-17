@@ -30,15 +30,6 @@
 		  @if($errors->has('jam_mulai'))<code>{{ $errors->first('jam_mulai') }}</code>@endif
 		</div>
 	</div>
-	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-		<div class="form-group @if($errors->has('jam_selesai'))has-error @endif">
-		  {!! Form::label('jam_selesai', 'Selesai', ['class' => 'control-label']) !!}
-			{!! Form::text('jam_selesai', null, array(
-				'class'         => 'form-control rq jam'
-			))!!}
-		  @if($errors->has('jam_selesai'))<code>{{ $errors->first('jam_selesai') }}</code>@endif
-		</div>
-	</div>
 </div>
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -48,6 +39,7 @@
 				<a class="" href="{{ $topik->link_materi }}">{{ $topik->nama_file_materi }}</a><br /> Upload untuk ubah
 			@endif
 			{!! Form::file('materi') !!}
+			<div>maksimal 8 MB</div>
 			{!! $errors->first('materi', '<p class="help-block">:message</p>') !!}
 		</div>
 	</div>
