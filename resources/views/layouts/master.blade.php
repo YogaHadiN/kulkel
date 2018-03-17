@@ -6,14 +6,21 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>@yield('title')</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link href="{!! asset('css/bootstrap-select.min.css') !!}" rel="stylesheet">
-    <link href="{!! asset('css/plugins/dataTables/dataTables.bootstrap.css') !!}" rel="stylesheet">
+
+    <link href="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/ajax-bootstrap-select/1.4.3/css/ajax-bootstrap-select.min.css') !!}" rel="stylesheet">
+    {{-- <link href="{!! asset('css/bootstrap-select.min.css') !!}" rel="stylesheet"> --}}
+    <link href="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/css/dataTables.bootstrap.min.css') !!}" rel="stylesheet">
+    {{-- <link href="{!! asset('css/plugins/dataTables/dataTables.bootstrap.css') !!}" rel="stylesheet"> --}}
     <link href="{!! asset('css/plugins/dataTables/dataTables.responsive.css') !!}" rel="stylesheet">
-    <link href="{!! asset('css/plugins/dataTables/dataTables.tableTools.min.css') !!}" rel="stylesheet">
+    <link href="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/datatables-tabletools/2.1.5/css/TableTools.min.css') !!}" rel="stylesheet">
+    {{-- <link href="{!! asset('css/plugins/dataTables/dataTables.tableTools.min.css') !!}" rel="stylesheet"> --}}
+    {{-- <link href="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css') !!}" rel="stylesheet"> --}}
     <link href="{!! asset('css/animate.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/style.css') !!}" rel="stylesheet">
-    <link href="{!! asset('css/jquery-ui.min.css') !!}" rel="stylesheet">
-    <link href="{!! asset('css/plugins/datepicker/datepicker3.css') !!}" rel="stylesheet">
+    <link href="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css') !!}" rel="stylesheet">
+    {{-- <link href="{!! asset('css/jquery-ui.min.css') !!}" rel="stylesheet"> --}}
+    {{-- <link href="{!! asset('css/plugins/datepicker/datepicker3.css') !!}" rel="stylesheet"> --}}
+    <link href="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css') !!}" rel="stylesheet">
     <link href="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css') !!}" rel="stylesheet">
 	<!-- Latest compiled and minified CSS -->
     {{-- <link href="{!! asset('css/all.css') !!}" rel="stylesheet" media="screen"> --}}
@@ -116,6 +123,9 @@
                     </li>
 					<li>
                         <a href="{{ url('events') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Berita</span></a>
+                    </li>
+					<li>
+                        <a href="{{ url('seminars') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Seminar</span></a>
                     </li>
                 </ul>
             </div>
