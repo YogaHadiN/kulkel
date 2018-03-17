@@ -16,11 +16,15 @@ Route::get('about', 'WelcomeController@about');
 Route::get('beritas', 'WelcomeController@events');
 Route::get('beritas/{id}', 'WelcomeController@show');
 Route::get('library/{token}/konfirmasi', 'LibraryController@konfirmasi');
+Route::get('welcome/seminars', 'SeminarsController@welcome');
+Route::get('welcome/seminars/{id}', 'SeminarsController@welcomeShow');
 Auth::routes();
 
 Route::get('logout', 'Auth\LoginController@logout')->name('logout' );
 Route::group(['middleware' => 'auth'], function () {
-
+	Route::get('topiks/create/{id}', 'TopiksController@createTopik');
+	Route::resource('seminars', 'SeminarsController');
+	Route::resource('topiks', 'TopiksController');
 	Route::get('emails', 'EmailController@index');
 	Route::post('emails', 'EmailController@postMail');
 	Route::resource('email', 'EmailController');

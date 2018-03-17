@@ -5,12 +5,15 @@
 @stop
 @section('menu')
 	<li class="nav-item">
-	  <a class="nav-link" href="{{ url('/') }}">Home</a>
+	  <a class="nav-link" href="{{ url('/') }}">Home
+	  </a>
+	</li>
+	<li class="nav-item">
+	  <a class="nav-link" href="{{ url('welcome/seminars') }}">Seminars</a>
 	</li>
 	<li class="nav-item active">
-	  <a class="nav-link" href="{{ url('beritas') }}">Event
+	  <a class="nav-link" href="{{ url('beritas') }}">Berita</a>
 		<span class="sr-only">(current)</span>
-	  </a>
 	</li>
 	<li class="nav-item">
 	  <a class="nav-link" href="{{ url('about') }}">About</a>

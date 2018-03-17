@@ -14,6 +14,7 @@
     <link href="{!! asset('css/style.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/jquery-ui.min.css') !!}" rel="stylesheet">
     <link href="{!! asset('css/plugins/datepicker/datepicker3.css') !!}" rel="stylesheet">
+    <link href="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css') !!}" rel="stylesheet">
 	<!-- Latest compiled and minified CSS -->
     {{-- <link href="{!! asset('css/all.css') !!}" rel="stylesheet" media="screen"> --}}
 
@@ -114,7 +115,7 @@
                         </ul>
                     </li>
 					<li>
-                        <a href="{{ url('events') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Event</span></a>
+                        <a href="{{ url('events') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Berita</span></a>
                     </li>
                 </ul>
             </div>
@@ -131,8 +132,6 @@
             </form>
         </div>
 		<ul class="nav navbar-top-links navbar-right">
-
-
                 <li>
                     <a href="{{ url('logout') }}">
                         <i class="fa fa-sign-out"></i> Log out
@@ -195,6 +194,7 @@
             {{--{!! HTML::script("js/all.js")!!}--}}
     <script src="{!! asset('js/all.js') !!}"></script>
     <script src="{!! asset('js/Numeral-js/min/numeral.min.js') !!}"></script>
+    <script src="{!! url('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js') !!}"></script>
     <!-- Mainly scripts 
     <script src="{!! url('js/jquery-2.1.1.js') !!}"></script>
     <script src="{!! url('js/bootstrap.min.js') !!}"></script>
@@ -268,7 +268,17 @@
                 autoclose: true,
                 format: 'dd-mm-yyyy'
             });
+			            $('#timepicker5').timepicker({
+                template: false,
+                showInputs: false,
+                minuteStep: 5
+            });
 
+            $('.jam').timepicker({
+                showInputs: false,
+                defaultTime: 'current',
+                minuteStep: 5
+            });
 			$('.tanggal').attr('placeholder', 'dd-mm-YYYY');
 			$('.bulanTahun').attr('placeholder', 'mm-YYYY');
             $('.bulanTahun').datepicker({

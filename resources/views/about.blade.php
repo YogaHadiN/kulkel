@@ -17,15 +17,18 @@
 @stop
 @section('menu')
 	<li class="nav-item">
-	  <a class="nav-link" href="{{ url('/') }}">Home</a>
+	  <a class="nav-link" href="{{ url('/') }}">Home
+	  </a>
 	</li>
 	<li class="nav-item">
-	  <a class="nav-link" href="{{ url('beritas') }}">Events</a>
+	  <a class="nav-link" href="{{ url('welcome/seminars') }}">Seminars</a>
+	</li>
+	<li class="nav-item">
+	  <a class="nav-link" href="{{ url('beritas') }}">Berita</a>
 	</li>
 	<li class="nav-item active">
-	  <a class="nav-link" href="{{ url('about') }}">About
+	  <a class="nav-link" href="{{ url('about') }}">About</a>
 		<span class="sr-only">(current)</span>
-	  </a>
 	</li>
 	<li class="nav-item">
 	  <a class="nav-link" href="{{ url('login') }}">Login</a>
