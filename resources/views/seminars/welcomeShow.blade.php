@@ -42,7 +42,6 @@
 			  <thead>
 				  <tr>
 					  <th>Topik</th>
-					  <th>Pembicara</th>
 					  <th>Jam Mulai</th>
 				  </tr>
 			  </thead>
@@ -50,8 +49,7 @@
 				  @if($seminar->topik->count() > 0)
 					  @foreach($seminar->topik as $topik)
 						  <tr>
-							  <td> <a class="" href="{{ $topik->link_materi }}">{{ $topik->topik }}</a> </td>
-							  <td>{{ $topik->pembicara }}</td>
+							  <td> <a class="" href="{{ $topik->link_materi }}">{{ $topik->topik }} - {{ $topik->pembicara }}</a> </td>
 							  <td>{{ $topik->jam_mulai }}</td>
 						  </tr>
 					  @endforeach

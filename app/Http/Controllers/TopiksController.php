@@ -26,77 +26,92 @@ class TopiksController extends Controller
 		return view('topiks.edit', compact('topik'));
 	}
 	public function store(Request $request){
-		$messages = [
-			'required' => ':attribute Harus Diisi',
-		];
-		$rules = [
-			'topik'       => 'required',
-			'seminar_id'  => 'required',
-			'pembicara'   => 'required',
-			'jam_mulai'   => 'required',
-			'jam_selesai' => 'required'
-		];
-		
-		$validator = \Validator::make(Input::all(), $rules, $messages);
-		if ($validator->fails())
-		{
-			return \Redirect::back()->withErrors($validator)->withInput();
-		}
+		DB::beginTransaction();
+		try {
+			
+			$messages = [
+				'required' => ':attribute Harus Diisi',
+			];
+			$rules = [
+				'topik'       => 'required',
+				'seminar_id'  => 'required',
+				'pembicara'   => 'required',
+				'jam_mulai'   => 'required',
+				'jam_selesai' => 'required'
+			];
+			
+			$validator = \Validator::make(Input::all(), $rules, $messages);
+			if ($validator->fails())
+			{
+				return \Redirect::back()->withErrors($validator)->withInput();
+			}
 
-		/* return date("H:i:s", strtotime(Input::get('jam_mulai'))); */
+			/* return date("H:i:s", strtotime(Input::get('jam_mulai'))); */
 
-		$topik              = new Topik;
-		$topik->topik       = Input::get('topik');
-		$topik->seminar_id  = Input::get('seminar_id');
-		$topik->pembicara   = Input::get('pembicara');
-		$topik->jam_mulai   = date("H:i:s", strtotime(Input::get('jam_mulai')));
-		$topik->jam_selesai = date("H:i:s", strtotime(Input::get('jam_selesai')));
-		$topik->save();
+			$topik              = new Topik;
+			$topik->topik       = Input::get('topik');
+			$topik->seminar_id  = Input::get('seminar_id');
+			$topik->pembicara   = Input::get('pembicara');
+			$topik->jam_mulai   = date("H:i:s", strtotime(Input::get('jam_mulai')));
+			$topik->jam_selesai = date("H:i:s", strtotime(Input::get('jam_selesai')));
+			$topik->save();
 
-		$saved_file = $this->uploadS3($request, 'materi');
-		$topik->link_materi      = $saved_file['link'];
-		$topik->nama_file_materi = $saved_file['file_name'];
-		$topik->save();
-		$pesan = Yoga::suksesFlash('Topik baru berhasil dibuat');
-		return redirect('seminars/' . Input::get('seminar_id'))->withPesan($pesan);
-	}
-	public function update($id, Request $request){
-
-		$messages = [
-			'required' => ':attribute Harus Diisi',
-		];
-		$rules = [
-			'topik'       => 'required',
-			'seminar_id'  => 'required',
-			'pembicara'   => 'required',
-			'jam_mulai'   => 'required',
-			'jam_selesai' => 'required'
-		];
-		
-		$validator = \Validator::make(Input::all(), $rules, $messages);
-		if ($validator->fails())
-		{
-			return \Redirect::back()->withErrors($validator)->withInput();
-		}
-		$topik     = Topik::find($id);
-		/* return $topik->nama_file_materi; */
-
-		$topik->topik       = Input::get('topik');
-		$topik->seminar_id  = Input::get('seminar_id');
-		$topik->pembicara   = Input::get('pembicara');
-		$topik->jam_mulai   = date("H:i:s", strtotime(Input::get('jam_mulai')));
-		$topik->jam_selesai = date("H:i:s", strtotime(Input::get('jam_selesai')));
-		$topik->save();
-
-		if (Input::hasFile('materi')) {
-			Storage::disk('s3')->delete( $topik->nama_file_materi );
-			$saved_file              = $this->uploadS3($request, 'materi');
+			$saved_file = $this->uploadS3($request, 'materi');
 			$topik->link_materi      = $saved_file['link'];
 			$topik->nama_file_materi = $saved_file['file_name'];
 			$topik->save();
+			$pesan = Yoga::suksesFlash('Topik baru berhasil dibuat');
+			DB::commit();
+			return redirect('seminars/' . Input::get('seminar_id'))->withPesan($pesan);
+		} catch (\Exception $e) {
+			DB::rollback();
+			throw $e;
 		}
-		$pesan = Yoga::suksesFlash('Topik berhasil diupdate');
-		return redirect('seminars/' . $topik->seminar_id)->withPesan($pesan);
+	}
+	public function update($id, Request $request){
+		DB::beginTransaction();
+		try {
+			
+				$messages = [
+					'required' => ':attribute Harus Diisi',
+			];
+			$rules = [
+				'topik'       => 'required',
+				'seminar_id'  => 'required',
+				'pembicara'   => 'required',
+				'jam_mulai'   => 'required',
+				'jam_selesai' => 'required'
+			];
+			
+			$validator = \Validator::make(Input::all(), $rules, $messages);
+			if ($validator->fails())
+			{
+				return \Redirect::back()->withErrors($validator)->withInput();
+			}
+			$topik     = Topik::find($id);
+			/* return $topik->nama_file_materi; */
+
+			$topik->topik       = Input::get('topik');
+			$topik->seminar_id  = Input::get('seminar_id');
+			$topik->pembicara   = Input::get('pembicara');
+			$topik->jam_mulai   = date("H:i:s", strtotime(Input::get('jam_mulai')));
+			$topik->jam_selesai = date("H:i:s", strtotime(Input::get('jam_selesai')));
+			$topik->save();
+
+			if (Input::hasFile('materi')) {
+				Storage::disk('s3')->delete( $topik->nama_file_materi );
+				$saved_file              = $this->uploadS3($request, 'materi');
+				$topik->link_materi      = $saved_file['link'];
+				$topik->nama_file_materi = $saved_file['file_name'];
+				$topik->save();
+			}
+			$pesan = Yoga::suksesFlash('Topik berhasil diupdate');
+			DB::commit();
+			return redirect('seminars/' . $topik->seminar_id)->withPesan($pesan);
+		} catch (\Exception $e) {
+			DB::rollback();
+			throw $e;
+		}
 	}
 	public function destroy($id){
 		DB::beginTransaction();
