@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('home', 'HomeController@index');
 	Route::get('/library/view', 'LibraryController@view');
 	Route::get('seminars', 'SeminarsController@index');
+	Route::get('seminars/{id}', 'SeminarsController@show');
 	Route::group(['middleware' => 'adminOnly'], function () {
 		Route::get('library/pinjam/{id}', 'LibraryController@pinjam');
 		Route::get('library/kembalikan/{id}', 'LibraryController@kembalikan');
