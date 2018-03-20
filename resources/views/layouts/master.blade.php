@@ -7,7 +7,8 @@
     <title>@yield('title')</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <link href="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/ajax-bootstrap-select/1.4.3/css/ajax-bootstrap-select.min.css') !!}" rel="stylesheet">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
     {{-- <link href="{!! asset('css/bootstrap-select.min.css') !!}" rel="stylesheet"> --}}
     <link href="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/css/dataTables.bootstrap.min.css') !!}" rel="stylesheet">
     {{-- <link href="{!! asset('css/plugins/dataTables/dataTables.bootstrap.css') !!}" rel="stylesheet"> --}}
@@ -24,8 +25,7 @@
     <link href="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css') !!}" rel="stylesheet">
 	<!-- Latest compiled and minified CSS -->
     {{-- <link href="{!! asset('css/all.css') !!}" rel="stylesheet" media="screen"> --}}
-
-<link href="{!! asset('css/font-awesome/css/font-awesome.min.css') !!}" rel="stylesheet">
+	<link href="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css') !!}" rel="stylesheet">
 	<style type="text/css" media="all">
 		.fixed {
 			position: fixed;
@@ -120,6 +120,12 @@
                             <li>{!! HTML::link('library', 'Daftar Buku')!!}</li>
                             <li>{!! HTML::link('library/riwayatPeminjaman', 'Riwayat Peminjaman')!!}</li>
                         </ul>
+                    </li>
+					<li>
+                        <a href="{{ url('ebooks') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Ebook</span></a>
+                    </li>
+					<li>
+                        <a href="{{ url('videos') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Video Interaktif</span></a>
                     </li>
 					<li>
                         <a href="{{ url('events') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Berita</span></a>
@@ -218,7 +224,9 @@
     {{-- <script src="{!! url('js/plugins/slimscroll/jquery.slimscroll.min.js') !!}"></script> --}}
     <script src="{!! url('https://cdnjs.cloudflare.com/ajax/libs/jeditable.js/1.7.3/jeditable.min.js') !!}"></script>
     {{-- <script src="{!! url('js/plugins/jeditable/jquery.jeditable.js') !!}"></script> --}}
-    <script src="{!! url('https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap-select/0.14.0/js/bootstrap-select.min.js') !!}"></script>
+    {{-- <script src="{!! url('https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap-select/0.14.0/js/bootstrap-select.min.js') !!}"></script> --}}
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
     {{-- <script src="{!! url('js/bootstrap-select.min.js') !!}"></script> --}}
     <script src="{!! url('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js') !!}" type="text/javascript"></script>
     {{-- <script src="{!! url('js/plugins/datepicker/bootstrap-datepicker.js') !!}" type="text/javascript"></script> --}}

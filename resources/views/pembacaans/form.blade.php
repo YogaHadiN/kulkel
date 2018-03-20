@@ -42,6 +42,14 @@
 		{!! Form::text('doi' , $pembacaan->doi, ['class' => 'form-control']) !!}
 	  @if($errors->has('doi'))<code>{{ $errors->first('doi') }}</code>@endif
 	</div>
+	<div class="form-group{{ $errors->has('materi') ? ' has-error' : '' }}">
+		{!! Form::label('materi', 'Upload materi') !!}
+		{!! Form::file('materi') !!}
+			@if (isset($pembacaan) && $pembacaan->nama_file_materi)
+				<p>{{ $pembacaan->nama_file_materi }}</p>
+			@endif
+		{!! $errors->first('materi', '<p class="help-block">:message</p>') !!}
+	</div>
 @endif
 <div class="form-group @if($errors->has('moderator')) has-error @endif">
 	{!! Form::label('moderator', 'Moderator', ['class' => 'control-label']) !!}

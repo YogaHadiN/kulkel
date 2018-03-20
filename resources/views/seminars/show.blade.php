@@ -32,7 +32,7 @@
 						</tr>
 						<tr>
 							<th>Tanggal</th>
-							<td>{{ $seminar->tanggal }}</td>
+							<td>{{ $seminar->tanggal->format('d M Y') }}</td>
 						</tr>
 						<tr>
 							<th>Password</th>
@@ -76,6 +76,11 @@
 									<td>{{ $topik->jam_mulai }}</td>
 									<td nowrap class="autofit"> 
 										{!! Form::open(['url' => 'topiks/' .$topik->id, 'method' => 'delete']) !!}
+
+											<!-- Button trigger modal -->
+											<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#materi{{$topik->id}}">
+											<span class=" glyphicon glyphicon-qrcode" aria-hidden="true"></span>
+											</button>
 											<a class="btn btn-info btn-xs" href="{{ $topik->link_materi }}"><span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span></a>
 											<a class="btn btn-success btn-xs" href="{{ url('topiks/' . $topik->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
 											{{ Form::submit('del', [
@@ -99,6 +104,26 @@
 			
 		</div>
 	</div>
+
+<!-- Modal -->
+@foreach($topiks as $topik)
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title" id="myModalLabel">{{ $topik->judul }}</h4>
+      </div>
+      <div class="modal-body text-center">
+		  <img src="{!! url( 'qrcode?text=' . $topik->link_materi ) !!}" alt="">
+		  <div>
+			  {{ $topik->link_materi }}
+		  </div>
+      </div>
+    </div>
+  </div>
+</div>
+@endforeach
 @stop
 @section('footer') 
 	

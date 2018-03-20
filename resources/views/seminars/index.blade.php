@@ -48,7 +48,7 @@
 									<td>{{ $seminar->id }}</td>
 									<td>{{ $seminar->seminar }}</td>
 									<td>{{ $seminar->lokasi }}</td>
-									<td>{{ $seminar->tanggal }}</td>
+									<td>{{ $seminar->tanggal->format('d M Y') }}</td>
 									<td>{{ $seminar->password }}</td>
 									<td nowrap class="autofit"> 
 										{!! Form::open(['url' => 'seminars/' .$seminar->id, 'method' => 'delete']) !!}

@@ -27,6 +27,7 @@ class UsersController extends Controller
 	}
 	public function show($id){
 
+		$url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_ADDR'];
 		$user             = User::with('role', 'no_telps')->where('id', $id )->first();
 		$stasesResidens   = Stase::with('user', 'jenisStase')->where('user_id', $id)->orderBy('mulai')->get();
 		$pembacaans       = Pembacaan::with('user')->where('user_id', $id)->orderBy('tanggal', 'desc')->get();
@@ -58,6 +59,7 @@ class UsersController extends Controller
 			'rsnds',
 			'pembacaan_bulan_inis',
 			'id',
+			'url',
 			'user',
 			'jenisStases',
 			'stases_sudah',

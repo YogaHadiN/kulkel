@@ -14,11 +14,12 @@
 			@if($pembacaans->count() > 0)
 				@foreach($pembacaans as $k => $pembacaan)
 						@if( strtotime(date('Y-m-d 00:00:00')) == strtotime($pembacaan->tanggal) )
-						<tr class="info">
+							<tr class="info">
 						@else
-						<tr>
+							<tr>
 						@endif
-						<td>{{ $pembacaan->tanggal->format('d M Y') }}</td>
+						<td rowspan="2"
+							>{{ $pembacaan->tanggal->format('d M Y') }}</td>
 						<td>{{ $pembacaan->user->nama }}</td>
 						<td>{{ $pembacaan->jenisPembacaan->jenis_pembacaan }}</td>
 						<td>
@@ -39,16 +40,29 @@
 						<td nowrap class="autofit">
 							{!! Form::open(['url' => 'pembacaans/' . $pembacaan->id, 'method' => 'delete']) !!}
 								@if( isset( $user ) )
-									<a class="btn btn-warning btn-sm" href="{{ url('users/' . $user->id . '/pembacaans/' . $pembacaan->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
+									<a class="btn btn-warning btn-xs" href="{{ url('users/' . $user->id . '/pembacaans/' . $pembacaan->id . '/edit' ) }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
 									{!! Form::hidden('user_create', $user->id, ['class' => 'form-control']) !!}
 									{!! Form::hidden('user_id', $user->id, ['class' => 'form-control']) !!}
 								@else
-								<a class="btn btn-warning btn-sm" href="{{ url('pembacaans/' . $pembacaan->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
+								<a class="btn btn-warning btn-xs" href="{{ url('pembacaans/' . $pembacaan->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
 								@endif
-								<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus Pembacaan {{ $pembacaan->user->nama }} pada tanggal {{ $pembacaan->tanggal->format('d M Y') }}?');return false" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
+								<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target=".pembacaan{{ $pembacaan->id }}">
+									Show QR Code
+								</button>
+								<button class="btn btn-danger btn-xs" onclick="return confirm('Anda yakin ingin menghapus Pembacaan {{ $pembacaan->user->nama }} pada tanggal {{ $pembacaan->tanggal->format('d M Y') }}?');return false" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
 							{!! Form::close() !!}
 						</td>
 					</tr>
+						<tr>
+							<td colspan="5">
+								@if(!empty($pembacaan->judul))
+									<a class="" href="{{ $pembacaan->link_materi }}"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> {{ $pembacaan->judul }}</a>
+								@else
+									<i>Belum ada judul yang ditentukan</i>
+								@endif
+								<!-- Button trigger modal -->
+							</td>
+						</tr>
 				@endforeach
 			@else
 				<tr>
@@ -65,4 +79,25 @@
 			@endif
 		</tbody>
 	</table>
-					</div>
+</div>
+	@foreach($pembacaans as $pembacaan)
+		<!-- Modal -->
+		<div class="modal fade pembacaan{{ $pembacaan->id }}" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">{{ $pembacaan->judul }}</h4>
+			  </div>
+			  <div class="modal-body text-center">
+				  <div>
+					  <img src="{!! url( 'qrcode?text=' . $pembacaan->link_materi ) !!}" alt="">
+				  </div>
+				  <div>
+					  {{ $pembacaan->link_materi }}
+				  </div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+		@endforeach

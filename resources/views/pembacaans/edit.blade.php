@@ -27,7 +27,13 @@
 					<h3 class="panel-title">Edit Pembacaan</h3>
 				</div>
 				<div class="panel-body">
-					{!! Form::model($pembacaan,['url' => 'pembacaans/' . $pembacaan->id, 'method' => 'put']) !!}
+					{!! Form::model($pembacaan,[
+						'url'    => 'pembacaans/' . $pembacaan->id,
+						"class" => "m-t", 
+						"role"  => "form",
+						"files"  => "true",
+						'method' => 'put'
+					]) !!}
 						@include('pembacaans.form')
 						<div class="row">
 							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

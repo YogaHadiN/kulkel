@@ -8,6 +8,7 @@ use App\Pembahas;
 use App\Moderator;
 use App\Yoga;
 use Input;
+use Storage;
 use DB;
 
 class PembacaansController extends Controller
@@ -48,6 +49,7 @@ class PembacaansController extends Controller
 			$pembacaan->jenis_pembacaan_id = Input::get('jenis_pembacaan_id');
 			$pembacaan->tanggal            = Yoga::datePrep(Input::get('tanggal'));
 			$pembacaan->save();
+
 
 			$timestamp = date('Y-m-d H:i:s');
 			$moderator = [];
@@ -102,7 +104,7 @@ class PembacaansController extends Controller
 		));
 
 	}
-	public function update($id){
+	public function update($id,Request $request ){
 		DB::beginTransaction();
 		try {
 			$pembacaan                     = Pembacaan::find($id);
@@ -113,6 +115,12 @@ class PembacaansController extends Controller
 			$pembacaan->tanggal            = Yoga::datePrep(Input::get('tanggal'));
 			$pembacaan->save();
 
+			if (Input::hasFile('materi')) {
+				$saved_file = $this->uploadS3($request, 'materi', Input::get('seminar_id'), $pembacaan->user_id);
+				$pembacaan->link_materi      = $saved_file['link'];
+				$pembacaan->nama_file_materi = $saved_file['file_name'];
+				$pembacaan->save();
+			}
 			Moderator::where('pembacaan_id', $id)->delete();
 			Pembahas::where('pembacaan_id', $id)->delete();
 
@@ -161,4 +169,25 @@ class PembacaansController extends Controller
 		return compact('pembahas_array_id', 'moderator_array_id');
 	}
 	
+	public function uploadS3($request, $name, $seminar_id, $user_id){
+		if($request->hasFile($name)) {
+			//get filename with extension
+			$filenamewithextension = $request->file($name)->getClientOriginalName();
+			//get filename without extension
+			$filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+			//get file extension
+			$extension = $request->file($name)->getClientOriginalExtension();
+			//filename to store
+			$filenametostore = 'users/' . $user_id . '/pembacaan/' . $filename.'_'.time().'.'.$extension;
+
+			//Upload File to s3
+			Storage::disk('s3')->put($filenametostore, fopen($request->file($name), 'r+'), 'public');
+			//Store $filenametostore in the database
+			return [
+				'file_name' => $filenametostore,
+				'link' => Storage::cloud()->url($filenametostore)
+			];
+			
+	    }
+	}
 }
