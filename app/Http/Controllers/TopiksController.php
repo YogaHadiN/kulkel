@@ -95,11 +95,12 @@ class TopiksController extends Controller
 			$topik->save();
 
 			if (Input::hasFile('materi')) {
-				Storage::disk('s3')->delete( $topik->nama_file_materi );
 				$saved_file              = $this->uploadS3($request, 'materi');
 				$topik->link_materi      = $saved_file['link'];
 				$topik->nama_file_materi = $saved_file['file_name'];
-				$topik->save();
+				if ($topik->save()) {
+					Storage::disk('s3')->delete( $topik->nama_file_materi );
+				}
 			}
 			$pesan = Yoga::suksesFlash('Topik berhasil diupdate');
 			DB::commit();

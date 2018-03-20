@@ -18,7 +18,7 @@
 </div>
 <div class="form-group @if($errors->has('jenis_pembacaan_id')) has-error @endif">
 	{!! Form::label('jenis_pembacaan_id', 'Jenis Pembacaan', ['class' => 'control-label']) !!}
-  {!! Form::select('jenis_pembacaan_id' , App\JenisPembacaan::list(), null, ['class' => 'form-control rq']) !!}
+	{!! Form::select('jenis_pembacaan_id' , App\JenisPembacaan::list(), null, ['class' => 'form-control rq', 'onchange' => 'changeJenisPembacaan(this);return false;']) !!}
   @if($errors->has('jenis_pembacaan_id'))<code>{{ $errors->first('jenis_pembacaan_id') }}</code>@endif
 </div>
 <div class="form-group @if($errors->has('tanggal')) has-error @endif">
@@ -30,10 +30,18 @@
   @endif
   @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
 </div>
-
+<div class="form-group @if($errors->has('jam')) has-error @endif">
+	{!! Form::label('jam', 'Jam', ['class' => 'control-label']) !!}
+  @if( isset( $pembacaan ) )
+	  {!! Form::text('jam' , $pembacaan->tanggal->format('H:i'), ['class' => 'form-control jam rq']) !!}
+  @else
+  {!! Form::text('jam' , null, ['class' => 'form-control jam rq']) !!}
+  @endif
+  @if($errors->has('jam'))<code>{{ $errors->first('jam') }}</code>@endif
+</div>
 @if( isset( $pembacaan ) )
 	<div class="form-group @if($errors->has('judul')) has-error @endif">
-		{!! Form::label('judul', 'Judul', ['class' => 'control-label']) !!}
+		{!! Form::label('judul', 'Judul (Asli, bukan terjemahan)', ['class' => 'control-label']) !!}
 		{!! Form::text('judul' , $pembacaan->judul, ['class' => 'form-control']) !!}
 	  @if($errors->has('judul'))<code>{{ $errors->first('judul') }}</code>@endif
 	</div>
@@ -49,6 +57,14 @@
 				<p>{{ $pembacaan->nama_file_materi }}</p>
 			@endif
 		{!! $errors->first('materi', '<p class="help-block">:message</p>') !!}
+	</div>
+	<div class="upload_terjemahan form-group{{ $errors->has('terjemahan') ? ' has-error' : '' }}">
+		{!! Form::label('terjemahan', 'Upload Terjemahan') !!}
+		{!! Form::file('terjemahan') !!}
+			@if (isset($pembacaan) && $pembacaan->nama_file_materi_terjemahan)
+				<p>{{ $pembacaan->nama_file_materi_terjemahan }}</p>
+			@endif
+		{!! $errors->first('terjemahan', '<p class="help-block">:message</p>') !!}
 	</div>
 @endif
 <div class="form-group @if($errors->has('moderator')) has-error @endif">

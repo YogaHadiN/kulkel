@@ -52,11 +52,26 @@
 @stop
 @section('footer') 
 <script type="text/javascript" charset="utf-8">
+	changeJenisPembacaan($('#jenis_pembacaan_id'));
 	function dummySubmit(control){
 		if(validatePass2(control)){
 			$('#submit').click();
 		}
 	}
+	function changeJenisPembacaan(control){
+		var jenis_pembacaan_id = $(control).val();
+		if(jenis_pembacaan_id == 1){
+			if(!$('.upload_terjemahan').is(":visible") ){
+				$('.upload_terjemahan').fadeIn(500);
+			}
+		} else {
+			if($('.upload_terjemahan').is(":visible") ){
+				$('.upload_terjemahan').fadeOut(500);
+				{{-- $('.upload_terjemahan').hide(); --}}
+			}
+		}
+	}
+
 </script>
 @stop
 

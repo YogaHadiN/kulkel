@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddLinkAndNamaFileMateriToPembacaansTable extends Migration
+class AddLinkMateriTerjemahanNamaFileTerjemahanToPembacaansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class AddLinkAndNamaFileMateriToPembacaansTable extends Migration
     public function up()
     {
         Schema::table('pembacaans', function (Blueprint $table) {
-			$table->string('nama_file_materi')->nullable();
-			$table->string('link_materi')->nullable();
+			$table->string('link_materi_terjemahan')->nullable();
+			$table->string('nama_file_materi_terjemahan')->nullable();
         });
     }
 
@@ -27,8 +27,8 @@ class AddLinkAndNamaFileMateriToPembacaansTable extends Migration
     public function down()
     {
         Schema::table('pembacaans', function (Blueprint $table) {
-			$table->dropColumn('nama_file_materi');
-			$table->dropColumn('link_materi');
+			$table->dropColumn('link_materi_terjemahan')->nullable();
+			$table->dropColumn('nama_file_materi_terjemahan')->nullable();
         });
     }
 }

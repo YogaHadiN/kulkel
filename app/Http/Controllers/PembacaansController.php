@@ -47,7 +47,7 @@ class PembacaansController extends Controller
 			$pembacaan                     = new Pembacaan;
 			$pembacaan->user_id            = Input::get('user_id');
 			$pembacaan->jenis_pembacaan_id = Input::get('jenis_pembacaan_id');
-			$pembacaan->tanggal            = Yoga::datePrep(Input::get('tanggal'));
+			$pembacaan->tanggal            = Yoga::datePrep(Input::get('tanggal')) . ' ' . date("H:i:s", strtotime(Input::get('jam'))); ;
 			$pembacaan->save();
 
 
@@ -112,13 +112,25 @@ class PembacaansController extends Controller
 			$pembacaan->judul              = Input::get('judul');
 			$pembacaan->doi                = Input::get('doi');
 			$pembacaan->jenis_pembacaan_id = Input::get('jenis_pembacaan_id');
-			$pembacaan->tanggal            = Yoga::datePrep(Input::get('tanggal'));
+			$pembacaan->tanggal            = Yoga::datePrep(Input::get('tanggal')) . ' ' . date("H:i:s", strtotime(Input::get('jam')));
 			$pembacaan->save();
 
 			if (Input::hasFile('materi')) {
-				$saved_file = $this->uploadS3($request, 'materi', Input::get('seminar_id'), $pembacaan->user_id);
+				if ( Storage::disk('s3')->has( $pembacaan->nama_file_materi )) {
+					Storage::disk('s3')->delete( $pembacaan->nama_file_materi );
+				}
+				$saved_file                  = $this->uploadS3($request, 'materi', Input::get('seminar_id'), $pembacaan->user_id);
 				$pembacaan->link_materi      = $saved_file['link'];
 				$pembacaan->nama_file_materi = $saved_file['file_name'];
+				$pembacaan->save();
+			}
+			if (Input::hasFile('terjemahan')) {
+				if ( Storage::disk('s3')->has( $pembacaan->nama_file_materi_terjemahan )) {
+					Storage::disk('s3')->delete( $pembacaan->nama_file_materi_terjemahan );
+				}
+				$saved_file                             = $this->uploadTerjemahan($request, 'terjemahan', Input::get('seminar_id'), $pembacaan->user_id);
+				$pembacaan->link_materi_terjemahan      = $saved_file['link'];
+				$pembacaan->nama_file_materi_terjemahan = $saved_file['file_name'];
 				$pembacaan->save();
 			}
 			Moderator::where('pembacaan_id', $id)->delete();
@@ -169,7 +181,7 @@ class PembacaansController extends Controller
 		return compact('pembahas_array_id', 'moderator_array_id');
 	}
 	
-	public function uploadS3($request, $name, $seminar_id, $user_id){
+	private function uploadS3($request, $name, $seminar_id, $user_id){
 		if($request->hasFile($name)) {
 			//get filename with extension
 			$filenamewithextension = $request->file($name)->getClientOriginalName();
@@ -178,7 +190,28 @@ class PembacaansController extends Controller
 			//get file extension
 			$extension = $request->file($name)->getClientOriginalExtension();
 			//filename to store
-			$filenametostore = 'users/' . $user_id . '/pembacaan/' . $filename.'_'.time().'.'.$extension;
+			$filenametostore = 'users/' . $user_id . '/pembacaan/materi/' . $filename.'_'.time().'.'.$extension;
+
+			//Upload File to s3
+			Storage::disk('s3')->put($filenametostore, fopen($request->file($name), 'r+'), 'public');
+			//Store $filenametostore in the database
+			return [
+				'file_name' => $filenametostore,
+				'link' => Storage::cloud()->url($filenametostore)
+			];
+			
+	    }
+	}
+	private function uploadTerjemahan($request, $name, $seminar_id, $user_id){
+		if($request->hasFile($name)) {
+			//get filename with extension
+			$filenamewithextension = $request->file($name)->getClientOriginalName();
+			//get filename without extension
+			$filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+			//get file extension
+			$extension = $request->file($name)->getClientOriginalExtension();
+			//filename to store
+			$filenametostore = 'users/' . $user_id . '/pembacaan/terjemahan/' . $filename.'_'.time().'.'.$extension;
 
 			//Upload File to s3
 			Storage::disk('s3')->put($filenametostore, fopen($request->file($name), 'r+'), 'public');
