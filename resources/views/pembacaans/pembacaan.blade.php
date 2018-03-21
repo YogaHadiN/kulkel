@@ -104,7 +104,7 @@
 			  </div>
 			  <div class="modal-body text-center">
 				  <div>
-					  <img src="{!! url( 'qrcode?text=' . $pembacaan->link_materi ) !!}" alt="">
+					  <img src="{!! url( 'qrcode?text=' . urlencode($pembacaan->link_materi) ) !!}" alt="">
 				  </div>
 				  <div>
 					  {{ $pembacaan->link_materi }}
@@ -122,7 +122,7 @@
 			  </div>
 			  <div class="modal-body text-center">
 				  <div>
-					  <img src="{!! url( 'qrcode?text=' . $pembacaan->link_materi ) !!}" alt="">
+					  <img src="{!! url( 'qrcode?text=' . urlencode($pembacaan->link_materi_terjemahan) ) !!}" alt="">
 				  </div>
 				  <div>
 					  {{ $pembacaan->link_materi }}
