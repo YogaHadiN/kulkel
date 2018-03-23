@@ -14,9 +14,8 @@ class QrCodeController extends Controller
 		$text = Input::get('text');
 		$qr = new QrCode();
 		$qr->setText($text);
-		$qr->setSize(200);
 		$qr->setPadding(10);
+		$qr->setSize(200);
 		$qr->render();
 	}
-	
 }
