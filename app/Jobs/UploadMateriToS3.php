@@ -47,16 +47,14 @@ class UploadMateriToS3 implements ShouldQueue
 		$filepath_terjemahan  = storage_path() . '/uploads/' . $this->terjemahan_id;
 		$nama_file_materi     = 'users/' . $this->pembacaan->user_id . '/pembacaan/materi/' . $filename_materi;
 		$nama_file_terjemahan = 'users/' . $this->pembacaan->user_id . '/pembacaan/terjemahan/' . $filename_terjemahan;
-		if ( Storage::disk('s3')->put( $nama_file_materi, fopen($filepath_materi, 'r+'), 'public') ) {
+		if (!empty($filename_materi) && Storage::disk('s3')->put( $nama_file_materi, fopen($filepath_materi, 'r+'), 'public') ) {
 			File::delete($filepath_materi);
-
 			$this->pembacaan->nama_file_materi = $nama_file_materi;
 			$this->pembacaan->link_materi = Storage::cloud()->url($nama_file_materi);
 
 		}
-		if ( Storage::disk('s3')->put( $nama_file_terjemahan, fopen($filepath_terjemahan, 'r+'), 'public') ) {
+		if (!empty($filename_terjemahan) && Storage::disk('s3')->put( $nama_file_terjemahan, fopen($filepath_terjemahan, 'r+'), 'public') ) {
 			File::delete($filepath_terjemahan);
-
 			$this->pembacaan->nama_file_materi_terjemahan = $nama_file_terjemahan;
 			$this->pembacaan->link_materi_terjemahan = Storage::cloud()->url($nama_file_terjemahan);
 

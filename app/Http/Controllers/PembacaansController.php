@@ -122,16 +122,20 @@ class PembacaansController extends Controller
 
 			$materi_id     = '';
 			$terjemahan_id = '';
+			$upload = false;
 			if ( $request->file('materi') ) {
 				$file = $request->file('materi');
 				$file->move(storage_path(). '/uploads' , $materi_id = uniqid() . '.' . $request->file('materi')->getClientOriginalExtension() );
+				$upload = true;
 			}
 			if ( $request->file('terjemahan') ) {
 				$file = $request->file('terjemahan');
 				$file->move(storage_path(). '/uploads' , $terjemahan_id = uniqid() . '.' . $request->file('terjemahan')->getClientOriginalExtension() );			
+				$upload = true;
 			}
-
-			$this->dispatch(new UploadMateriToS3($pembacaan, $materi_id, $terjemahan_id));
+			if ($upload) {
+				$this->dispatch(new UploadMateriToS3($pembacaan, $materi_id, $terjemahan_id));
+			}
 
 			Moderator::where('pembacaan_id', $id)->delete();
 			Pembahas::where('pembacaan_id', $id)->delete();
