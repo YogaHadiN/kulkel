@@ -60,7 +60,10 @@
 	}
 	function changeJenisPembacaan(control){
 		var jenis_pembacaan_id = $(control).val();
-		if(jenis_pembacaan_id == 1){
+		if(
+			jenis_pembacaan_id == 1 ||
+			jenis_pembacaan_id == 5
+				){
 			if(!$('.upload_terjemahan').is(":visible") ){
 				$('.upload_terjemahan').fadeIn(500);
 			}
