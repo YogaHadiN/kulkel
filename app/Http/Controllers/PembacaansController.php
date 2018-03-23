@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Pembacaan;
+use App\Jobs\UploadMateriToS3;
 use App\Pembahas;
 use App\Moderator;
 use App\Yoga;
@@ -87,7 +88,11 @@ class PembacaansController extends Controller
 	public function destroy($id){
 		$pembacaan = Pembacaan::find( $id );
 		$pesan = Yoga::suksesFlash('Pembacaan <strong>' . $pembacaan->user->nama . '</strong> pada tanggal <strong>' .$pembacaan->tanggal->format('d M Y'). ' </strong>berhasil dihapus');
-		Pembacaan::destroy( $id );
+		$nama_file_materi            = $pembacaan->nama_file_materi;
+		$nama_file_materi_terjemahan = $pembacaan->nama_file_materi_terjemahan;
+		Storage::disk('s3')->delete($nama_file_materi);
+		Storage::disk('s3')->delete($nama_file_materi_terjemahan);
+		$pembacaan->delete();
 		if ( !is_null( Input::get('user_create') ) ) {
 			return redirect('users/' . Input::get('user_id'))->withPesan($pesan);
 		}
@@ -115,24 +120,19 @@ class PembacaansController extends Controller
 			$pembacaan->tanggal            = Yoga::datePrep(Input::get('tanggal')) . ' ' . date("H:i:s", strtotime(Input::get('jam')));
 			$pembacaan->save();
 
-			if (Input::hasFile('materi')) {
-				if ( Storage::disk('s3')->has( $pembacaan->nama_file_materi )) {
-					Storage::disk('s3')->delete( $pembacaan->nama_file_materi );
-				}
-				$saved_file                  = $this->uploadS3($request, 'materi', Input::get('seminar_id'), $pembacaan->user_id);
-				$pembacaan->link_materi      = $saved_file['link'];
-				$pembacaan->nama_file_materi = $saved_file['file_name'];
-				$pembacaan->save();
+			$materi_id     = '';
+			$terjemahan_id = '';
+			if ( $request->file('materi') ) {
+				$file = $request->file('materi');
+				$file->move(storage_path(). '/uploads' , $materi_id = uniqid() . '.' . $request->file('materi')->getClientOriginalExtension() );
 			}
-			if (Input::hasFile('terjemahan')) {
-				if ( Storage::disk('s3')->has( $pembacaan->nama_file_materi_terjemahan )) {
-					Storage::disk('s3')->delete( $pembacaan->nama_file_materi_terjemahan );
-				}
-				$saved_file                             = $this->uploadTerjemahan($request, 'terjemahan', Input::get('seminar_id'), $pembacaan->user_id);
-				$pembacaan->link_materi_terjemahan      = $saved_file['link'];
-				$pembacaan->nama_file_materi_terjemahan = $saved_file['file_name'];
-				$pembacaan->save();
+			if ( $request->file('terjemahan') ) {
+				$file = $request->file('terjemahan');
+				$file->move(storage_path(). '/uploads' , $terjemahan_id = uniqid() . '.' . $request->file('terjemahan')->getClientOriginalExtension() );			
 			}
+
+			$this->dispatch(new UploadMateriToS3($pembacaan, $materi_id, $terjemahan_id));
+
 			Moderator::where('pembacaan_id', $id)->delete();
 			Pembahas::where('pembacaan_id', $id)->delete();
 
