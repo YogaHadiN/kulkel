@@ -351,7 +351,7 @@ class UsersController extends Controller
 			} else {
 				$data[$stase->jenis_stase_id]['bulan'] =  Ujian::monthPassed($stase->mulai, $stase->akhir);
 			}
-			if($k>0 && $stases[$k -1]->jenis_stase_id == $stase->jenis_stase_id){
+			if($k>0 && $stases[$k -1]->jenis_stase_id != $stase->jenis_stase_id){
 				$selesai = false;
 			}
 			if (isset($data[$stase->jenis_stase_id]['bulan']) && $data[$stase->jenis_stase_id]['bulan'] >= $stase->jenisStase->bulan) {
