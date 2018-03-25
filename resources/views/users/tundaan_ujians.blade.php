@@ -17,11 +17,13 @@
 						<tbody>
 							@if(count($tundaan_ujians) > 0)
 								@foreach($tundaan_ujians as $ujian)
-									<tr>
-										<td>{{ $ujian['tundaan']->jenis_ujian }}</td>
-										<td>{{ App\Ujian::monthPassed($ujian['akhir']->format('Y-m-d'), date('Y-m-d'))   }} bulan </td>
-										<td>{{ $ujian['akhir']->format('d M Y') }} </td>
-									</tr>
+									@foreach($ujian['tundaan']['jenis_stase']->jenisUjian as $tundaan)
+										<tr>
+											<td>{{ $tundaan->jenis_ujian }}</td>
+											<td>{{ App\Ujian::monthPassed($ujian['akhir']->format('Y-m-d'), date('Y-m-d'))   }} bulan </td>
+											<td>{{ $ujian['akhir']->format('d M Y') }} </td>
+										</tr>
+									@endforeach
 								@endforeach
 							@else
 								<tr>

@@ -51,7 +51,7 @@ class UsersController extends Controller
 
 		$ujian_sudahs   = Ujian::where('user_id', $id)->where('tanggal', '<=', date('Y-m-d'))->get(['jenis_ujian_id']);
 		$tundaan_ujians = $this->tundaan_ujian($stases, $ujian_sudahs, $id);
-		/* return $tundaan_ujians; */
+		/* return $tundaan_ujians[0]['tundaan']['jenis_stase']->jenisUjian; */
 		return view('users.show', compact(
 			'poli_bulan_inis',
 			'stasesResidens',
@@ -343,7 +343,7 @@ class UsersController extends Controller
 		$stase_selesai              = [];
 		$jenis_stase_harusnya_ujian = [];
 		$selesai = false;
-		foreach ($stases as $stase) {
+		foreach ($stases as $k=> $stase) {
 			$data[$stase->jenis_stase_id]['jenis_stase']    = $stase->JenisStase->jenis_stase;
 			$data[$stase->jenis_stase_id]['jenis_stase_id'] = $stase->jenis_stase_id;
 			if (isset($data[$stase->jenis_stase_id]['bulan'])) {
@@ -351,14 +351,20 @@ class UsersController extends Controller
 			} else {
 				$data[$stase->jenis_stase_id]['bulan'] =  Ujian::monthPassed($stase->mulai, $stase->akhir);
 			}
+			if($k>0 && $stases[$k -1]->jenis_stase_id == $stase->jenis_stase_id){
+				$selesai = false;
+			}
 			if (isset($data[$stase->jenis_stase_id]['bulan']) && $data[$stase->jenis_stase_id]['bulan'] >= $stase->jenisStase->bulan) {
 				if (!$selesai) {
 					$akhir_stase = $stase->akhir;
 					$selesai     = true;
 				}
-				$stase_selesai[ $stase->jenis_stase_id ]['jenis_stase']    = $stase->jenisStase->jenis_stase;
-				$stase_selesai[ $stase->jenis_stase_id ]['akhir_stase']    = $stase->akhir;
-				$stase_selesai[ $stase->jenis_stase_id ]['jenis_ujians']    = $stase->jenisStase;
+				$stase_selesai[ $stase->jenis_stase_id ]['jenis_stase']    = $stase->jenisStase;
+				$stase_selesai[ $stase->jenis_stase_id ]['jenis_stase_id']    = $stase->jenis_stase_id;
+				if (!isset($stase_selesai[ $stase->jenis_stase_id ]['akhir_stase'])) {
+					$stase_selesai[ $stase->jenis_stase_id ]['akhir_stase']    = $akhir_stase;
+				}
+				/* $stase_selesai[ $stase->jenis_stase_id ]['jenis_ujians']   = $stase->jenisStase; */
 				$stase_selesai[ $stase->jenis_stase_id ]['jenis_stase_id'] = $stase->jenis_stase_id;
 				if (isset($stase_selesai[ $stase->jenis_stase_id ]['bulan'])) {
 					$stase_selesai[ $stase->jenis_stase_id ]['bulan'] += Ujian::monthPassed($stase->mulai, $stase->akhir);
@@ -368,21 +374,18 @@ class UsersController extends Controller
 				$jenis_stase_harusnya_ujian[] = $stase->jenis_stase_id;
 			}
 		}
-		$harusnya_ujian = JenisUjian::whereIn('jenis_stase_id', $jenis_stase_harusnya_ujian)->get();
-		$harusnya_ujian_ids = [];
-		foreach ($harusnya_ujian as $jenis_ujian) {
-			$harusnya_ujian_ids[] = $jenis_ujian->id;
-		}
+
+		/* $harusnya_ujian     = JenisUjian::whereIn('jenis_stase_id', $jenis_stase_harusnya_ujian)->get(); */
 		$tundaan_ujians  = [];
 		$ujian_sudah_ids = [];
 		foreach ($ujian_sudahs as $ujian) {
 			$ujian_sudah_ids[] = $ujian->jenis_ujian_id;
 		}
-		foreach ($harusnya_ujian as $k => $harusnya) {
-			if ( !in_array($harusnya->id, $ujian_sudah_ids) ) {
+		foreach ($stase_selesai as $k => $harusnya) {
+			if ( !in_array($harusnya['jenis_stase_id'], $ujian_sudah_ids) ) {
 				$tundaan_ujians[] = [
 					'tundaan' => $harusnya,
-					'akhir'   => $akhir_stase
+					'akhir'   => $harusnya['akhir_stase']
 				];
 			}
 		}
