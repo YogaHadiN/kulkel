@@ -21,7 +21,7 @@
 							@endif
 								<td>
 									<a class="btn btn-warning btn-sm" href="{{ url('polis/' . $poli->id . '/edit') }}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-									{{ $poli->tanggal->format('d M Y') }}
+									{{ $poli->tanggal->format('d M Y, l') }}
 								</td>
 								<td>{{ $poli->jaga->jaga }}</td>
 							</tr>

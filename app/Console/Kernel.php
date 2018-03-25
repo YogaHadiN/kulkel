@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
 		'App\Console\Commands\test',
-		'App\Console\Commands\tampilkanDosen'
+		'App\Console\Commands\tampilkanDosen',
+		'App\Console\Commands\HapusPeminjamanTidakTerkonfirmasi'
     ];
 
     /**
@@ -25,8 +26,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        /* $schedule->command('pinjam:hapusTidakTerkonfirmasi') */
+        /*          ->dailyAt('07:00'); */
+        $schedule->command('pinjam:hapusTidakTerkonfirmasi')
+                 ->everyMinute();
     }
 
     /**
