@@ -20,7 +20,7 @@ class UsersController extends Controller
 	public function __construct()
 	{
 		/* $this->middleware('adminOnly', ['only' => ['update', 'destroy']]); */
-		$this->middleware('adminOnly', ['only' => []]);
+		$this->middleware('adminOnly', ['except' => ['index', 'show', 'edit']]);
 	}
 	public function create(){
 		return view('users.create');
@@ -50,8 +50,7 @@ class UsersController extends Controller
 						->get();
 
 		$ujian_sudahs   = Ujian::where('user_id', $id)->where('tanggal', '<=', date('Y-m-d'))->get(['jenis_ujian_id']);
-		$tundaan_ujians = $this->tundaan_ujian($stases, $ujian_sudahs, $id);
-		/* return $tundaan_ujians[0]['tundaan']['jenis_stase']->jenisUjian; */
+		$tundaan_ujians = $this->tundaan_ujian($stases, $ujian_sudahs);
 		return view('users.show', compact(
 			'poli_bulan_inis',
 			'stasesResidens',
@@ -338,7 +337,7 @@ class UsersController extends Controller
 			'pembacaan'
 		));
 	}
-	public function tundaan_ujian($stases, $ujian_sudahs, $id){
+	public function tundaan_ujian($stases, $ujian_sudahs){
 		$data                       = [];
 		$stase_selesai              = [];
 		$jenis_stase_harusnya_ujian = [];

@@ -11,6 +11,11 @@ use DB;
 
 class SeminarsController extends Controller
 {
+	public function __construct()
+	{
+		/* $this->middleware('adminOnly', ['only' => ['update', 'destroy']]); */
+		$this->middleware('adminOnly', ['except' => ['index', 'show']]);
+	}
 	public function index(){
 		$seminars = Seminar::all();
 		return view('seminars.index', compact(

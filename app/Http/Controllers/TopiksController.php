@@ -11,6 +11,10 @@ use Storage;
 
 class TopiksController extends Controller
 {
+	public function __construct()
+	{
+		$this->middleware('adminOnly', ['except' => ['index']]);
+	}
 	public function index(){
 		$topiks = Topik::all();
 		return view('topiks.index', compact(

@@ -47,8 +47,8 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::put('library/kembalikan/{id}', 'LibraryController@kembalikanBuku');
 		Route::post('library/pinjam', 'LibraryController@pinjamBuku');
 		Route::get('library/riwayatPeminjaman', 'LibraryController@riwayatPeminjaman');
-		Route::resource('seminars', 'SeminarsController');
 	});
+	Route::resource('seminars', 'SeminarsController');
 	Route::resource('library', 'LibraryController');
 	Route::resource('gardenias', 'GardeniasController');
 	Route::resource('events', 'EventsController');

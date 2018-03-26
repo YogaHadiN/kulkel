@@ -30,7 +30,7 @@
 		</div>
 		<div class="panel-body">
 			<div class="table-responsive">
-				<table class="table table-hover table-condensed table-bordered">
+				<table class="table table-hover table-condensed table-bordered DT">
 					<thead>
 						<tr>
 							<th>Judul</th>
@@ -51,25 +51,11 @@
 											]) !!}
 										{!! Form::close() !!}
 									</td>
-									<td nowrap class="autofit">
-										{!! Form::open(['url' => 'videos/' . $video->id, 'method' => 'delete']) !!}
-											<a class="btn btn-warning btn-sm" href="{{ url('videos/' . $video->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
-											<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus {{ $video->id }} - {{ $video->judul }} ?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
-										{!! Form::close() !!}
-									</td>
 								</tr>
 							@endforeach
 						@else
 							<tr>
-								<td colspan="">
-									{!! Form::open(['url' => 'videos/imports', 'method' => 'post', 'files' => 'true']) !!}
-										<div class="form-group">
-											{!! Form::label('file', 'Data tidak ditemukan, upload data?') !!}
-											{!! Form::file('file') !!}
-											{!! Form::submit('Upload', ['class' => 'btn btn-primary', 'id' => 'submit']) !!}
-										</div>
-									{!! Form::close() !!}
-								</td>
+								<td colspan="2" class="text-center">Tidak ada data untuk ditampilkan</td>
 							</tr>
 						@endif
 					</tbody>

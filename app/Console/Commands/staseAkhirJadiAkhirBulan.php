@@ -39,6 +39,6 @@ class staseAkhirJadiAkhirBulan extends Command
     {
 		Stase::update([
 			'akhir'
-		])
+		]);
     }
 }
