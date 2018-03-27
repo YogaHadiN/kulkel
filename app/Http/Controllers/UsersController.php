@@ -303,7 +303,9 @@ class UsersController extends Controller
 	}
 
 	public function stase_create($user_id){
+		$user = User::find($user_id);
 		return view('stases.create', compact(
+			'user',
 			'user_id'
 		));
 	}
@@ -393,9 +395,4 @@ class UsersController extends Controller
 		});
 		return $tundaan_ujians;
 	}
-	
-	
-	
-	
-	
 }

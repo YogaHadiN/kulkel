@@ -1,7 +1,10 @@
 <div class="form-group @if($errors->has('user_id')) has-error @endif">
 	{!! Form::label('user_id', 'Nama Residen', ['class' => 'control-label']) !!}
   @if(isset( $user_id ))
-	  {!! Form::select('user_ids' , App\User::list(), $user_id, ['class' => 'form-control rq', 'disabled' => 'disabled']) !!}
+	  {!! Form::text('user_ids',  $user->nama, [
+		  'class' => 'form-control',
+		  'disabled' => 'disabled'
+	  ]) !!}
 	  {!! Form::hidden('user_id', $user_id, ['class' => 'form-control']) !!}
 	  {!! Form::hidden('user_create', $user_id, ['class' => 'form-control']) !!}
   @else

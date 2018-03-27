@@ -115,7 +115,7 @@
                         </ul>
                     </li>
 					<li>
-                        <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">E Library</span><span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Perpustakaan</span><span class="fa arrow"></span></a>
 						<ul class="nav nav-second-level">
                             <li>{!! HTML::link('library', 'Daftar Buku')!!}</li>
                             <li>{!! HTML::link('library/riwayatPeminjaman', 'Riwayat Peminjaman')!!}</li>
