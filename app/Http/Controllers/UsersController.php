@@ -52,6 +52,7 @@ class UsersController extends Controller
 
 		$ujian_sudahs   = Ujian::where('user_id', $id)->where('tanggal', '<=', date('Y-m-d'))->get(['jenis_ujian_id']);
 		$tundaan_ujians = $this->tundaan_ujian($stases, $ujian_sudahs);
+		/* return $tundaan_ujians; */
 		return view('users.show', compact(
 			'poli_bulan_inis',
 			'stasesResidens',
@@ -370,7 +371,7 @@ class UsersController extends Controller
 		foreach ($ujian_sudahs as $ujian) {
 			$ujian_sudah_ids[] = $ujian->jenis_ujian_id;
 		}
-		$tundaan_ujians = JenisUjian::where('jenis_stase_id', $stase_selesai_ids)->whereNotIn('id', $ujian_sudah_ids)->get();
+		$tundaan_ujians = JenisUjian::whereIn('jenis_stase_id', $stase_selesai_ids)->whereNotIn('id', $ujian_sudah_ids)->get();
 		return $tundaan_ujians;
 	}
 	public function perpus($id){
