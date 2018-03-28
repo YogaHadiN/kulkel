@@ -345,7 +345,6 @@ class UsersController extends Controller
 	public function tundaan_ujian($stases, $ujian_sudahs){
 		$data                       = [];
 		$stase_selesai              = [];
-		$jenis_stase_harusnya_ujian = [];
 		$selesai = false;
 		foreach ($stases as $k=> $stase) {
 			$data[$stase->jenis_stase_id]['jenis_stase']    = $stase->JenisStase->jenis_stase;
@@ -355,47 +354,23 @@ class UsersController extends Controller
 			} else {
 				$data[$stase->jenis_stase_id]['bulan'] =  Ujian::monthPassed($stase->mulai, $stase->akhir);
 			}
-			if($k>0 && $stases[$k -1]->jenis_stase_id != $stase->jenis_stase_id){
-				$selesai = false;
-			}
 			if (isset($data[$stase->jenis_stase_id]['bulan']) && $data[$stase->jenis_stase_id]['bulan'] >= $stase->jenisStase->bulan) {
-				if (!$selesai) {
-					$akhir_stase = $stase->akhir;
-					$selesai     = true;
-				}
-				$stase_selesai[ $stase->jenis_stase_id ]['jenis_stase']    = $stase->jenisStase;
-				$stase_selesai[ $stase->jenis_stase_id ]['jenis_stase_id']    = $stase->jenis_stase_id;
-				if (!isset($stase_selesai[ $stase->jenis_stase_id ]['akhir_stase'])) {
-					$stase_selesai[ $stase->jenis_stase_id ]['akhir_stase']    = $akhir_stase;
-				}
-				/* $stase_selesai[ $stase->jenis_stase_id ]['jenis_ujians']   = $stase->jenisStase; */
+				$stase_selesai[ $stase->jenis_stase_id ]['jenis_stase']    = $stase->jenisStase->jenis_stase;
 				$stase_selesai[ $stase->jenis_stase_id ]['jenis_stase_id'] = $stase->jenis_stase_id;
-				if (isset($stase_selesai[ $stase->jenis_stase_id ]['bulan'])) {
-					$stase_selesai[ $stase->jenis_stase_id ]['bulan'] += Ujian::monthPassed($stase->mulai, $stase->akhir);
-				}else {
-					$stase_selesai[ $stase->jenis_stase_id ]['bulan'] = $data[$stase->jenis_stase_id]['bulan'];
+				if (!isset($stase_selesai[ $stase->jenis_stase_id ]['akhir_stase'])) {
+					$stase_selesai[ $stase->jenis_stase_id ]['akhir_stase'] = $stase->akhir;
 				}
-				$jenis_stase_harusnya_ujian[] = $stase->jenis_stase_id;
 			}
 		}
-
-		/* $harusnya_ujian     = JenisUjian::whereIn('jenis_stase_id', $jenis_stase_harusnya_ujian)->get(); */
-		$tundaan_ujians  = [];
+		$stase_selesai_ids = [];
+		foreach ($stase_selesai as $stase) {
+			$stase_selesai_ids[] = $stase['jenis_stase_id'];
+		}
 		$ujian_sudah_ids = [];
 		foreach ($ujian_sudahs as $ujian) {
 			$ujian_sudah_ids[] = $ujian->jenis_ujian_id;
 		}
-		foreach ($stase_selesai as $k => $harusnya) {
-			if ( !in_array($harusnya['jenis_stase_id'], $ujian_sudah_ids) ) {
-				$tundaan_ujians[] = [
-					'tundaan' => $harusnya,
-					'akhir'   => $harusnya['akhir_stase']
-				];
-			}
-		}
-		usort($tundaan_ujians, function($a, $b) {
-			return $a['akhir'] <=> $b['akhir'];
-		});
+		$tundaan_ujians = JenisUjian::where('jenis_stase_id', $stase_selesai_ids)->whereNotIn('id', $ujian_sudah_ids)->get();
 		return $tundaan_ujians;
 	}
 	public function perpus($id){

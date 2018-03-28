@@ -10,20 +10,16 @@
 						<thead>
 							<tr>
 								<th>Jenis Ujian</th>
-								<th>Tertunda Selama</th>
-								<th>Sejak</th>
+								{{-- <th>Tertunda Selama</th> --}}
+								{{-- <th>Sejak</th> --}}
 							</tr>
 						</thead>
 						<tbody>
 							@if(count($tundaan_ujians) > 0)
 								@foreach($tundaan_ujians as $ujian)
-									@foreach($ujian['tundaan']['jenis_stase']->jenisUjian as $tundaan)
 										<tr>
-											<td>{{ $tundaan->jenis_ujian }}</td>
-											<td>{{ App\Ujian::monthPassed($ujian['akhir']->format('Y-m-d'), date('Y-m-d'))   }} bulan </td>
-											<td>{{ $ujian['akhir']->format('d M Y') }} </td>
+											<td>{{ $ujian->jenis_ujian }}</td>
 										</tr>
-									@endforeach
 								@endforeach
 							@else
 								<tr>
