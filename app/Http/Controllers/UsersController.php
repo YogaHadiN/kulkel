@@ -297,7 +297,9 @@ class UsersController extends Controller
 	}
 	public function stase_edit($user_id, $stase_id){
 		$stase = Stase::find($stase_id);
+		$user = User::find($user_id);
 		return view('stases.edit', compact(
+			'user',
 			'stase',
 			'user_id'
 		));
