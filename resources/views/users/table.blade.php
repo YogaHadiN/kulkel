@@ -28,7 +28,8 @@
 							</ul>
 						</td>
 						<td> 
-							<a class="btn btn-success btn-sm" href="{{ url('users/' . $user->id ) }}">Show</a>
+							<a class="btn btn-success btn-xs" href="{{ url('users/' . $user->id ) }}"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+							<a class="btn btn-info btn-xs" href="{{ url('users/' . $user->id . '/riwayat_peminjaman' ) }}"><span class="glyphicon glyphicon-book" aria-hidden="true"></span></a>
 						</td>
 					</tr>
 				@endforeach

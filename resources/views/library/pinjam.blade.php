@@ -28,19 +28,22 @@
 				</div>
 				<div class="panel-body">
 					{!! Form::open(['url' => 'library/pinjam', 'method' => 'post']) !!}
-						<div class="form-group @if($errors->has('perpus_id')) has-error @endif">
+						<div class="form-group hide @if($errors->has('perpus_id')) has-error @endif">
 							{!! Form::label('perpus_id', 'Buku id', ['class' => 'control-label']) !!}
 						  {!! Form::text('perpus_id' ,  $buku->id , ['class' => 'form-control rq', 'readonly' => 'readonly']) !!}
 						  @if($errors->has('perpus_id'))<code>{{ $errors->first('perpus_id') }}</code>@endif
 						</div>
-						<div class="form-group @if($errors->has('admin_id')) has-error @endif">
+						<div class="form-group hide @if($errors->has('admin_id')) has-error @endif">
 							{!! Form::label('admin_id', 'Admin Id', ['class' => 'control-label']) !!}
-						  {!! Form::text('admin_id' , Auth::id(), ['class' => 'form-control rq', 'readonly' => 'readonly']) !!}
+						  {!! Form::text('admin_id' , Auth::id(), [
+								  'class'    => 'form-control rq',
+								  'readonly' => 'readonly'
+							  ]) !!}
 						  @if($errors->has('admin_id'))<code>{{ $errors->first('admin_id') }}</code>@endif
 						</div>
 						<div class="form-group @if($errors->has('peminjam_id')) has-error @endif">
 							{!! Form::label('peminjam_id', 'Nama Peminjam', ['class' => 'control-label']) !!}
-						  {!! Form::select('peminjam_id', App\User::list(), null, ['class' => 'form-control rq']) !!}
+							{!! Form::select('peminjam_id', App\User::list(), null, ['class' => 'form-control rq selectpick', 'data-live-search' => 'true']) !!}
 						  @if($errors->has('peminjam_id'))<code>{{ $errors->first('peminjam_id') }}</code>@endif
 						</div>
 						<div class="form-group @if($errors->has('tanggal_pinjam')) has-error @endif">

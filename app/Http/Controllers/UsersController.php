@@ -7,6 +7,7 @@ use App\Yoga;
 use App\JenisUjian;
 use App\Ujian;
 use App\Pembacaan;
+use App\PinjamBuku;
 use App\JenisStase;
 use App\Role;
 use App\Stase;
@@ -395,4 +396,17 @@ class UsersController extends Controller
 		});
 		return $tundaan_ujians;
 	}
+	public function perpus($id){
+		
+		$pinjams = PinjamBuku::where('peminjam_id', $id)->get();
+		$user = User::find( $id );
+
+
+		return view('users.riwayatPeminjaman', compact(
+			'pinjams',
+			'user'
+		));
+
+	}
+	
 }

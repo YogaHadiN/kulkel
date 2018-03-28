@@ -30,6 +30,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('email', 'EmailController');
 	Route::resource('ebooks', 'EbooksController');
 	Route::resource('videos', 'VideosController');
+ 
+	Route::get('users/{id}/riwayat_peminjaman', 'UsersController@perpus');
 	Route::get('users/{user_id}/pembacaans/{pembacaan_id}/edit', 'UsersController@edit_pembacaan');
 	Route::get('users/{user_id}/pembacaans/create', 'UsersController@create_pembacaan');
 	Route::get('users/{user_id}/ujians/{ujian_id}/edit', 'UsersController@edit_ujian');
