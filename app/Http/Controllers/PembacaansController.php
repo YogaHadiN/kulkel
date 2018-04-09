@@ -27,7 +27,7 @@ class PembacaansController extends Controller
 	public function create(){
 		return view('pembacaans.create');
 	}
-	public function store(){
+	public function store(Request $request ){
 		DB::beginTransaction();
 		try {
 			$messages = [
@@ -45,14 +45,20 @@ class PembacaansController extends Controller
 			{
 				return \Redirect::back()->withErrors($validator)->withInput();
 			}
-			$pembacaan                     = new Pembacaan;
-			$pembacaan->user_id            = Input::get('user_id');
-			$pembacaan->judul              = Input::get('judul');
-			$pembacaan->doi                = Input::get('doi');
-			$pembacaan->jenis_pembacaan_id = Input::get('jenis_pembacaan_id');
-			$pembacaan->tanggal            = Yoga::datePrep(Input::get('tanggal')) . ' ' . date("H:i:s", strtotime(Input::get('jam')));
+			$pembacaan                              = new Pembacaan;
+			$pembacaan->user_id                     = Input::get('user_id');
+			$pembacaan->judul                       = Input::get('judul');
+			$pembacaan->doi                         = Input::get('doi');
+			$pembacaan->jenis_pembacaan_id          = Input::get('jenis_pembacaan_id');
+			$pembacaan->tanggal                     = Yoga::datePrep(Input::get('tanggal')) . ' ' . date("H:i:s", strtotime(Input::get('jam')));
 			$pembacaan->save();
-
+			$upload_materi                          = $this->uploadS3($request, Input::get('judul'), $pembacaan->user_id);
+			$pembacaan->nama_file_materi            = $upload_materi['file_name'];
+			$pembacaan->link_materi                 = $upload_materi['link'];
+			$upload_materi                          = $this->uploadTerjemahan($request, Input::get('judul'), $pembacaan->user_id);
+			$pembacaan->nama_file_materi_terjemahan = $upload_materi['file_name'];
+			$pembacaan->link_materi_terjemahan      = $upload_materi['link'];
+			$pembacaan->save();
 
 			$timestamp = date('Y-m-d H:i:s');
 			$moderator = [];
@@ -75,6 +81,23 @@ class PembacaansController extends Controller
 			}
 			Pembahas::insert($pembahas);
 			Moderator::insert($moderator);
+
+			$materi_id     = '';
+			$terjemahan_id = '';
+			$upload = false;
+			if ( $request->file('materi') ) {
+				$file = $request->file('materi');
+				$file->move(storage_path(). '/uploads' , $materi_id = uniqid() . '.' . $request->file('materi')->getClientOriginalExtension() );
+				$upload = true;
+			}
+			if ( $request->file('terjemahan') ) {
+				$file = $request->file('terjemahan');
+				$file->move(storage_path(). '/uploads' , $terjemahan_id = uniqid() . '.' . $request->file('terjemahan')->getClientOriginalExtension() );			
+				$upload = true;
+			}
+			if ($upload) {
+				$this->dispatch(new UploadMateriToS3($pembacaan, $materi_id, $terjemahan_id));
+			}
 
 			$pesan = Yoga::suksesFlash('Pembacaan berhasil diinput');
 			DB::commit();
@@ -187,7 +210,7 @@ class PembacaansController extends Controller
 		return compact('pembahas_array_id', 'moderator_array_id');
 	}
 	
-	private function uploadS3($request, $name, $seminar_id, $user_id){
+	private function uploadS3($request, $name, $user_id){
 		if($request->hasFile($name)) {
 			//get filename with extension
 			$filenamewithextension = $request->file($name)->getClientOriginalName();
@@ -208,7 +231,7 @@ class PembacaansController extends Controller
 			
 	    }
 	}
-	private function uploadTerjemahan($request, $name, $seminar_id, $user_id){
+	private function uploadTerjemahan($request, $name, $user_id){
 		if($request->hasFile($name)) {
 			//get filename with extension
 			$filenamewithextension = $request->file($name)->getClientOriginalName();
