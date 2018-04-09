@@ -31,9 +31,49 @@
 					</h3>
 				</div>
 				<div class="panel-body">
-					{{ $pembacaans->links() }}
-						@include('pembacaans.pembacaan')
-					{{ $pembacaans->links() }}
+					{{-- {{ $pembacaans->links() }} --}}
+					<div class="table-responsive">
+						<table class="table table-hover table-condensed table-bordered DT">
+							<thead>
+								<tr>
+									<th>Tanggal</th>
+									<th>Presentan</th>
+									<th>Judul</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								@if($pembacaans->count() > 0)
+									@foreach($pembacaans as $pembacaan)
+										<tr>
+											<td>{{ $pembacaan->tanggal->format('d M y') }}</td>
+											<td>{{ $pembacaan->user->nama }}</td>
+											<td>{{ $pembacaan->judul }}</td>
+											<td nowrap class="autofit">
+												{!! Form::open(['url' => 'pembacaans/' . $pembacaan->id, 'method' => 'delete']) !!}
+													<a class="btn btn-warning btn-sm" href="{{ url('pembacaans/' . $pembacaan->id . '/edit') }}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Edit</a>
+													<button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus {{ $pembacaan->id }} - {{ $pembacaan->judul }} ?')" type="submit"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Delete</button>
+												{!! Form::close() !!}
+											</td>
+										</tr>
+									@endforeach
+								@else
+									<tr>
+										<td colspan="">
+											{!! Form::open(['url' => 'pembacaans/imports', 'method' => 'post', 'files' => 'true']) !!}
+												<div class="form-group">
+													{!! Form::label('file', 'Data tidak ditemukan, upload data?') !!}
+													{!! Form::file('file') !!}
+													{!! Form::submit('Upload', ['class' => 'btn btn-primary', 'id' => 'submit']) !!}
+												</div>
+											{!! Form::close() !!}
+										</td>
+									</tr>
+								@endif
+							</tbody>
+						</table>
+					</div>
+					{{-- {{ $pembacaans->links() }} --}}
 				</div>
 			</div>
 		</div>
