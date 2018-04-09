@@ -40,12 +40,12 @@
 </div>
 <div class="form-group @if($errors->has('judul')) has-error @endif">
 	{!! Form::label('judul', 'Judul (Asli, bukan terjemahan)', ['class' => 'control-label']) !!}
-	{!! Form::text('judul' , $pembacaan->judul, ['class' => 'form-control']) !!}
+	{!! Form::text('judul' , null, ['class' => 'form-control']) !!}
   @if($errors->has('judul'))<code>{{ $errors->first('judul') }}</code>@endif
 </div>
 <div class="form-group @if($errors->has('doi')) has-error @endif">
 	{!! Form::label('doi', 'DOI', ['class' => 'control-label']) !!}
-	{!! Form::text('doi' , $pembacaan->doi, ['class' => 'form-control']) !!}
+	{!! Form::text('doi' , null, ['class' => 'form-control']) !!}
   @if($errors->has('doi'))<code>{{ $errors->first('doi') }}</code>@endif
 </div>
 <div class="form-group{{ $errors->has('materi') ? ' has-error' : '' }}">
