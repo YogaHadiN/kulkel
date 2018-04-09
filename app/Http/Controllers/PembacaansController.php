@@ -28,6 +28,7 @@ class PembacaansController extends Controller
 		return view('pembacaans.create');
 	}
 	public function store(Request $request ){
+		/* return Input::all(); */ 
 		DB::beginTransaction();
 		try {
 			$messages = [
@@ -53,11 +54,12 @@ class PembacaansController extends Controller
 			$pembacaan->tanggal                     = Yoga::datePrep(Input::get('tanggal')) . ' ' . date("H:i:s", strtotime(Input::get('jam')));
 			$pembacaan->save();
 
-			$upload_materi                          = $this->uploadS3($request, Input::get('judul'), $pembacaan->user_id);
+
+			$upload_materi                          = $this->uploadS3($request, 'materi', $pembacaan->user_id);
 			$pembacaan->nama_file_materi            = $upload_materi['file_name'];
 			$pembacaan->link_materi                 = $upload_materi['link'];
 
-			$upload_terjemahan                      = $this->uploadTerjemahan($request, Input::get('judul'), $pembacaan->user_id);
+			$upload_terjemahan                      = $this->uploadTerjemahan($request, 'terjemahan', $pembacaan->user_id);
 			$pembacaan->nama_file_materi_terjemahan = $upload_terjemahan['file_name'];
 			$pembacaan->link_materi_terjemahan      = $upload_terjemahan['link'];
 			$pembacaan->save();
@@ -83,23 +85,6 @@ class PembacaansController extends Controller
 			}
 			Pembahas::insert($pembahas);
 			Moderator::insert($moderator);
-
-			$materi_id     = '';
-			$terjemahan_id = '';
-			$upload = false;
-			if ( $request->file('materi') ) {
-				$file = $request->file('materi');
-				$file->move(storage_path(). '/uploads' , $materi_id = uniqid() . '.' . $request->file('materi')->getClientOriginalExtension() );
-				$upload = true;
-			}
-			if ( $request->file('terjemahan') ) {
-				$file = $request->file('terjemahan');
-				$file->move(storage_path(). '/uploads' , $terjemahan_id = uniqid() . '.' . $request->file('terjemahan')->getClientOriginalExtension() );			
-				$upload = true;
-			}
-			if ($upload) {
-				$this->dispatch(new UploadMateriToS3($pembacaan, $materi_id, $terjemahan_id));
-			}
 
 			$pesan = Yoga::suksesFlash('Pembacaan berhasil diinput');
 			DB::commit();
@@ -222,7 +207,6 @@ class PembacaansController extends Controller
 			$extension = $request->file($name)->getClientOriginalExtension();
 			//filename to store
 			$filenametostore = 'users/' . $user_id . '/pembacaan/materi/' . $filename.'_'.time().'.'.$extension;
-
 			//Upload File to s3
 			Storage::disk('s3')->put($filenametostore, fopen($request->file($name), 'r+'), 'public');
 			//Store $filenametostore in the database

@@ -24,7 +24,13 @@
 					<h3 class="panel-title">Pembacaan Baru</h3>
 				</div>
 				<div class="panel-body">
-				{!! Form::open(['url' => 'pembacaans', 'method' => 'post']) !!}
+				{!! Form::open([
+						'url'    => 'pembacaans',
+						"class" => "m-t", 
+						"role"  => "form",
+						"files"  => "true",
+						'method' => 'post'
+					]) !!}
 					@include('pembacaans.form')
 					<div class="row">
 						<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
