@@ -192,7 +192,7 @@ class UsersController extends Controller
 			$user->sex              = Input::get('sex');
 			$user->email            = Input::get('email');
 			if ( !empty( Input::get('password') ) ) {
-				$user->password            = Input::get('password');
+				$user->password            = bcrypt(Input::get('password'));
 			}
 			$user->save();
 
