@@ -55,13 +55,16 @@ class PembacaansController extends Controller
 			$pembacaan->save();
 
 
-			$upload_materi                          = $this->uploadS3($request, 'materi', $pembacaan->user_id);
-			$pembacaan->nama_file_materi            = $upload_materi['file_name'];
-			$pembacaan->link_materi                 = $upload_materi['link'];
-
-			$upload_terjemahan                      = $this->uploadTerjemahan($request, 'terjemahan', $pembacaan->user_id);
-			$pembacaan->nama_file_materi_terjemahan = $upload_terjemahan['file_name'];
-			$pembacaan->link_materi_terjemahan      = $upload_terjemahan['link'];
+			if ($request->hasFile('materi')) {
+				$upload_materi                          = $this->uploadS3($request, 'materi', $pembacaan->user_id);
+				$pembacaan->nama_file_materi            = $upload_materi['file_name'];
+				$pembacaan->link_materi                 = $upload_materi['link'];
+			}
+			if ($request->hasFile('terjemahan')) {
+				$upload_terjemahan                      = $this->uploadTerjemahan($request, 'terjemahan', $pembacaan->user_id);
+				$pembacaan->nama_file_materi_terjemahan = $upload_terjemahan['file_name'];
+				$pembacaan->link_materi_terjemahan      = $upload_terjemahan['link'];
+			}
 			$pembacaan->save();
 
 			$timestamp = date('Y-m-d H:i:s');
@@ -132,22 +135,18 @@ class PembacaansController extends Controller
 			$pembacaan->tanggal            = Yoga::datePrep(Input::get('tanggal')) . ' ' . date("H:i:s", strtotime(Input::get('jam')));
 			$pembacaan->save();
 
-			$materi_id     = '';
-			$terjemahan_id = '';
-			$upload = false;
-			if ( $request->file('materi') ) {
-				$file = $request->file('materi');
-				$file->move(storage_path(). '/uploads' , $materi_id = uniqid() . '.' . $request->file('materi')->getClientOriginalExtension() );
-				$upload = true;
+
+			if ($request->hasFile('materi')) {
+				$upload_materi                          = $this->uploadS3($request, 'materi', $pembacaan->user_id);
+				$pembacaan->nama_file_materi            = $upload_materi['file_name'];
+				$pembacaan->link_materi                 = $upload_materi['link'];
 			}
-			if ( $request->file('terjemahan') ) {
-				$file = $request->file('terjemahan');
-				$file->move(storage_path(). '/uploads' , $terjemahan_id = uniqid() . '.' . $request->file('terjemahan')->getClientOriginalExtension() );			
-				$upload = true;
+			if ($request->hasFile('terjemahan')) {
+				$upload_terjemahan                      = $this->uploadTerjemahan($request, 'terjemahan', $pembacaan->user_id);
+				$pembacaan->nama_file_materi_terjemahan = $upload_terjemahan['file_name'];
+				$pembacaan->link_materi_terjemahan      = $upload_terjemahan['link'];
 			}
-			if ($upload) {
-				$this->dispatch(new UploadMateriToS3($pembacaan, $materi_id, $terjemahan_id));
-			}
+			$pembacaan->save();
 
 			Moderator::where('pembacaan_id', $id)->delete();
 			Pembahas::where('pembacaan_id', $id)->delete();
