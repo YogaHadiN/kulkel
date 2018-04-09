@@ -47,8 +47,10 @@ class PembacaansController extends Controller
 			}
 			$pembacaan                     = new Pembacaan;
 			$pembacaan->user_id            = Input::get('user_id');
+			$pembacaan->judul              = Input::get('judul');
+			$pembacaan->doi                = Input::get('doi');
 			$pembacaan->jenis_pembacaan_id = Input::get('jenis_pembacaan_id');
-			$pembacaan->tanggal            = Yoga::datePrep(Input::get('tanggal')) . ' ' . date("H:i:s", strtotime(Input::get('jam'))); ;
+			$pembacaan->tanggal            = Yoga::datePrep(Input::get('tanggal')) . ' ' . date("H:i:s", strtotime(Input::get('jam')));
 			$pembacaan->save();
 
 
