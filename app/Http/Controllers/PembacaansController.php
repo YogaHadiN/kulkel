@@ -52,12 +52,14 @@ class PembacaansController extends Controller
 			$pembacaan->jenis_pembacaan_id          = Input::get('jenis_pembacaan_id');
 			$pembacaan->tanggal                     = Yoga::datePrep(Input::get('tanggal')) . ' ' . date("H:i:s", strtotime(Input::get('jam')));
 			$pembacaan->save();
+
 			$upload_materi                          = $this->uploadS3($request, Input::get('judul'), $pembacaan->user_id);
 			$pembacaan->nama_file_materi            = $upload_materi['file_name'];
 			$pembacaan->link_materi                 = $upload_materi['link'];
-			$upload_materi                          = $this->uploadTerjemahan($request, Input::get('judul'), $pembacaan->user_id);
-			$pembacaan->nama_file_materi_terjemahan = $upload_materi['file_name'];
-			$pembacaan->link_materi_terjemahan      = $upload_materi['link'];
+
+			$upload_terjemahan                      = $this->uploadTerjemahan($request, Input::get('judul'), $pembacaan->user_id);
+			$pembacaan->nama_file_materi_terjemahan = $upload_terjemahan['file_name'];
+			$pembacaan->link_materi_terjemahan      = $upload_terjemahan['link'];
 			$pembacaan->save();
 
 			$timestamp = date('Y-m-d H:i:s');
