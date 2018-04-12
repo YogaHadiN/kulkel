@@ -165,6 +165,12 @@ class User extends Authenticatable
 	public function ujian(){
 		return $this->hasMany('App\Ujian');
 	}
+	public function residenPegangan(){
+		return $this->hasMany('App\ResidenPegangan');
+	}
+	public function subBagian(){
+		return $this->hasMany('App\SubBagian');
+	}
 	
 	public function getArraytelpAttribute(){
 		$no_telps = $this->no_telps;

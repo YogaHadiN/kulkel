@@ -16,4 +16,7 @@ class JenisStase extends Model
 	public function jenisUjian(){
 		return $this->hasMany('App\JenisUjian');
 	}
+	public function subBagian(){
+		return $this->hasMany('App\SubBagian');
+	}
 }

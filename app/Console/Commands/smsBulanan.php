@@ -45,9 +45,11 @@ class smsBulanan extends Command
      */
     public function handle()
     {
-		dd($this->formatSms(User::find(1), date('Y-m')));
+		/* dd($this->formatSms(User::find(1), date('Y-m'))); */
+		dd($this->formatSms(User::find(1), '2018-03'));
     }
-	private function formatSms($user, $this_month ){
+
+	public function formatSms($user, $this_month ){
 		$polis      = Poli::where('user_id', $user->id)->where('tanggal', 'like', $this_month . '%')->get();
 		$rsnds      = Rsnd::where('user_id', $user->id)->where('tanggal', 'like', $this_month . '%')->get();
 		$gardenias  = Gardenia::where('user_id', $user->id)->where('tanggal', 'like', $this_month . '%')->get();
@@ -78,7 +80,7 @@ class smsBulanan extends Command
 			$text .=  '/ tgl ' . $pembacaans[0]->tanggal->format('d');
 			$text .=  ', mod: ' . $pembacaans[0]->moderator[0]->user->panggilan;
 		} else {
-			$text .=  '<br />';
+			$text .= PHP_EOL;
 			foreach ($pembacaans as $pembacaan) {
 				$text .=  'hr ' . Yoga::hariIndonesia($pembacaan->tanggal->format('N'));
 				$text .=  '/ tgl ' . $pembacaan->tanggal->format('d');
@@ -90,18 +92,19 @@ class smsBulanan extends Command
 		$text .= 'Jadwal jaga:';
 		if ( $polis->count() < 1 ) {
 			$text .=  ' tidak ada';
+			$text .= PHP_EOL;
 		} else{
 			$text .= PHP_EOL;
 			if (count($jabay)) {
 				$text .= 'Jabay: ';
 				if( count($jabay) < 2 ){
-					$text .=  'hr ' . Yoga::hariIndonesia($jabar[0]->tanggal->format('N'));
+					$text .=  'hr ' . Yoga::hariIndonesia($jabay[0]->tanggal->format('N'));
 					$text .= '/ tgl ' .$jabay[0]->tanggal->format('d');
 					$text .= PHP_EOL;
 				} else {
 					$text .= PHP_EOL;
 					foreach ($jabay as $jby) {
-						$text .=  'hr ' . Yoga::hariIndonesia($jabar[0]->tanggal->format('N'));
+						$text .=  'hr ' . Yoga::hariIndonesia($jabay[0]->tanggal->format('N'));
 						$text .= '/ tgl ' .$jby->tanggal->format('d');
 						$text .= PHP_EOL;
 					}
@@ -189,8 +192,4 @@ class smsBulanan extends Command
 		$text .= '. Tq.';
 		return $text;
 	}
-
-
-
-
 }

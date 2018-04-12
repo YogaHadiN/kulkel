@@ -39,6 +39,7 @@ Kulkel Undip | User
 						<li role="presentation" class="active"><a href="#residens" aria-controls="residens" role="tab" data-toggle="tab">Residen ({{ count($residens) }})</a></li>
 						<li role="presentation"><a href="#dosens" aria-controls="dosens" role="tab" data-toggle="tab">Dosen ({{ count($dosens) }})</a></li>
 						<li role="presentation"><a href="#admins" aria-controls="admins" role="tab" data-toggle="tab">Admin ({{ count( $admins ) }})</a></li>
+						<li role="presentation"><a href="#keluar" aria-controls="keluar" role="tab" data-toggle="tab">Keluar ({{ count( $keluar ) }})</a></li>
 					  </ul>
 
 					  <!-- Tab panes -->
@@ -51,6 +52,9 @@ Kulkel Undip | User
 						</div>
 						<div role="tabpanel" class="tab-pane" id="admins">
 							@include('users.table', ['users' => $admins])
+						</div>
+						<div role="tabpanel" class="tab-pane" id="keluar">
+							@include('users.table', ['users' => $keluar])
 						</div>
 					  </div>
 					</div>

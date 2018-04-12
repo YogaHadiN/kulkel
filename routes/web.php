@@ -14,9 +14,9 @@
 Route::get('/', 'WelcomeController@index');
 Route::get('about', 'WelcomeController@about');
 Route::get('tools', 'ToolsController@index');
-Route::get('tools/sms_bulanan', 'ToolsController@smsBulanan');
-Route::get('tools/sms_harian', 'ToolsController@smsHarian');
-Route::get('tools/email_tundaan_ujian', 'ToolsController@EmailTundaanUjian');
+Route::post('tools/sms_bulanan', 'ToolsController@smsBulanan');
+Route::post('tools/sms_harian', 'ToolsController@smsHarian');
+Route::post('tools/email_tundaan_ujian', 'ToolsController@EmailTundaanUjian');
 Route::get('beritas', 'WelcomeController@events');
 Route::get('beritas/{id}', 'WelcomeController@show');
 Route::get('library/{token}/konfirmasi', 'LibraryController@konfirmasi');

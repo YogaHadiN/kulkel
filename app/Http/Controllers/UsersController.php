@@ -32,7 +32,6 @@ class UsersController extends Controller
 		$thisUser = $userThis->paramIndex($id);
 
 		$poli_bulan_inis      = $thisUser['poli_bulan_inis'];
-		$stases               = $thisUser['stases'];
 		$gardenias            = $thisUser['gardenias'];
 		$rsnds                = $thisUser['rsnds'];
 		$pembacaan_bulan_inis = $thisUser['pembacaan_bulan_inis'];
@@ -42,8 +41,7 @@ class UsersController extends Controller
 		$stasesResidens   = Stase::with('user', 'jenisStase')->where('user_id', $id)->orderBy('mulai')->get();
 		$pembacaans       = Pembacaan::with('user')->where('user_id', $id)->orderBy('tanggal', 'desc')->get();
 
-		$ujian_sudahs   = Ujian::where('user_id', $id)->where('tanggal', '<=', date('Y-m-d'))->get(['jenis_ujian_id']);
-		$tundaan_ujians = $this->tundaan_ujian($stases, $ujian_sudahs);
+		$tundaan_ujians = $this->tundaan_ujian($id);
 		/* return $tundaan_ujians; */
 		return view('users.show', compact(
 			'poli_bulan_inis',
@@ -70,20 +68,24 @@ class UsersController extends Controller
 		$admins   = [];
 		$residens = [];
 		$dosens   = [];
+		$keluar   = [];
 
 		foreach ($users as $user) {
 			if ( $user->role_id == '1' ) {
 				$residens[] = $user;
 			} elseif ( $user->role_id == '2' ){
 				$dosens[] = $user;
-			} else {
+			} elseif ( $user->role_id == '3' ){
 				$admins[] = $user;
+			} else {
+				$keluar[] = $user;
 			}
 		}
 
 		return view('users.index', compact(
 			'residens',
 			'dosens',
+			'keluar',
 			'admins'
 		));
 	}
@@ -333,7 +335,12 @@ class UsersController extends Controller
 			'pembacaan'
 		));
 	}
-	public function tundaan_ujian($stases, $ujian_sudahs){
+	public function tundaan_ujian($id){
+		$stases               = Stase::with('jenisStase.jenisUjian')
+								->where('user_id', $id)
+								->where('akhir', '<=', date('Y-m-d H:i:s'))
+								->get();
+		$ujian_sudahs   = Ujian::where('user_id', $id)->where('tanggal', '<=', date('Y-m-d'))->get(['jenis_ujian_id']);
 		$data                       = [];
 		$stase_selesai              = [];
 		$selesai = false;

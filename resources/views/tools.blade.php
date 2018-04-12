@@ -30,8 +30,7 @@ Kulkel Undip | Tools
 					  {!! Form::text('bulan' , date('m-Y'), ['class' => 'form-control bulanTahun']) !!}
 					  @if($errors->has('bulan'))<code>{{ $errors->first('bulan') }}</code>@endif
 					</div>
-					<button class="btn btn-success btn-block" type="button" onclick='dummySubmit(this);return false;'>Submit</button>
-					{!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
+					{!! Form::submit('Submit', ['class' => 'btn btn-primary btn-block', 'id' => 'submit']) !!}
 				{!! Form::close() !!}
 				</div>
 			</div>
@@ -45,11 +44,10 @@ Kulkel Undip | Tools
 				{!! Form::open(['url' => 'tools/sms_harian', 'method' => 'post']) !!}
 					<div class="form-group @if($errors->has('tanggal')) has-error @endif">
 					  {!! Form::label('tanggal', 'Tanggal', ['class' => 'control-label']) !!}
-					  {!! Form::text('tanggal' , date('d-m-Y'), ['class' => 'form-control bulanTahun']) !!}
+					  {!! Form::text('tanggal' , date('d-m-Y'), ['class' => 'form-control tanggal']) !!}
 					  @if($errors->has('tanggal'))<code>{{ $errors->first('tanggal') }}</code>@endif
 					</div>
-					<button class="btn btn-primary btn-block" type="button" onclick='dummySubmit(this);return false;'>Submit</button>
-					{!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
+					{!! Form::submit('Submit', ['class' => 'btn btn-success btn-block', 'id' => 'submit']) !!}
 				{!! Form::close() !!}
 				</div>
 			</div>
@@ -68,8 +66,7 @@ Kulkel Undip | Tools
 					  {!! Form::text('bulan' , date('m-Y'), ['class' => 'form-control bulanTahun']) !!}
 					  @if($errors->has('bulan'))<code>{{ $errors->first('bulan') }}</code>@endif
 					</div>
-					<button class="btn btn-primary btn-block" type="button" onclick='dummySubmit(this);return false;'>Submit</button>
-					{!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
+					{!! Form::submit('Submit', ['class' => 'btn btn-info btn-block', 'id' => 'submit']) !!}
 				{!! Form::close() !!}
 				</div>
 			</div>

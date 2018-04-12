@@ -2542,5 +2542,50 @@ class Yoga {
 	  preg_match("/(?:\w+(?:\W+|$)){0,$count}/", $sentence, $matches);
 	  return $matches[0];
 	}	
+
+	public static function bulanIndonesia($n) {
+		if ($n == 1) {
+			return 'Januari';
+		}else if ($n == 2) {
+			return 'Februari';
+		}else if ($n == 3) {
+			return 'Maret';
+		}else if ($n == 4) {
+			return 'April';
+		}else if ($n == 5) {
+			return 'Mei';
+		}else if ($n == 6) {
+			return 'Juni';
+		}else if ($n == 7) {
+			return 'Juli';
+		}else if ($n == 8) {
+			return 'Agustus';
+		}else if ($n == 9) {
+			return 'September';
+		}else if ($n == 10) {
+			return 'Oktober';
+		}else if ($n == 11) {
+			return 'November';
+		}else if ($n == 12) {
+			return 'Desember';
+		}
+	}	
 	
+	public static function hariIndonesia($n) {
+		if ($n == 1) {
+			return 'Senin';
+		}else if ($n == 2) {
+			return 'Selasa';
+		}else if ($n == 3) {
+			return 'Rabu';
+		}else if ($n == 4) {
+			return 'Kamis';
+		}else if ($n == 5) {
+			return 'Jumat';
+		}else if ($n == 6) {
+			return 'Sabtu';
+		}else if ($n == 7) {
+			return 'Minggu';
+		}
+	}	
 }

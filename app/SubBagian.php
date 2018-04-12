@@ -15,5 +15,4 @@ class SubBagian extends Model
 	public function jenisPenguji(){
 		return $this->belongsTo('App\JenisPenguji');
 	}
-	
 }
