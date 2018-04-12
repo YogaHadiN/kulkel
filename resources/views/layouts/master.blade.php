@@ -16,7 +16,7 @@
     <link href="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/datatables-tabletools/2.1.5/css/TableTools.min.css') !!}" rel="stylesheet">
     {{-- <link href="{!! asset('css/plugins/dataTables/dataTables.tableTools.min.css') !!}" rel="stylesheet"> --}}
     {{-- <link href="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css') !!}" rel="stylesheet"> --}}
-    <link href="{!! asset('css/animate.css') !!}" rel="stylesheet">
+    {{-- <link href="{!! asset('css/animate.css') !!}" rel="stylesheet"> --}}
     <link href="{!! asset('css/style.css') !!}" rel="stylesheet">
     <link href="{!! asset('https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css') !!}" rel="stylesheet">
     {{-- <link href="{!! asset('css/jquery-ui.min.css') !!}" rel="stylesheet"> --}}
@@ -133,6 +133,9 @@
                     </li>
 					<li>
                         <a href="{{ url('seminars') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Seminar</span></a>
+                    </li>
+					<li>
+                        <a href="{{ url('tools') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Tools</span></a>
                     </li>
                 </ul>
             </div>
