@@ -87,7 +87,21 @@ class ToolsController extends Controller
 			 	 }
 			 }
 		}
-		return $naungan;
+		$data = [
+			'email'       => 'yoga.dvjul17@gmail.com',
+			'bulan'       => Yoga::bulanIndonesia( date('m')),
+			'subject'     => 'Info Tundaan Ujian',
+			'naungan' => $naungan
+		];
+		Mail::send('emails.tundaanUjian', $data, function($message) use ($data){
+			$message->from( 'admin@dvundip.com', 'Admin DV UNDIP' );
+			$message->to($data['email']);
+			$message->subject($data['subject']);
+		});
+
+		$pesan = Yoga::suksesFlash('email tundaan ujian berhasil dikirim');
+		return redirect()->back()->withPesan($pesan);
+
 	}
 	private function untuls(){
 		$bulan_masuk_ppds = User::orderBy('bulan_masuk_ppds', 'desc')->whereNotNull('bulan_masuk_ppds')->first()->bulan_masuk_ppds;
