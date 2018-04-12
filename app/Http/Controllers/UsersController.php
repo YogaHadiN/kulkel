@@ -28,14 +28,6 @@ class UsersController extends Controller
 	}
 	public function show($id){
 
-		$url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_ADDR'];
-		$user             = User::with('role', 'no_telps')->where('id', $id )->first();
-		$stasesResidens   = Stase::with('user', 'jenisStase')->where('user_id', $id)->orderBy('mulai')->get();
-		$pembacaans       = Pembacaan::with('user')->where('user_id', $id)->orderBy('tanggal', 'desc')->get();
-		$pembacaans_sudah = [];
-		$pembacaans_belum = [];
-		$staseResidens = [];
-
 		$userThis = new HomeController;
 		$thisUser = $userThis->paramIndex($id);
 
@@ -45,32 +37,30 @@ class UsersController extends Controller
 		$rsnds                = $thisUser['rsnds'];
 		$pembacaan_bulan_inis = $thisUser['pembacaan_bulan_inis'];
 
-		$stases = Stase::with('jenisStase.jenisUjian')
-						->where('user_id', $id)
-						->where('akhir', '<=', date('Y-m-d H:i:s'))
-						->get();
+		$url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_ADDR'];
+		$user             = User::with('role', 'no_telps')->where('id', $id )->first();
+		$stasesResidens   = Stase::with('user', 'jenisStase')->where('user_id', $id)->orderBy('mulai')->get();
+		$pembacaans       = Pembacaan::with('user')->where('user_id', $id)->orderBy('tanggal', 'desc')->get();
 
 		$ujian_sudahs   = Ujian::where('user_id', $id)->where('tanggal', '<=', date('Y-m-d'))->get(['jenis_ujian_id']);
 		$tundaan_ujians = $this->tundaan_ujian($stases, $ujian_sudahs);
 		/* return $tundaan_ujians; */
 		return view('users.show', compact(
 			'poli_bulan_inis',
-			'stasesResidens',
+			'stases',
 			'gardenias',
-			'tundaan_ujians',
 			'rsnds',
 			'pembacaan_bulan_inis',
+			'user',
+			'stasesResidens',
+			'pembacaans',
+			'tundaan_ujians',
 			'id',
 			'url',
-			'user',
 			'jenisStases',
 			'stases_sudah',
 			'jenis_ujian_belum',
-			'stases_belum',
-			'pembacaans_sudah',
-			'pembacaans_belum',
-			'pembacaans',
-			'stases'
+			'stases_belum'
 		));
 	}
 	
