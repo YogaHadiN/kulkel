@@ -46,8 +46,7 @@
 				<tbody>
 					<tr>
 						<td>Materi</td>
-						<td>{{ $pembacaan->link_materi }}</td>
-						<td> <a class="btn btn-info btn-lg" href="{{ $pembacaan->link_materi }}"><span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span></a> </td>
+						<td> <a class="" href="{{ $pembacaan->link_materi }}">{{ $pembacaan->link_materi }}</a> </td>
 					</tr>
 					@if(
 						$pembacaan->jenis_pembacaan_id == 1 ||
@@ -55,8 +54,7 @@
 						)
 					<tr>
 						<td>Terjemahan</td>
-						<td>{{ $pembacaan->link_materi_terjemahan }}</td>
-						<td> <a class="btn btn-info btn-lg" href="{{ $pembacaan->link_materi_terjemahan }}"><span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span></a> </td>
+						<td> <a class="" href="{{ $pembacaan->link_materi_terjemahan }}">{{ $pembacaan->link_materi_terjemahan }}</a> </td>
 					</tr>
 					@endif
 					<tr>
