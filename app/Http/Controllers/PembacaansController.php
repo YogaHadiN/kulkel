@@ -100,6 +100,13 @@ class PembacaansController extends Controller
 			throw $e;
 		}
 	}
+	public function show($id){
+		$pembacaan = Pembacaan::find($id);
+		return view('pembacaans.show', compact(
+			'pembacaan'
+		));
+	}
+	
 	public function destroy($id){
 		$pembacaan = Pembacaan::find( $id );
 		$pesan = Yoga::suksesFlash('Pembacaan <strong>' . $pembacaan->user->nama . '</strong> pada tanggal <strong>' .$pembacaan->tanggal->format('d M Y'). ' </strong>berhasil dihapus');

@@ -72,8 +72,10 @@ class ToolsController extends Controller
 				}
 			}
 		}
+
 		$dosens         = User::where('role_id', 2 )->get(); //2 = dosen
-		$naugan = [];
+		$naungan = [];
+
 		foreach ($dosens as $dosen) {
 			 foreach ($dosen->subBagian as $subBagian) {
 			 	 foreach ($subBagian->jenisStase->jenisUjian as $jenisUjian) {
@@ -87,6 +89,18 @@ class ToolsController extends Controller
 			 	 }
 			 }
 		}
+		$data = [
+			'email'       => 'yoga.dvjul17@gmail.com',
+			'bulan'       => Yoga::bulanIndonesia( date('m')),
+			'subject'     => 'Info Tundaan Ujian',
+			'naungan' => $naungan
+		];
+		Mail::send('emails.tundaanUjian', $data, function($message) use ($data){
+			$message->from( 'admin@dvundip.com', 'Admin DV UNDIP' );
+			$message->to($data['email']);
+			$message->subject($data['subject']);
+		});
+
 		$data = [
 			'email'       => 'yoga.dvjul17@gmail.com',
 			'bulan'       => Yoga::bulanIndonesia( date('m')),
