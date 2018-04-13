@@ -41,6 +41,13 @@
 		</ul>
 		<h3>DOI</h3>
 		<p>{{ $pembacaan->doi }}</p>
+	</div>
+	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+		  <img class="full-width" src="{!! url( 'qrcode?text=' . urlencode($pembacaan->link_materi) ) !!}" alt="">
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<div class="table-responsive">
 			<table class="table table-hover table-condensed table-bordered">
 				<tbody>
@@ -61,11 +68,10 @@
 				</tbody>
 			</table>
 		</div>
-	</div>
-	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-		  <img class="full-width" src="{!! url( 'qrcode?text=' . urlencode($pembacaan->link_materi) ) !!}" alt="">
+		
 	</div>
 </div>
+
 @stop
 @section('footer') 
 	
