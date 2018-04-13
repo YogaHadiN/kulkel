@@ -28,18 +28,6 @@
 						</td>
 					</tr>
 				@endforeach
-			@else
-				<tr>
-					<td colspan="">
-						{!! Form::open(['url' => 'pembacaans/imports', 'method' => 'post', 'files' => 'true']) !!}
-							<div class="form-group">
-								{!! Form::label('file', 'Data tidak ditemukan, upload data?') !!}
-								{!! Form::file('file') !!}
-								{!! Form::submit('Upload', ['class' => 'btn btn-primary', 'id' => 'submit']) !!}
-							</div>
-						{!! Form::close() !!}
-					</td>
-				</tr>
 			@endif
 		</tbody>
 	</table>
