@@ -69,7 +69,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('polis', 'PolisController');
 	Route::resource('sub_bagians', 'SubBagiansController');
 	Route::get('polis/ajax/get/jaga', 'PolisController@getPoliJaga');
-
 	Route::resource('pembacaans', 'PembacaansController');
 	Route::resource('users', 'UsersController');
 	Route::post('users/ajax', 'UsersController@ajaxUpdateStase');

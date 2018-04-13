@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Pembacaan;
 use App\Jobs\UploadMateriToS3;
@@ -14,10 +13,10 @@ use DB;
 
 class PembacaansController extends Controller
 {
-	public function __construct()
-	{
-		$this->middleware('adminOnly', ['only' => ['update', 'destroy']]);
-	}
+	/* public function __construct() */
+	/* { */
+	/* 	$this->middleware('adminOnly', ['only' => []]); */
+	/* } */
 	public function index(){
 		$pembacaans = Pembacaan::with('user', 'pembahas.user', 'moderator.user', 'jenisPembacaan')->orderBy('updated_at', 'desc')->paginate(20);
 		return view('pembacaans.index', compact(
@@ -28,7 +27,6 @@ class PembacaansController extends Controller
 		return view('pembacaans.create');
 	}
 	public function store(Request $request ){
-		/* return Input::all(); */ 
 		DB::beginTransaction();
 		try {
 			$messages = [
