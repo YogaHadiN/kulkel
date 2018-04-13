@@ -169,7 +169,17 @@ class PembacaansController extends Controller
 			$moderator = [];
 			$pembahas = [];
 			$timestamp = date('Y-m-d H:i:s');
-			foreach ( Input::get('moderator') as $mod){
+			if ( count( Input::get('moderator') ) ) {
+				$input_moderators = Input::get('moderator');
+			} else {
+				$input_moderators = [];
+			}
+			if ( count( Input::get('pembahas') ) ) {
+				$input_pembahas = Input::get('pembahas');
+			} else {
+				$input_pembahas = [];
+			}
+			foreach ( $input_moderators as $mod) {
 				$moderator[] = [
 					'user_id'      => $mod,
 					'pembacaan_id' => $pembacaan->id,
@@ -177,9 +187,9 @@ class PembacaansController extends Controller
 					'updated_at'   => $timestamp
 				];
 			}
-			foreach ( Input::get('pembahas') as $pem){
+			foreach ( $input_pembahas as $pemb) {
 				$pembahas[] = [
-					'user_id'      => $pem,
+					'user_id'      => $pemb,
 					'pembacaan_id' => $pembacaan->id,
 					'created_at'   => $timestamp,
 					'updated_at'   => $timestamp
