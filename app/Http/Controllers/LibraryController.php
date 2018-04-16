@@ -215,6 +215,7 @@ class LibraryController extends Controller
 		}
 	}
 	public function riwayatPeminjaman(){
+		return 'oke';
 		$pinjams = PinjamBuku::orderBy('updated_at', 'desc')->orderBy('tanggal_pinjam', 'desc')->get();
 		return view('library.riwayat', compact(
 			'pinjams'
