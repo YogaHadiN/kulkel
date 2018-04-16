@@ -27,7 +27,7 @@ Kulkel Undip | Tools
 				{!! Form::open(['url' => 'tools/sms_bulanan', 'method' => 'post']) !!}
 					<div class="form-group @if($errors->has('bulan')) has-error @endif">
 					  {!! Form::label('bulan', 'Bulan', ['class' => 'control-label']) !!}
-					  {!! Form::text('bulan' , date('m-Y'), ['class' => 'form-control bulanTahun']) !!}
+					  {!! Form::text('bulan' , date('m-Y', strtotime('+1 month')), ['class' => 'form-control bulanTahun']) !!}
 					  @if($errors->has('bulan'))<code>{{ $errors->first('bulan') }}</code>@endif
 					</div>
 					{!! Form::submit('Submit', ['class' => 'btn btn-primary btn-block', 'id' => 'submit']) !!}

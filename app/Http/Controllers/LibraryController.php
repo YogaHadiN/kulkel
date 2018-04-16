@@ -99,11 +99,6 @@ class LibraryController extends Controller
 			$pinjam->token                        = $token;
 			$pinjam->peminjam_id                  = Input::get('peminjam_id');
 			$pinjam->admin_id                     = Input::get('admin_id');
-			/* hapus mulai dari sini */
-			$pinjam->tanggal_kembalikan           = Yoga::datePrep( Input::get('perkiraan_tanggal_kembalikan') );
-			$pinjam->confirm                      = 1;
-			$pinjam->admin_kembalikan_id          = Input::get('admin_id');
-			/* hapus mulai dari sini */
 			$pinjam->perpus_id                    = Input::get('perpus_id');
 			$pinjam->tanggal_pinjam               = Yoga::datePrep(Input::get('tanggal_pinjam'));
 			$pinjam->perkiraan_tanggal_kembalikan = Yoga::datePrep(Input::get('perkiraan_tanggal_kembalikan'));
@@ -121,7 +116,7 @@ class LibraryController extends Controller
 				'bodyMessage' => Input::get('message')
 			];
 
-			/* $this->EmailPerpus($data); */
+			$this->EmailPerpus($data);
 
 			DB::commit();
 			return redirect('library/riwayatPeminjaman');

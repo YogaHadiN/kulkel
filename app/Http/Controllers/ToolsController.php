@@ -24,11 +24,18 @@ class ToolsController extends Controller
 		$smsBulanan = new smsBulanan;
 
 		$emailFormat = [];
+
 		foreach ($untuls as $k => $untul) {
 			$pesan = '';
+
+			$pegangans[$untul->email][] = $untul;
+			$pesan .= nl2br($smsBulanan->formatSms($untul, $thisMonth ));
+			$pesan .= '<br />';
+			$pesan .= '<br />';
+			$emailFormat[$untul->email] = $pesan;
+
 			foreach ($untul->residenPegangan as $pegangan) {
 				$pegangans[$untul->email][] = $pegangan->residen;
-				/* $pesan .= nl2br($smsBulanan->formatSms($pegangan->residen, $thisMonth )); */
 				$pesan .= nl2br($smsBulanan->formatSms($pegangan->residen, $thisMonth ));
 				$pesan .= '<br />';
 				$pesan .= '<br />';
@@ -72,10 +79,8 @@ class ToolsController extends Controller
 				}
 			}
 		}
-
 		$dosens         = User::where('role_id', 2 )->get(); //2 = dosen
 		$naungan = [];
-
 		foreach ($dosens as $dosen) {
 			 foreach ($dosen->subBagian as $subBagian) {
 			 	 foreach ($subBagian->jenisStase->jenisUjian as $jenisUjian) {
@@ -89,36 +94,32 @@ class ToolsController extends Controller
 			 	 }
 			 }
 		}
-
-		@foreach($naungan as $email)	
+		foreach($naungan as $tundaan)	{
 			$data = [
-				'email'       => 'yoga.dvjul17@gmail.com',
-				'bulan'       => Yoga::bulanIndonesia( date('m')),
-				'subject'     => 'Info Untuk Penguji ' . $email['user']->nama,
-				'naungan' => $email
+				'email'   => 'yoga.dvjul17@gmail.com',
+				'bulan'   => Yoga::bulanIndonesia( date('m')),
+				'subject' => 'Info Untuk Penguji ' . $tundaan['user']->nama . ' ' . date('d M y'),
+				'tundaan' => $tundaan
 			];
 			Mail::send('emails.tundaanUjian', $data, function($message) use ($data){
 				$message->from( 'admin@dvundip.com', 'Admin DV UNDIP' );
 				$message->to($data['email']);
 				$message->subject($data['subject']);
 			});
-
 			$data = [
-				'email'       => 'yoga.dvjul17@gmail.com',
-				'bulan'       => Yoga::bulanIndonesia( date('m')),
-				'subject'     => 'Info Untuk Penguji ' . $email['user']->nama,
-				'naungan' => $email
+				'email'   => 'yoga.dvjul17@gmail.com',
+				'bulan'   => Yoga::bulanIndonesia( date('m')),
+				'subject' => 'Info Untuk Penguji ' . $tundaan['user']->nama . ' ' . date('d M y'),
+				'tundaan' => $tundaan
 			];
 			Mail::send('emails.tundaanUjian', $data, function($message) use ($data){
 				$message->from( 'admin@dvundip.com', 'Admin DV UNDIP' );
 				$message->to($data['email']);
 				$message->subject($data['subject']);
 			});
-		@endforeach
-
+		}
 		$pesan = Yoga::suksesFlash('email tundaan ujian berhasil dikirim');
 		return redirect()->back()->withPesan($pesan);
-
 	}
 	private function untuls(){
 		$bulan_masuk_ppds = User::orderBy('bulan_masuk_ppds', 'desc')->whereNotNull('bulan_masuk_ppds')->first()->bulan_masuk_ppds;
