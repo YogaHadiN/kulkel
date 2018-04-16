@@ -41,7 +41,13 @@
 								<tr>
 									<td>{{ $pinjam->perpus->nama_buku }}</td>
 									<td>{{ $pinjam->tanggal_pinjam->format('d M Y') }}</td>
-									<td>{{ $pinjam->tanggal_kembalikan->format('d M Y') }}</td>
+									<td>
+									@if(!is_null($pinjam->tanggal_kembalikan))	
+										{{ $pinjam->tanggal_kembalikan->format('d M Y') }}
+									@else
+										<i>Belum Dikembalikan</i>
+									@endif
+									</td>
 									<td>{{ $pinjam->admin->nama }}</td>
 									<td nowrap class="autofit">
 										<a class="btn btn-info btn-xs"  disabled href="#">Show</a>

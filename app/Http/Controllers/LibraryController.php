@@ -202,17 +202,13 @@ class LibraryController extends Controller
 		});
 	}
 	public function konfirmasi($token){
-		try {
-			$buku          = PinjamBuku::where('token', $token)->firstOrFail();
-			if ($buku->confirm) {
-				return '<h1>peminjaman telah berhasil</h1>';
-			}
-			$buku->confirm = 1;
-			$buku->save();
-			return '<h1>peminjaman berhasil</h1>';
-		} catch (\Exception $e) {
-			return '<h1>peminjaman tidak berhasil</h1>';
+		$buku          = PinjamBuku::where('token', $token)->firstOrFail();
+		if ($buku->confirm) {
+			return '<h1>peminjaman telah berhasil</h1>';
 		}
+		$buku->confirm = 1;
+		$buku->save();
+		return '<h1>peminjaman berhasil</h1>';
 	}
 	public function riwayatPeminjaman(){
 		/* $pinjams = PinjamBuku::orderBy('tanggal_pinjam', 'desc')->get(); */

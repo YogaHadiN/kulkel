@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
         /* $schedule->command('pinjam:hapusTidakTerkonfirmasi') */
         /*          ->dailyAt('07:00'); */
         $schedule->command('pinjam:hapusTidakTerkonfirmasi')
-                 ->everyMinute();
+					->dailyAt('23.59');
     }
 
     /**
