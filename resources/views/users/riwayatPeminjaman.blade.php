@@ -51,6 +51,14 @@
 									<td>{{ $pinjam->admin->nama }}</td>
 									<td nowrap class="autofit">
 										<a class="btn btn-info btn-xs"  disabled href="#">Show</a>
+										@if(is_null($pinjam->tanggal_kembalikan) && Auth::user()->role_id == 3)
+											<a 
+												  class="btn btn-warning btn-xs" 
+												  href="{{ url('library/kembalikan/' . $pinjam->id) }}" 
+
+												  >Kembalikan
+											</a> 
+										@endif
 									</td>
 								</tr>
 							@endforeach

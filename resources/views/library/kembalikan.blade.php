@@ -47,7 +47,7 @@ Klinik Jati Elok | Kembalikan Buku Perpustakaan
 						</table>
 					</div>
 					{!! Form::open(['url' => 'library/kembalikan/' . $pinjam->id, 'method' => 'put']) !!}
-						<div class="form-group @if($errors->has('admin_kembalikan')) has-error @endif">
+						<div class="hide form-group @if($errors->has('admin_kembalikan')) has-error @endif">
 							{!! Form::label('admin_kembalikan_id', 'Admin Kembalikan', ['class' => 'control-label']) !!}
 						  {!! Form::text('admin_kembalikan_id' , \Auth::id(), ['class' => 'form-control', 'readonly' => 'readonly']) !!}
 						  @if($errors->has('admin_kembalikan_id'))<code>{{ $errors->first('admin_kembalikan_id') }}</code>@endif
@@ -60,7 +60,11 @@ Klinik Jati Elok | Kembalikan Buku Perpustakaan
 						<div class="row">
 							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 								<button class="btn btn-success btn-block" type="button" onclick='dummySubmit(this);return false;'>Submit</button>
-								{!! Form::submit('Submit', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
+								{!! Form::submit('Submit', [
+									'class' => 'btn btn-success hide', 
+									'onclick' => 'return confirm("Anda yakin mau mengembalikan buku ' . $pinjam->perpus->nama_buku .  '")', 
+									'id' => 'submit'
+								]) !!}
 							</div>
 							<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 								<a class="btn btn-danger btn-block" href="{{ url('home') }}">Cancel</a>

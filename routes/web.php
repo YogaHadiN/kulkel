@@ -23,7 +23,6 @@ Route::get('library/{token}/konfirmasi', 'LibraryController@konfirmasi');
 Route::get('welcome/seminars', 'SeminarsController@welcome');
 Route::get('welcome/seminars/{id}', 'SeminarsController@welcomeShow');
 Auth::routes();
-
 Route::get('logout', 'Auth\LoginController@logout')->name('logout' );
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('qrcode', 'QrCodeController@index');
