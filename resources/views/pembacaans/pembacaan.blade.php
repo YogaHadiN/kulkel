@@ -4,6 +4,7 @@
 			<tr>
 				<th class="autofit">Tanggal</th>
 				<th class="autofit">Presentan</th>
+				<th class="autofit">Jenis</th>
 				<th>Judul</th>
 				<th class="autofit">Action</th>
 			</tr>
@@ -14,6 +15,7 @@
 					<tr>
 						<td class="autofit">{{ $pembacaan->tanggal->format('d M y') }}</td>
 						<td class="autofit">{{ $pembacaan->user->inisial }}</td>
+						<td class="autofit">{{ $pembacaan->jenisPembacaan->jenis_pembacaan }}</td>
 						<td>{{ $pembacaan->judul }}</td>
 						<td nowrap class="autofit">
 							{!! Form::open(['url' => 'pembacaans/' . $pembacaan->id, 'method' => 'delete']) !!}

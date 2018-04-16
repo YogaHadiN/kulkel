@@ -89,29 +89,32 @@ class ToolsController extends Controller
 			 	 }
 			 }
 		}
-		$data = [
-			'email'       => 'yoga.dvjul17@gmail.com',
-			'bulan'       => Yoga::bulanIndonesia( date('m')),
-			'subject'     => 'Info Tundaan Ujian',
-			'naungan' => $naungan
-		];
-		Mail::send('emails.tundaanUjian', $data, function($message) use ($data){
-			$message->from( 'admin@dvundip.com', 'Admin DV UNDIP' );
-			$message->to($data['email']);
-			$message->subject($data['subject']);
-		});
 
-		$data = [
-			'email'       => 'yoga.dvjul17@gmail.com',
-			'bulan'       => Yoga::bulanIndonesia( date('m')),
-			'subject'     => 'Info Tundaan Ujian',
-			'naungan' => $naungan
-		];
-		Mail::send('emails.tundaanUjian', $data, function($message) use ($data){
-			$message->from( 'admin@dvundip.com', 'Admin DV UNDIP' );
-			$message->to($data['email']);
-			$message->subject($data['subject']);
-		});
+		@foreach($naungan as $email)	
+			$data = [
+				'email'       => 'yoga.dvjul17@gmail.com',
+				'bulan'       => Yoga::bulanIndonesia( date('m')),
+				'subject'     => 'Info Untuk Penguji ' . $email['user']->nama,
+				'naungan' => $email
+			];
+			Mail::send('emails.tundaanUjian', $data, function($message) use ($data){
+				$message->from( 'admin@dvundip.com', 'Admin DV UNDIP' );
+				$message->to($data['email']);
+				$message->subject($data['subject']);
+			});
+
+			$data = [
+				'email'       => 'yoga.dvjul17@gmail.com',
+				'bulan'       => Yoga::bulanIndonesia( date('m')),
+				'subject'     => 'Info Untuk Penguji ' . $email['user']->nama,
+				'naungan' => $email
+			];
+			Mail::send('emails.tundaanUjian', $data, function($message) use ($data){
+				$message->from( 'admin@dvundip.com', 'Admin DV UNDIP' );
+				$message->to($data['email']);
+				$message->subject($data['subject']);
+			});
+		@endforeach
 
 		$pesan = Yoga::suksesFlash('email tundaan ujian berhasil dikirim');
 		return redirect()->back()->withPesan($pesan);
