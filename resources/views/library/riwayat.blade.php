@@ -27,7 +27,6 @@ Kulit Kelamin UNPAD | Riwayat Peminjaman
 			<table class="table table-hover table-condensed table-bordered">
 				<thead>
 					<tr>
-						<th>id</th>
 						<th>Nama Buku</th>
 						<th>Nama Peminjam</th>
 						<th>Tanggal Pinjam</th>
@@ -39,7 +38,6 @@ Kulit Kelamin UNPAD | Riwayat Peminjaman
 					@if($pinjams->count() > 0)
 						@foreach($pinjams as $pinjam)
 							<tr>
-								<td>{{ $pinjam->id }}</td>
 								<td>{{ $pinjam->perpus->nama_buku }}</td>
 								<td>{{ $pinjam->peminjam->nama }}</td>
 								<td>{{ $pinjam->tanggal_pinjam->format('d M Y') }}</td>
