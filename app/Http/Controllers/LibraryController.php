@@ -18,7 +18,7 @@ class LibraryController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('adminOnly', ['only' => ['update', 'destroy']]);
+		/* $this->middleware('adminOnly', ['only' => ['update', 'destroy']]); */
 	}
 
 	public function index(){

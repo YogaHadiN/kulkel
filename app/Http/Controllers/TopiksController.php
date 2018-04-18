@@ -13,7 +13,7 @@ class TopiksController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('adminOnly', ['except' => ['index']]);
+		/* $this->middleware('adminOnly', ['except' => ['index', 'show']]); */
 	}
 	public function index(){
 		$topiks = Topik::all();

@@ -11,7 +11,7 @@ class WelcomeController extends Controller
 
 	public function __construct()
 	{
-		$this->middleware('adminOnly', ['only' => ['edit', 'create', 'delete', 'update', 'destroy']]);
+		/* $this->middleware('adminOnly', ['only' => ['edit', 'create', 'delete', 'update', 'destroy']]); */
 	}
 	public function index(){
 		$about_us = AboutUs::latest()->first();

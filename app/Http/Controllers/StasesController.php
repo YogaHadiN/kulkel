@@ -15,7 +15,7 @@ class StasesController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('adminOnly', ['only' => ['update', 'destroy']]);
+		/* $this->middleware('adminOnly', ['only' => ['update', 'destroy']]); */
 	}
 	public function index(){
 		$stases = Stase::with('user', 'jenisStase')->orderBy('updated_at', 'desc')->paginate(20);
