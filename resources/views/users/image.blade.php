@@ -117,6 +117,8 @@
 								var percentComplete = evt.loaded / evt.total;
 								percentComplete = parseInt(percentComplete * 100);
 								console.log(percentComplete);
+								progress.width(percentComplete + '%'); 
+								progress.html(percentComplete + '%'); 
 
 								if (percentComplete === 100) {
 
