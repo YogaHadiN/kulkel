@@ -43,6 +43,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('users/{user_id}/stase/{stase_id}/edit', 'UsersController@stase_edit');
 	Route::get('users/{user_id}/stase/create', 'UsersController@stase_create');
 	Route::get('users/{user_id}/stase/{$stase_id}', 'UsersController@stase_create');
+	Route::get('users/{id}/image', 'UsersController@image');
+	Route::post('users/{id}/upload', 'UsersController@uploadImage');
 	Route::get('home', 'HomeController@index');
 	Route::get('/library/view', 'LibraryController@view');
 	Route::get('seminars', 'SeminarsController@index');
@@ -54,6 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('library/pinjam', 'LibraryController@pinjamBuku');
 		Route::get('library/riwayatPeminjaman', 'LibraryController@riwayatPeminjaman');
 	});
+
 	Route::resource('seminars', 'SeminarsController');
 	Route::resource('library', 'LibraryController');
 	Route::resource('gardenias', 'GardeniasController');

@@ -165,6 +165,9 @@ class User extends Authenticatable
 	public function ujian(){
 		return $this->hasMany('App\Ujian');
 	}
+	public function pembacaan(){
+		return $this->hasMany('App\Pembacaan');
+	}
 	public function residenPegangan(){
 		return $this->hasMany('App\ResidenPegangan');
 	}
@@ -197,6 +200,9 @@ class User extends Authenticatable
 	}
 	public static function listNoNull(){
 		return  User::pluck('panggilan',  'id')->all();
+	}
+	public function sertifikat(){
+		return $this->hasMany('App\Sertifikat');
 	}
 	
 	

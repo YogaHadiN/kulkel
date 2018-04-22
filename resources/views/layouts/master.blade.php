@@ -241,6 +241,7 @@
     <script src="{!! url('js/plugins/dataTables/dataTables.responsive.min.js') !!}"></script>
     <script src="{!! url('js/inspinia.js') !!}"></script>
     <script src="{!! url('https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js') !!}"></script>
+    <script src="{!! url('https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js') !!}"></script>
     {{-- <script src="{!! url('js/plugins/pace/pace.min.js') !!}"></script> --}}
     <script>
         $.ajaxSetup({

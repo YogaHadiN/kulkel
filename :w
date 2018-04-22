@@ -12,7 +12,6 @@ use App\JenisStase;
 use App\Role;
 use App\Stase;
 use App\NoTelp;
-use Storage;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UjiansController;
 use App\Http\Controllers\PembacaansController;
@@ -390,19 +389,33 @@ class UsersController extends Controller
 		));
 	}
 	public function uploadImage($id){
+		/* return Input::file(); */
+		/* return $_FILES['file']['name']; */
+		/* return */ 
+		/* if ($_FILES['file']['name'] !== '') { */
+		/* 	$test = explode(".", $_FILES['file']['name']); */
+		/* 	$ext = end($test); */
+		/* 	$name = $test[0] . time() . "." . $ext; */
+
+		/* 	return $name; */
+				
+		/* } */
+		return Input::file('file')->getClientOriginalName;
+
 		if(Input::hasFile('file')) {
 			//get filename with extension
-			$filenamewithextension = Input::file('file')->getClientOriginalName();
+			$filenamewithextension = $_FILES['file']['name']->getClientOriginalName();
 			//get filename without extension
 			$filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
 			//get file extension
-			$extension = Input::file('file')->getClientOriginalExtension();
+			$extension = $_FILES['file']['name']->getClientOriginalExtension();
 			//filename to store
-			$filenametostore = 'users/' . $id . '/data/' . $filename.'_'.time().'.'.$extension;
+			$filenametostore = 'users/' . $user_id . '/data/' . $filename.'_'.time().'.'.$extension;
 
+			return $filenametostore;
 
 			//Upload File to s3
-			Storage::disk('s3')->put($filenametostore, fopen(Input::file('file'), 'r+'), 'public');
+			Storage::disk('s3')->put($filenametostore, fopen($_FILES['file']['name'], 'r+'), 'public');
 			//Store $filenametostore in the database
 			return [
 				'file_name' => $filenametostore,
@@ -423,6 +436,7 @@ class UsersController extends Controller
 			$extension = $_FILES['file']['name']->getClientOriginalExtension();
 			//filename to store
 			$filenametostore = 'users/' . $user_id . '/data/' . $filename.'_'.time().'.'.$extension;
+
 			//Upload File to s3
 			Storage::disk('s3')->put($filenametostore, fopen($_FILES['file']['name'], 'r+'), 'public');
 			//Store $filenametostore in the database

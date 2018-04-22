@@ -3,9 +3,9 @@
   {!! Form::select('user_id' , App\User::list(), null, ['class' => 'form-control selectpick', 'data-live-search' => 'true']) !!}
   @if($errors->has('user_id'))<code>{{ $errors->first('user_id') }}</code>@endif
 </div>
-<div class="form-group @if($errors->has('tanggal)) has-error @endif">
+<div class="form-group @if($errors->has('tanggal')) has-error @endif">
   @if( isset($rsnd) )
-	  {!! Form::label('tanggal', 'Tanggal',['class' => 'control-label']) !!}
+	  {!! Form::label('tanggal', 'Tanggal', ['class' => 'control-label']) !!}
 	  {!! Form::text('tanggal' , $rsnd->tanggal->format('d-m-Y'), ['class' => 'form-control tanggal rq']) !!}
   @else
 	  <table class="table table-hover table-condensed table-bordered">

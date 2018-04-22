@@ -18,7 +18,7 @@ class PembacaansController extends Controller
 	/* 	$this->middleware('adminOnly', ['only' => []]); */
 	/* } */
 	public function index(){
-		$pembacaans = Pembacaan::with('user', 'pembahas.user', 'moderator.user', 'jenisPembacaan')->orderBy('updated_at', 'desc')->paginate(20);
+		$pembacaans = Pembacaan::with('user', 'pembahas.user', 'moderator.user', 'jenisPembacaan')->orderBy('updated_at', 'desc')->get();
 		return view('pembacaans.index', compact(
 			'pembacaans'
 		));

@@ -72,5 +72,104 @@
 			</div>
 		</div>
 	</div>
+	<div class="col-md-4">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						@if( Storage::disk('s3')->exists( $user->profile_pic ) )
+							<img src="{{ Storage::cloud()->url( $user->profile_pic ) }}" alt="" />
+						@else
+							<img src="{{ Storage::cloud()->url("no_image.jpeg") }}" alt="" />
+						@endif
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							<div class="panelLeft">
+								Images Available
+							</div>	
+							<div class="panelRight">
+								<a class="btn btn-primary btn-sm" href="{{ url('users/' . $user->id . '/image') }}"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Lihat Detil</a>
+							</div>
+						</h3>
+					</div>
+					<div class="panel-body">
+						<ul>
+							<li>Profile Pic : (
+								@if(Storage::cloud()->exists( $user->profile_pic ))
+									1
+								@else
+									0
+								@endif
+								)
+							</li>
+							<li>KTP : (
+								@if(Storage::cloud()->exists( $user->ktp_pic ))
+									1
+								@else
+									0
+								@endif
+								)
+							</li>
+							<li>Ijazah SD : (
+								@if(Storage::cloud()->exists( $user->ijazah_sd_pic ))
+									1
+								@else
+									0
+								@endif
+								)
+							</li>
+							<li>Ijazah SMP : (
+								@if(Storage::cloud()->exists( $user->ijazah_smp_pic ))
+									1
+								@else
+									0
+								@endif
+								)
+							</li>
+							<li>Ijazah SMU : (
+								@if(Storage::cloud()->exists( $user->ijazah_smu_pic ))
+									1
+								@else
+									0
+								@endif
+								)
+							</li>
+							<li>Ijazah SKed : (
+								@if(Storage::cloud()->exists( $user->ijazah_sked ))
+									1
+								@else
+									0
+								@endif
+								)
+							</li>
+							<li>Ijazah SKed : (
+								@if(Storage::cloud()->exists( $user->ijazah_sked ))
+									1
+								@else
+									0
+								@endif
+								)
+							</li>
+							<li>Ijazah Dokter : (
+								@if(Storage::cloud()->exists( $user->ijazah_sked ))
+									1
+								@else
+									0
+								@endif
+								)
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
