@@ -2,7 +2,7 @@
 	<div class="panel-body">
 		<h2>{{ $title }}</h2>
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-6 image-div">
 				@if(Storage::cloud()->exists( $filename ))
 					<img src="{{Storage::cloud()->url( $filename )}}" alt="" />
 				@else

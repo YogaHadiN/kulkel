@@ -91,11 +91,12 @@
 					alert('Tipe file yang mau diupload bukan gambar');
 				}
 				var image_size = property.size;
-				{{-- if(image_size > 3000000){ --}}
-				{{-- 	alert('File maksimal 3 MB, ini terlalu besar'); --}}
-				{{-- } else { --}}
+				if(image_size > 3000000){
+					alert('File maksimal 3 MB, ini terlalu besar');
+				} else {
 					$(this).closest('form').find('.progress').removeClass('hide');
 					var progress  = $(this).closest('form').find('.progress-bar');
+					var panel  = $(this).closest('.panel');
 					var form_data = new FormData();
 					form_data.append('file', property);
 					$.ajax({
@@ -121,7 +122,7 @@
 								progress.html(percentComplete + '%'); 
 
 								if (percentComplete === 100) {
-
+									panel.find('.image-div').html('<i class="fa fa-spinner fa-spin" style="font-size:100px"></i>');
 								}
 
 							  }
@@ -130,10 +131,10 @@
 							return xhr;
 						  },
 						success : function(data){
-							console.log(data);
+							panel.find('.image-div').html('<img src="' + data.link + '" alt="" class="full-width" />');
 						}
 					})
-				{{-- } --}}
+				}
 			});
 		});
 	</script>
