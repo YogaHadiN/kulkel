@@ -4,9 +4,9 @@
 		<div class="row">
 			<div class="col-md-6 image-div">
 				@if(Storage::cloud()->exists( $filename ))
-					<img src="{{Storage::cloud()->url( $filename )}}" alt="" />
+					<img class="full-width" src="{{Storage::cloud()->url( $filename )}}" alt="" />
 				@else
-					<img src="{{Storage::cloud()->url('no_image.jpeg')}}" alt="" />
+					<img class="full-width" src="{{Storage::cloud()->url('no_image.jpeg')}}" alt="" />
 				@endif
 			</div>
 			<div class="col-md-6">
@@ -14,6 +14,7 @@
 					<div class="row">
 						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 							{!! Form::file($fieldname, ['class' => 'image_source']) !!}
+							{!! Form::text('fieldname', $fieldname, ['class' => 'form-control fieldname hide']) !!}
 						</div>
 					</div>
 					<div class="progress hide">

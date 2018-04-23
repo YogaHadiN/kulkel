@@ -32,6 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('emails', 'EmailController@postMail');
 	Route::resource('email', 'EmailController');
 	Route::resource('ebooks', 'EbooksController');
+	Route::resource('sertifikats', 'SertifikatController');
 	Route::resource('videos', 'VideosController');
 	Route::resource('jenis_stases', 'JenisStasesController');
  
@@ -44,7 +45,10 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('users/{user_id}/stase/create', 'UsersController@stase_create');
 	Route::get('users/{user_id}/stase/{$stase_id}', 'UsersController@stase_create');
 	Route::get('users/{id}/image', 'UsersController@image');
-	Route::post('users/{id}/upload', 'UsersController@uploadImage');
+	Route::get('users/{id}/image/create_sertifikat', 'UsersController@createSertifikat');
+
+	Route::post('users/{id}/upload/sertifikat', 'UsersController@sertifikatUpload');
+	Route::post('users/{id}/upload/{fieldname}', 'UsersController@uploadImage');
 	Route::get('home', 'HomeController@index');
 	Route::get('/library/view', 'LibraryController@view');
 	Route::get('seminars', 'SeminarsController@index');

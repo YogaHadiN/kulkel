@@ -30,6 +30,11 @@
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane active" id="dokumen">
 				@include('users.image_form_template', [
+					'title'     => 'Profile Pic',
+					'filename'  => $user->profile_pic,
+					'fieldname' => 'profile_pic'
+				])
+				@include('users.image_form_template', [
 					'title'     => 'KTP',
 					'filename'  => $user->ktp_pic,
 					'fieldname' => 'ktp_pic'
@@ -62,18 +67,46 @@
 			</div>
 			<div role="tabpanel" class="tab-pane" id="sertifikat">
 				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+					<div class="panelLeft">
+						Daftar Sertifikat
+					</div>	
+					<div class="panelRight">
+						<a class="btn btn-primary" href="{{ url('users/' . $user->id . '/image/create_sertifikat') }}"><i class="fa fa-plus" aria-hidden="true"></i> Sertifikat</a>
+					</div>
+						</h3>
+					</div>
 					<div class="panel-body">
-						<div class="row">
-							<div class="col-md-6">
-								@foreach($user->sertifikat as $sertifikat)	
-									<div class="panel panel-default">
-										<div class="panel-body">
-											<img src="{{Storage::cloud()->url( $user->ijazah_sked_pic )}}" alt="" />
-										</div>
-									</div>
-								@endforeach
-							</div>
+						<div class="table-responsive">
+							<table class="table table-hover table-condensed table-bordered">
+								<thead>
+									<tr>
+										<th class="autofit">No</th>
+										<th>Judul</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									@if($user->sertifikat->count() > 0)
+										@foreach($user->sertifikat as $k=> $sertifikat)
+											<tr>
+												<td class="autofit">{{ $k + 1 }}</td>
+												<td>{{ $sertifikat->judul }}</td>
+												<td nowrap class="autofit">
+													<a class="btn btn-info" href="{{ url('sertifikats/' . $sertifikat->id) }}"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+												</td>
+											</tr>
+										@endforeach
+									@else
+										<tr>
+											<td colspan="3" class="text-center">Tidak ada data untuk ditampilkan</td>
+										</tr>
+									@endif
+								</tbody>
+							</table>
 						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -99,8 +132,9 @@
 					var panel  = $(this).closest('.panel');
 					var form_data = new FormData();
 					form_data.append('file', property);
+					var fieldname = panel.find('.fieldname').val();
 					$.ajax({
-						url : '{{ url("users/" . $user->id . '/upload') }}',
+						url : '{{ url("users/" . $user->id . '/upload') }}/' + fieldname,
 						type : 'POST',
 						data : form_data,
 						contentType : false,

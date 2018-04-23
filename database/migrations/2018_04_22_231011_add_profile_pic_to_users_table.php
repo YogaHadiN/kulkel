@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSertifikatsTable extends Migration
+class AddProfilePicToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateSertifikatsTable extends Migration
      */
     public function up()
     {
-        Schema::create('sertifikats', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('user_id');
-            $table->string('filename')->nullable();
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+			$table->string('profile_pic');
         });
     }
 
@@ -28,6 +25,8 @@ class CreateSertifikatsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sertifikats');
+        Schema::table('users', function (Blueprint $table) {
+			$table->dropColumn('profile_pic');
+        });
     }
 }

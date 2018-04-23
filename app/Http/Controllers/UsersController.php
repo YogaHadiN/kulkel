@@ -389,7 +389,7 @@ class UsersController extends Controller
 			'user'
 		));
 	}
-	public function uploadImage($id){
+	public function uploadImage($id, $fieldname){
 		if(Input::hasFile('file')) {
 			//get filename with extension
 			$filenamewithextension = Input::file('file')->getClientOriginalName();
@@ -404,6 +404,11 @@ class UsersController extends Controller
 			//Upload File to s3
 			Storage::disk('s3')->put($filenametostore, fopen(Input::file('file'), 'r+'), 'public');
 			//Store $filenametostore in the database
+			//
+			$user             = User::find($id);
+			$user->$fieldname = $filenametostore;
+			$user->save();
+
 			return [
 				'file_name' => $filenametostore,
 				'link' => Storage::cloud()->url($filenametostore)
@@ -411,21 +416,27 @@ class UsersController extends Controller
 			
 	    }
 	}
-	
-	private function uploadTerjemahan($request, $name, $user_id){
-
-		if($_FILES['file']['name'] !== '') {
+	public function sertifikatUpload($id){
+		
+		if(Input::hasFile('file')) {
 			//get filename with extension
-			$filenamewithextension = $_FILES['file']['name']->getClientOriginalName();
+			$filenamewithextension = Input::file('file')->getClientOriginalName();
 			//get filename without extension
 			$filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
 			//get file extension
-			$extension = $_FILES['file']['name']->getClientOriginalExtension();
+			$extension = Input::file('file')->getClientOriginalExtension();
 			//filename to store
-			$filenametostore = 'users/' . $user_id . '/data/' . $filename.'_'.time().'.'.$extension;
+			$filenametostore = 'users/' . $id . '/sertifikat/' . $filename.'_'.time().'.'.$extension;
+
+
 			//Upload File to s3
-			Storage::disk('s3')->put($filenametostore, fopen($_FILES['file']['name'], 'r+'), 'public');
+			Storage::disk('s3')->put($filenametostore, fopen(Input::file('file'), 'r+'), 'public');
 			//Store $filenametostore in the database
+			//
+			$user             = User::find($id);
+			$user->$fieldname = $filenametostore;
+			$user->save();
+
 			return [
 				'file_name' => $filenametostore,
 				'link' => Storage::cloud()->url($filenametostore)
@@ -433,6 +444,16 @@ class UsersController extends Controller
 			
 	    }
 	}
+	public function createSertifikat($id){
+		$user = User::find( $id );
+		return view('sertifikats.create', compact(
+			'user'
+		));
+		
+	}
+	
+	
+	
 	
 	
 }

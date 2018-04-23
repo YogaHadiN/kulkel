@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Sertifikat;
 use Input;
+use Storage;
 use App\Yoga;
 use DB;
 
@@ -20,19 +21,53 @@ class SertifikatController extends Controller
 		return view('sertifikats.create');
 	}
 	public function edit($id){
-		$sertifikat = Sertifikat::find($id);
+		$sertifikat = Sertifikat::with('user')->where('id', $id)->first();
 		return view('sertifikats.edit', compact('sertifikat'));
 	}
 	public function store(Request $request){
-		if ($this->valid( Input::all() )) {
-			return $this->valid( Input::all() );
+			$messages = [
+				'required' => ':attribute Harus Diisi',
+			];
+			$rules = [
+				'judul'    => 'required'
+			];
+			
+			$validator = \Validator::make(Input::all(), $rules, $messages);
+			
+			if ($validator->fails())
+			{
+				return \Redirect::back()->withErrors($validator)->withInput();
+			}
+		DB::beginTransaction();
+		try {
+
+			$user_id = Input::get('user_id');
+
+			$sertifikat          = new Sertifikat;
+			$sertifikat->judul   = Input::get('judul');
+			$sertifikat->user_id = $user_id;
+			$sertifikat->save();
+
+			$stored = $this->uploadS3($request, 'filename', $user_id);
+
+			$sertifikat->filename = $stored['file_name'];
+			$sertifikat->save();
+			
+			DB::commit();
+			$pesan = Yoga::suksesFlash('Sertifikat berhasil dimasukkan');
+			return redirect('users/' . $user_id . '/image')->withPesan($pesan);
+		} catch (\Exception $e) {
+			DB::rollback();
+			throw $e;
 		}
-		$sertifikat       = new Sertifikat;
-		// Edit disini untuk simpan data
-		$sertifikat->save();
-		$pesan = Yoga::suksesFlash('Sertifikat baru berhasil dibuat');
-		return redirect('sertifikats')->withPesan($pesan);
 	}
+	public function show($id){
+		$sertifikat = Sertifikat::with('user')->where('id', $id )->first();
+		return view('sertifikats.show', compact(
+			'sertifikat'
+		));
+	}
+	
 	public function update($id, Request $request){
 		if ($this->valid( Input::all() )) {
 			return $this->valid( Input::all() );
@@ -84,5 +119,26 @@ class SertifikatController extends Controller
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
+	}
+
+	private function uploadS3($request, $name, $user_id){
+		if($request->hasFile($name)) {
+			//get filename with extension
+			$filenamewithextension = $request->file($name)->getClientOriginalName();
+			//get filename without extension
+			$filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+			//get file extension
+			$extension = $request->file($name)->getClientOriginalExtension();
+			//filename to store
+			$filenametostore = 'users/' . $user_id . '/sertifikat/' . $filename.'_'.time().'.'.$extension;
+			//Upload File to s3
+			Storage::disk('s3')->put($filenametostore, fopen($request->file($name), 'r+'), 'public');
+			//Store $filenametostore in the database
+			return [
+				'file_name' => $filenametostore,
+				'link' => Storage::cloud()->url($filenametostore)
+			];
+			
+	    }
 	}
 }
