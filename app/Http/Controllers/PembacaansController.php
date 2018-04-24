@@ -152,11 +152,13 @@ class PembacaansController extends Controller
 
 
 			if ($request->hasFile('materi')) {
+				Storage::delete($pembacaan->nama_file_materi);
 				$upload_materi                          = $this->uploadS3($request, 'materi', $pembacaan->user_id);
 				$pembacaan->nama_file_materi            = $upload_materi['file_name'];
 				$pembacaan->link_materi                 = $upload_materi['link'];
 			}
 			if ($request->hasFile('terjemahan')) {
+				Storage::delete($pembacaan->nama_file_materi_terjemahan);
 				$upload_terjemahan                      = $this->uploadTerjemahan($request, 'terjemahan', $pembacaan->user_id);
 				$pembacaan->nama_file_materi_terjemahan = $upload_terjemahan['file_name'];
 				$pembacaan->link_materi_terjemahan      = $upload_terjemahan['link'];

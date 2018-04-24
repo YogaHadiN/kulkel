@@ -5,7 +5,11 @@
 </div>
 <div class="form-group{{ $errors->has('filename') ? ' has-error' : '' }}">
 	{!! Form::label('filename', 'Sertifikat') !!}
-	{!! Form::file('filename', ['class' => 'rq']) !!}
+	@if( isset($sertifikat) )
+		{!! Form::file('filename') !!}
+	@else
+		{!! Form::file('filename', ['class' => 'rq']) !!}
+	@endif
 		@if (isset($sertifikat) && $sertifikat->filename)
 			<p> <img src="{{ \Storage::cloud()->url($sertifikat->filename) }}" class="img-rounded upload full-width" alt="" /> </p>
 		@else

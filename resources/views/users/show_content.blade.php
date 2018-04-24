@@ -12,42 +12,42 @@
     <li role="presentation"><a href="#tundaan_ujian" aria-controls="tundaan_ujian" role="tab" data-toggle="tab">Tundaan Ujian</a></li>
   </ul>
   <!-- Tab panes -->
-  <div class="tab-content">
-	<div role="tabpanel" class="tab-pane active" id="home">
-		@include('users.detil')	
-	</div>
-	<div role="tabpanel" class="tab-pane" id="stase">
-			@include('users.stase')
-	</div>
-	<div role="tabpanel" class="tab-pane" id="pembacaan">
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				<h3 class="panel-title">
-					<div class="panelLeft">
-						Pembacaan
-					</div>	
-					<div class="panelRight">
-						<a class="btn btn-primary" href="{{ url('users/' . $user->id . '/pembacaans/create') }}"><i class="fa fa-plus" aria-hidden="true"></i> Buat Pembacaan</a>
-					</div>
-				</h3>
-			</div>
-			<div class="panel-body">
-				@include('pembacaans.pembacaan')	
+	  <div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="home">
+			@include('users.detil')	
+		</div>
+		<div role="tabpanel" class="tab-pane" id="stase">
+				@include('users.stase')
+		</div>
+		<div role="tabpanel" class="tab-pane" id="pembacaan">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						<div class="panelLeft">
+							Pembacaan
+						</div>	
+						<div class="panelRight">
+							<a class="btn btn-primary" href="{{ url('users/' . $user->id . '/pembacaans/create') }}"><i class="fa fa-plus" aria-hidden="true"></i> Buat Pembacaan</a>
+						</div>
+					</h3>
+				</div>
+				<div class="panel-body">
+					@include('pembacaans.pembacaan')	
+				</div>
 			</div>
 		</div>
-	</div>
-	<div role="tabpanel" class="tab-pane" id="tugas">
-		<div class="panel panel-info">
-			<div class="panel-body">
-				@include('tugas')
+		<div role="tabpanel" class="tab-pane" id="tugas">
+			<div class="panel panel-info">
+				<div class="panel-body">
+					@include('tugas')
+				</div>
 			</div>
 		</div>
+		<div role="tabpanel" class="tab-pane" id="ujian">
+			@include('users.ujian')
+		</div>
+		<div role="tabpanel" class="tab-pane" id="tundaan_ujian">
+			@include('users.tundaan_ujians')
+		</div>
 	</div>
-	<div role="tabpanel" class="tab-pane" id="ujian">
-		@include('users.ujian')
-	</div>
-	<div role="tabpanel" class="tab-pane" id="tundaan_ujian">
-		@include('users.tundaan_ujians')
-	</div>
-</div>
 </div>

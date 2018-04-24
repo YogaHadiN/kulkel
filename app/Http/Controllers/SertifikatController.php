@@ -69,19 +69,49 @@ class SertifikatController extends Controller
 	}
 	
 	public function update($id, Request $request){
-		if ($this->valid( Input::all() )) {
-			return $this->valid( Input::all() );
+		$messages = [
+			'required' => ':attribute Harus Diisi',
+		];
+		$rules = [
+			'judul' => 'required'
+		];
+		
+		$validator = \Validator::make(Input::all(), $rules, $messages);
+		
+		if ($validator->fails())
+		{
+			return \Redirect::back()->withErrors($validator)->withInput();
 		}
-		$sertifikat     = Sertifikat::find($id);
-		// Edit disini untuk simpan data
-		$sertifikat->save();
-		$pesan = Yoga::suksesFlash('Sertifikat berhasil diupdate');
-		return redirect('sertifikats')->withPesan($pesan);
+
+		DB::beginTransaction();
+		try {
+			
+			$sertifikat        = Sertifikat::find($id);
+			$sertifikat->judul = Input::get('judul');
+			$sertifikat->save();
+
+			if ( Input::hasFile('filename')  ) {
+				Storage::delete( $sertifikat->filename );
+				$stored = $this->uploadS3($request, 'filename', $sertifikat->user_id);
+				$sertifikat->filename =  $stored['file_name'];
+				$sertifikat->save();
+			}
+			$pesan = Yoga::suksesFlash('Sertifikat berhasil diupdate');
+			DB::commit();
+			return redirect('users/' . $sertifikat->user_id . '/image')->withPesan($pesan);
+		} catch (\Exception $e) {
+			DB::rollback();
+			throw $e;
+		}
 	}
 	public function destroy($id){
-		Sertifikat::destroy($id);
-		$pesan = Yoga::suksesFlash('Sertifikat berhasil dihapus');
-		return redirect('sertifikats')->withPesan($pesan);
+		$sertifikat = Sertifikat::find( $id );
+		$user_id    = $sertifikat->user_id;
+		$sertifikat_id    = $sertifikat->user_id;
+		$sertifikat->delete();
+
+		$pesan = Yoga::suksesFlash('Sertifikat ' .$sertifikat_id . ' berhasil dihapus');
+		return redirect('users/' . $sertifikat->user_id . '/image')->withPesan($pesan);
 	}
 	public function import(){
 		return 'Not Yet Handled';

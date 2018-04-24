@@ -78,9 +78,9 @@
 				<div class="panel panel-default">
 					<div class="panel-body">
 						@if( Storage::disk('s3')->exists( $user->profile_pic ) )
-							<img src="{{ Storage::cloud()->url( $user->profile_pic ) }}" alt="" />
+							<img class="full-width" src="{{ Storage::cloud()->url( $user->profile_pic ) }}" alt="" />
 						@else
-							<img src="{{ Storage::cloud()->url("no_image.jpeg") }}" alt="" />
+							<img class="full-width" src="{{ Storage::cloud()->url("no_image.jpeg") }}" alt="" />
 						@endif
 					</div>
 				</div>

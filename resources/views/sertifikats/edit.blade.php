@@ -27,18 +27,18 @@
 		<h3 class="panel-title">Edit Sertifikat {{ $sertifikat->user->nama }}</h3>
 	</div>
 	<div class="panel-body">
-		{!! Form::model($sertifikat, ['url' => 'sertifikats', 'method' => 'post',"files"  => "true" ]) !!}
-		{!! Form::text('user_id', $sertifikat->user->id, ['class' => 'form-control hide']) !!}
-		@include('sertifikats.form')
-		<div class="row">
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<button class="btn btn-success btn-block" type="button" onclick='dummySubmit(this);return false;'>Submit</button>
-				{!! Form::submit('Update', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
+		{!! Form::model($sertifikat, ['url' => 'sertifikats/' . $sertifikat->id, 'method' => 'put',"files"  => "true" ]) !!}
+			{!! Form::text('user_id', $sertifikat->user->id, ['class' => 'form-control hide']) !!}
+			@include('sertifikats.form')
+			<div class="row">
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+					<button class="btn btn-success btn-block" type="button" onclick='dummySubmit(this);return false;'>Submit</button>
+					{!! Form::submit('Update', ['class' => 'btn btn-success hide', 'id' => 'submit']) !!}
+				</div>
+				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+					<a class="btn btn-danger btn-block" href="{{ url('home') }}">Cancel</a>
+				</div>
 			</div>
-			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-				<a class="btn btn-danger btn-block" href="{{ url('home') }}">Cancel</a>
-			</div>
-		</div>
 		{!! Form::close() !!}
 	</div>
 </div>	
