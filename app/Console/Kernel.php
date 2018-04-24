@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
 		'App\Console\Commands\test',
 		'App\Console\Commands\tampilkanDosen',
-		'App\Console\Commands\HapusPeminjamanTidakTerkonfirmasi'
+		'App\Console\Commands\HapusPeminjamanTidakTerkonfirmasi',
+		'App\Console\Commands\uploadBelumLengkap'
     ];
 
     /**
@@ -30,6 +31,8 @@ class Kernel extends ConsoleKernel
         /*          ->dailyAt('07:00'); */
         $schedule->command('pinjam:hapusTidakTerkonfirmasi')
 					->dailyAt('23.59');
+        $schedule->command('email:lengkapi')
+					->dailyAt('09:00');
     }
 
     /**

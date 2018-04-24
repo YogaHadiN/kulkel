@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Console\Commands;
-
 use Illuminate\Console\Command;
 use App\User;
+use Mail;
+use Log;
 
 class uploadBelumLengkap extends Command
 {
@@ -36,44 +37,56 @@ class uploadBelumLengkap extends Command
      *
      * @return mixed
      */
+
     public function handle()
     {
-		$residens = User::with('pembacaan')->whereIn('role_id', [1,3])->get();
+		Log::info('this is a test ' . date('Y-m-d H:i:s') );
+		/* $this->email(); */
+    }
+
+	private function email(){
+		// Return user residen 
+		$residens      = User::with('pembacaan')->whereIn('role_id', [1,3])->get();
 		$belum_lengkap = [];
 		foreach ($residens as $residen) {
-			if (strpos(strtolower($residen->nama), 'dr') !== true) {
+			if (strpos(strtolower($residen->nama), 'dr.') !== true) {
+
 				$pembacaans = $residen->pembacaan;
+				// return pembacaan masing2 orang
+
+				$belum_lengkap[$residen->id]['belum_diisi']      = 0;
+				$belum_lengkap[$residen->id]['jumlah_pembacaan'] = $pembacaans->count();
+				$belum_lengkap[$residen->id]['user']             = $residen;
+
 				foreach ($pembacaans as $pembacaan) {
-					if (is_null($pembacaan->link_materi) || is_null($pembacaan->link_materi_terjemahan)) {
-						$belum_lengkap[$pembacaan->user_id]['jumlah_pembacaan'] = $pembacaans->count();
-						if (!isset($belum_lengkap[$pembacaan->user_id]['belum_diisi'])) {
-							$belum_lengkap[$pembacaan->user_id]['belum_diisi'] = 1;
-						} else {
-							$belum_lengkap[$pembacaan->user_id]['belum_diisi']++;
-						}
-						$belum_lengkap[$pembacaan->user_id]['jumlah_pembacaan'] = $pembacaans->count();
-						$belum_lengkap[$pembacaan->user_id]['user'] = $residen;
+					// hitung jumlah pembacaan yang belum diisi
+					if ( is_null($pembacaan->link_materi) && is_null($pembacaan->link_materi_terjemahan) ) {
+						$belum_lengkap[$pembacaan->user_id]['belum_diisi']++;
 					}
 				}
 			}
 		}
 
 		$tolong_lengkapi = [];
-
 		foreach ($belum_lengkap as $belum) {
-			if ($belum['jumlah_pembacaan'] < 6 && $belum['belum_diisi'] > 0) {
-				$tolong_lengkapi[] = $belum_lengkap;
+			if ($belum['jumlah_pembacaan'] < 6 || $belum['belum_diisi'] > 0) {
+				$tolong_lengkapi[] = $belum;
 			}
 		}
 
-		$belum_sama_sekali  = [];
+		foreach ($tolong_lengkapi as $k=> $lengkap) {
+			$data = [
+				'lengkap' => $lengkap,
+				'subject'  => 'Mengingatkan Upload Ilimiah - ' . ( $k + 1 )
+			];
 
-		foreach ($residens as $residen) {
-			if ($residen->pembacaan->count() < 1) {
-				$belum_sama_sekali[] = $residen;
-			}
+			Mail::send('emails.ingatkanUploadData', $data, function($message) use ($data){
+				$message->from( 'admin@dvundip.com', 'Admin DV UNDIP' );
+				$message->to('yoga.dvjul17@gmail.com');
+				/* $message->to($lengkap['user']->email); */
+				$message->subject($data['subject']);
+			});
+			
 		}
-
-		dd($belum_sama_sekali);
-    }
+	}
 }
