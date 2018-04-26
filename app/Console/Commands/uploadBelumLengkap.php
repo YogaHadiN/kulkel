@@ -59,12 +59,17 @@ class uploadBelumLengkap extends Command
 				$message->to($data['lengkap']['user']->email);
 				$message->subject($data['subject']);
 			});
-			/* Mail::send('emails.ingatkanUploadData', $data, function($message) use ($data){ */
-			/* 	$message->from( 'admin@dvundip.com', 'Admin DV UNDIP' ); */
-			/* 	$message->to('yoga.dvjul17@gmail.com'); */
-			/* 	$message->subject($data['subject']); */
-			/* }); */
+
 		}
+		$data = [
+			'lengkap' => $tolong_lengkapi,
+			'subject'  => 'Terkirim mengingatkan';
+		];
+		Mail::send('emails.ingatkanUploadDataYoga', $lengkapi, function($message) use ($data){
+			$message->from( 'admin@dvundip.com', 'Admin DV UNDIP' );
+			$message->to('yoga.dvjul17@gmail.com');
+			$message->subject($data['subject']);
+		});
 	}
 	public function tolong_lengkapi(){
 

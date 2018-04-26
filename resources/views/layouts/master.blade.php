@@ -72,7 +72,11 @@
                 <ul class="nav" id="side-menu">
                     <li class="nav-header">
                         <div class="dropdown profile-element"> <span>
-							<img alt="image" class="img-circle" width="75px" height="75px" src="{{ url('img/nurse.jpeg') }}" />
+								@if(Storage::cloud()->exists(\Auth::user()->profile_pic))
+									<img alt="image" class="img-circle" width="75px" height="75px" src="{{Storage::cloud()->url(\Auth::user()->profile_pic) }}" />
+								@else
+									<img alt="image" class="img-circle" width="75px" height="75px" src="{{ url('img/nurse.jpeg') }}" />
+								@endif
                              </span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#"> 
                             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">
