@@ -7,7 +7,7 @@
 	@else
 		Ibu
 	@endif
-	Telah mengisi {{ $lengkap['jumlah_pembacaan'] }} pembacaan, namun masih ada {{ $lengkap['belum_diisi'] }} pembacaan yang belum upload dokumen ke website
+	Telah mengisi <strong>{{ $lengkap['jumlah_pembacaan'] }} pembacaan</strong>, namun masih ada <strong>{{ $lengkap['belum_diisi'] }} pembacaan</strong> yang belum upload dokumen ke website
 	</p>
 	<p>Mohon agar dapat mengisi pembacaan dengan lengkap demi kelancaran akreditasi</p>
 	<p>terima kasih</p>

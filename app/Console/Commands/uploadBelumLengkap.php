@@ -40,12 +40,34 @@ class uploadBelumLengkap extends Command
 
     public function handle()
     {
-		Log::info('this is a test ' . date('Y-m-d H:i:s') );
-		/* $this->email(); */
+		$this->email();
     }
 
 	private function email(){
 		// Return user residen 
+
+		$tolong_lengkapi = $this->tolong_lengkapi();
+
+		foreach ($tolong_lengkapi as $k=> $lengkap) {
+			$data = [
+				'lengkap' => $lengkap,
+				'subject'  => 'Mengingatkan Upload Ilimiah - ' . ( $k + 1 ) . ' ' . date('d M Y')
+			];
+
+			Mail::send('emails.ingatkanUploadData', $data, function($message) use ($data){
+				$message->from( 'admin@dvundip.com', 'Admin DV UNDIP' );
+				$message->to($data['lengkap']['user']->email);
+				$message->subject($data['subject']);
+			});
+			/* Mail::send('emails.ingatkanUploadData', $data, function($message) use ($data){ */
+			/* 	$message->from( 'admin@dvundip.com', 'Admin DV UNDIP' ); */
+			/* 	$message->to('yoga.dvjul17@gmail.com'); */
+			/* 	$message->subject($data['subject']); */
+			/* }); */
+		}
+	}
+	public function tolong_lengkapi(){
+
 		$residens      = User::with('pembacaan')->whereIn('role_id', [1,3])->get();
 		$belum_lengkap = [];
 		foreach ($residens as $residen) {
@@ -73,20 +95,6 @@ class uploadBelumLengkap extends Command
 				$tolong_lengkapi[] = $belum;
 			}
 		}
-
-		foreach ($tolong_lengkapi as $k=> $lengkap) {
-			$data = [
-				'lengkap' => $lengkap,
-				'subject'  => 'Mengingatkan Upload Ilimiah - ' . ( $k + 1 )
-			];
-
-			Mail::send('emails.ingatkanUploadData', $data, function($message) use ($data){
-				$message->from( 'admin@dvundip.com', 'Admin DV UNDIP' );
-				$message->to('yoga.dvjul17@gmail.com');
-				/* $message->to($lengkap['user']->email); */
-				$message->subject($data['subject']);
-			});
-			
-		}
+		return $tolong_lengkapi;
 	}
 }

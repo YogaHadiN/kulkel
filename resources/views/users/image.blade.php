@@ -79,10 +79,11 @@
 					</div>
 					<div class="panel-body">
 						<div class="table-responsive">
-							<table class="table table-hover table-condensed table-bordered">
+							<table class="table table-hover table-condensed table-bordered DT">
 								<thead>
 									<tr>
 										<th class="autofit">No</th>
+										<th>Sertifikat</th>
 										<th>Judul</th>
 										<th>Action</th>
 									</tr>
@@ -92,6 +93,9 @@
 										@foreach($user->sertifikat as $k=> $sertifikat)
 											<tr>
 												<td class="autofit">{{ $k + 1 }}</td>
+												<td>
+													<img src="{{ Storage::cloud()->url( $sertifikat->filename ) }}" alt="" class="full-width" />	
+												</td>
 												<td>{{ $sertifikat->judul }}</td>
 												<td nowrap class="autofit">
 													<a class="btn btn-info" href="{{ url('sertifikats/' . $sertifikat->id) }}"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
