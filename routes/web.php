@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'WelcomeController@index');
+Route::get('test', 'TestController@index');
 Route::get('about', 'WelcomeController@about');
 Route::get('tools', 'ToolsController@index');
 Route::post('tools/sms_bulanan', 'ToolsController@smsBulanan');

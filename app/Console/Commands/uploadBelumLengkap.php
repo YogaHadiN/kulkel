@@ -44,8 +44,6 @@ class uploadBelumLengkap extends Command
     }
 
 	private function email(){
-		// Return user residen 
-
 		$tolong_lengkapi = $this->tolong_lengkapi();
 
 		foreach ($tolong_lengkapi as $k=> $lengkap) {
@@ -63,13 +61,20 @@ class uploadBelumLengkap extends Command
 		}
 		$data = [
 			'lengkap' => $tolong_lengkapi,
-			'subject'  => 'Terkirim mengingatkan';
+			'subject' => 'Terkirim mengingatkan'
 		];
-		Mail::send('emails.ingatkanUploadDataYoga', $lengkapi, function($message) use ($data){
+
+		Mail::send('emails.ingatkanUploadDataYoga', $data, function($message) use ($data){
 			$message->from( 'admin@dvundip.com', 'Admin DV UNDIP' );
 			$message->to('yoga.dvjul17@gmail.com');
 			$message->subject($data['subject']);
 		});
+		Mail::send('emails.laporanUploadKurangDrIto', $data, function($message) use ($data){
+			$message->from( 'admin@dvundip.com', 'Admin DV UNDIP' );
+			$message->to('itobuwono@gmail.com');
+			$message->subject($data['subject']);
+		});
+		
 	}
 	public function tolong_lengkapi(){
 

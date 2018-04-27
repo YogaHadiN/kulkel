@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Console\Commands\uploadBelumLengkap;
+use App\Sms;
 
 class sendSmsLengkapi extends Command
 {
@@ -46,7 +47,11 @@ class sendSmsLengkapi extends Command
 			$text .= "sdh mengisi {$lengkap['jumlah_pembacaan']} pembacaan, tp msh ada {$lengkap['belum_diisi']} yg blm upload ke website. ";
 			$text .= "Mohon agar dapat melengkapi demi kelancaran akreditasi.";
 			$text .= " Tq.";
-			dd( mb_strlen( $text ) );
+			foreach ($lengkap['user']->no_telps as $telp) {
+				if ($telp->jenis_telpon_id == 2) {
+					Sms::send($telp->no_telp, $text);
+				}
+			}
 		}
     }
 }
