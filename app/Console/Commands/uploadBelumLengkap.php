@@ -51,7 +51,6 @@ class uploadBelumLengkap extends Command
 				'lengkap' => $lengkap,
 				'subject'  => 'Mengingatkan Upload Ilimiah - ' . ( $k + 1 ) . ' ' . date('d M Y')
 			];
-
 			Mail::send('emails.ingatkanUploadData', $data, function($message) use ($data){
 				$message->from( 'admin@dvundip.com', 'Admin DV UNDIP' );
 				$message->to($data['lengkap']['user']->email);

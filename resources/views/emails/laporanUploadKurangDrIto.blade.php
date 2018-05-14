@@ -14,7 +14,7 @@
 		<tr>
 			<td>{{ $leng['user']->nama  }}</td>
 			<td>{{ $leng['jumlah_pembacaan']}}</td>
-			<td>{{ $leng['belum_upload']}}</td>
+			<td>{{ $leng['belum_diisi']}}</td>
 		</tr>
 		@endforeach
 	</table>

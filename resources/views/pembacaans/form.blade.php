@@ -23,7 +23,9 @@
 <div class="form-group @if($errors->has('tanggal')) has-error @endif">
 	{!! Form::label('tanggal', 'Tanggal', ['class' => 'control-label']) !!}
   @if( isset( $pembacaan ) )
-	  {!! Form::text('tanggal' , $pembacaan->tanggal->format('d-m-Y'), ['class' => 'form-control tanggal rq']) !!}
+	  {!! Form::text('tanggal' , $pembacaan->tanggal->format('d-m-Y'), [
+	  'class' => 'form-control tanggal rq'
+  ]) !!}
   @else
   {!! Form::text('tanggal' , null, ['class' => 'form-control tanggal rq']) !!}
   @endif

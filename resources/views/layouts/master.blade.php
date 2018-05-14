@@ -314,7 +314,7 @@
 				showMeridian : false,
                 minuteStep: 5
             });
-			$('.tanggal').attr('placeholder', 'dd-mm-YYYY');
+			$('.tanggal').attr('placeholder', 'dd-mm-YYYY Contoh: 31-12-2017');
 			$('.bulanTahun').attr('placeholder', 'mm-YYYY');
             $('.bulanTahun').datepicker({
                 todayBtn: "linked",

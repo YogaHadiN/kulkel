@@ -15,9 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
 		'App\Console\Commands\test',
 		'App\Console\Commands\tampilkanDosen',
-		'App\Console\Commands\HapusPeminjamanTidakTerkonfirmasi',
-		'App\Console\Commands\uploadBelumLengkap',
-		'App\Console\Commands\sendSmsLengkapi'
+		'App\Console\Commands\HapusPeminjamanTidakTerkonfirmasi'
     ];
 
     /**
