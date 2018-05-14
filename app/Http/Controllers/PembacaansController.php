@@ -34,7 +34,7 @@ class PembacaansController extends Controller
 			];
 			$rules = [
 				'user_id'            => 'required',
-				'tanggal'            => 'required|date_format : "dd-mm-YYYY"',
+				'tanggal'            => 'required|date_format : "d-m-Y"',
 				'jenis_pembacaan_id' => 'required'
 			];
 			
