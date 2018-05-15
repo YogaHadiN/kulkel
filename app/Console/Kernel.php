@@ -30,14 +30,6 @@ class Kernel extends ConsoleKernel
         /*          ->dailyAt('07:00'); */
         $schedule->command('pinjam:hapusTidakTerkonfirmasi')
 					->dailyAt('23.59');
-        $schedule->command('email:lengkapi')
-			->dailyAt('09:00')->when(function(){
-				return strtotime(date('Y-m-d H:i:s')) < strtotime('2018-06-01 00:00:00');
-			});
-        $schedule->command('sms:lengkapi')
-			->cron('15 9 */3 * *')->when(function(){
-				return strtotime(date('Y-m-d H:i:s')) < strtotime('2018-06-01 00:00:00');
-			});
 
     }
 
