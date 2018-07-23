@@ -36,7 +36,7 @@ class UsersController extends Controller
 		$rsnds                = $thisUser['rsnds'];
 		$pembacaan_bulan_inis = $thisUser['pembacaan_bulan_inis'];
 
-		$url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_ADDR'];
+		/* $url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_ADDR']; */
 		$user             = User::with('role', 'no_telps')->where('id', $id )->first();
 		$stasesResidens   = Stase::with('user', 'jenisStase')->where('user_id', $id)->orderBy('mulai')->get();
 		$pembacaans       = Pembacaan::with('user')->where('user_id', $id)->orderBy('tanggal', 'desc')->get();

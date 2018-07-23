@@ -43,7 +43,7 @@ class HomeController extends Controller
 		$ujian_sudahs   = Ujian::where('user_id', $id)->where('tanggal', '<=', date('Y-m-d'))->get(['jenis_ujian_id']);
 		$tundaan_ujians = $userController->tundaan_ujian($id);
 
-		$url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_ADDR'];
+		/* $url = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_ADDR']; */
 		$user             = User::with('role', 'no_telps')->where('id', $id )->first();
 		$stasesResidens   = Stase::with('user', 'jenisStase')->where('user_id', $id)->orderBy('mulai')->get();
 		$pembacaans       = Pembacaan::with('user')->where('user_id', $id)->orderBy('tanggal', 'desc')->get();
