@@ -110,49 +110,37 @@
 			</thead>
 			<tbody>
 				@if( isset( $user ) )
-					@foreach( $user->no_telps as $k => $telp )
-						<tr>
-							<td>
-								{!! Form::select('jenis_telpon_id[]' , App\JenisTelpon::list(), $telp->jenis_telpon_id, [
-								  'class' => 'form-control jenis_telpon'
-							  ]) !!}
-							</td>
-							<td>
-								{!! Form::text('no_telp[]', $telp->no_telp, array(
-									'class'         => 'form-control no_telp'
-								))!!}
-							</td>
-							<td>
-								@if( $k == $user->no_telps->count() -1 )
-								<button class="btn btn-primary btn-sm" type="button" onclick="tambahTelp(this);">
-									<i class="fa fa-plus" aria-hidden="true"></i>
-								</button>
-								@else
-								<button class="btn btn-danger btn-sm" type="button" onclick="kurangTelp(this);">
-									<i class="fa fa-minus" ariprimarya-hidden="true"></i>
-								</button>
-								@endif
-							</td>
-						</tr>
-					@endforeach
+					@if( $user->no_telps->count() )
+						@foreach( $user->no_telps as $k => $telp )
+							<tr>
+								<td>
+									{!! Form::select('jenis_telpon_id[]' , App\JenisTelpon::list(), $telp->jenis_telpon_id, [
+									  'class' => 'form-control jenis_telpon'
+								  ]) !!}
+								</td>
+								<td>
+									{!! Form::text('no_telp[]', $telp->no_telp, array(
+										'class'         => 'form-control no_telp'
+									))!!}
+								</td>
+								<td>
+									@if( $k == $user->no_telps->count() -1 )
+									<button class="btn btn-primary btn-sm" type="button" onclick="tambahTelp(this);">
+										<i class="fa fa-plus" aria-hidden="true"></i>
+									</button>
+									@else
+									<button class="btn btn-danger btn-sm" type="button" onclick="kurangTelp(this);">
+										<i class="fa fa-minus" ariprimarya-hidden="true"></i>
+									</button>
+									@endif
+								</td>
+							</tr>
+						@endforeach
+					@else
+						@include('users.telp_form')
+					@endif
 				@else
-				<tr>
-					<td>
-					  {!! Form::select('jenis_telpon_id[]' , App\JenisTelpon::list(), null, [
-						  'class' => 'form-control jenis_telpon'
-					  ]) !!}
-					</td>
-					<td>
-						{!! Form::text('no_telp[]', null, array(
-							'class'         => 'form-control no_telp'
-						))!!}
-					</td>
-					<td>
-						<button class="btn btn-primary btn-sm" type="button" onclick="tambahTelp(this);">
-							<i class="fa fa-plus" aria-hidden="true"></i>
-						</button>
-					</td>
-				</tr>
+					@include('users.telp_form')
 				@endif
 			</tbody>
 		</table>

@@ -116,6 +116,7 @@ class UsersController extends Controller
 			$user->no_ktp               = Input::get('no_ktp');
 			$user->email                = Input::get('email');
 			$user->sex                  = Input::get('sex');
+			$user->nomor_induk                  = Input::get('nomor_induk');
 			$user->password             = bcrypt(Input::get('password'));
 			$user->save();
 
@@ -182,6 +183,7 @@ class UsersController extends Controller
 			$user->alamat_semarang  = Input::get('alamat_semarang');
 			$user->no_ktp           = Input::get('no_ktp');
 			$user->sex              = Input::get('sex');
+			$user->nomor_induk              = Input::get('nomor_induk');
 			$user->email            = Input::get('email');
 			if ( !empty( Input::get('password') ) ) {
 				$user->password            = bcrypt(Input::get('password'));
