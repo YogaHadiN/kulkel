@@ -4,7 +4,9 @@
 		<div class="row">
 			<div class="col-md-6 image-div">
 				@if(Storage::cloud()->exists( $filename ))
-					<img class="full-width" src="{{Storage::cloud()->url( $filename )}}" alt="" />
+					<a target="_blank" class="" href="{{ Storage::cloud()->url( $filename ) }}">
+						<img class="full-width" src="{{Storage::cloud()->url( $filename )}}" alt="" />
+					</a>
 				@else
 					<img class="full-width" src="{{Storage::cloud()->url('no_image.jpeg')}}" alt="" />
 				@endif

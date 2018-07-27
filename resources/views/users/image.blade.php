@@ -94,7 +94,9 @@
 											<tr>
 												<td class="autofit">{{ $k + 1 }}</td>
 												<td>
-													<img src="{{ Storage::cloud()->url( $sertifikat->filename ) }}" alt="" class="full-width" />	
+													<a target="_blank" class="" href="{{ Storage::cloud()->url( $sertifikat->filename ) }}">
+														<img src="{{ Storage::cloud()->url( $sertifikat->filename ) }}" alt="" class="full-width" />
+													</a>
 												</td>
 												<td>{{ $sertifikat->judul }}</td>
 												<td nowrap class="autofit">
