@@ -47,7 +47,7 @@
 									<td> 
 										{!! Form::open(['url' => 'ebooks/' .$ebook->id, 'method' => 'delete']) !!}
 											<a class="btn btn-primary btn-xs" href="{{ $ebook->link_materi }}"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></a>
-											@if(\Auth::user()->role->role == 3)
+											@if(\Auth::user()->role_id == 3)
 												{!! Form::submit('del', [
 													'class'   => 'btn btn-danger btn-xs',
 													'onclick' => 'return confirm("Anda yakin mau menghapus ' . $ebook->id . '-' . $ebook->judul.'?");return false;'
