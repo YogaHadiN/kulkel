@@ -443,7 +443,6 @@ class UsersController extends Controller
 				'file_name' => $filenametostore,
 				'link' => Storage::cloud()->url($filenametostore)
 			];
-			
 	    }
 	}
 	public function createSertifikat($id){

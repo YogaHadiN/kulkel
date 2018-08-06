@@ -40,6 +40,11 @@
 					'fieldname' => 'ktp_pic'
 				])
 				@include('users.image_form_template', [
+					'title'     => 'Kartu Mahasiswa',
+					'filename'  => $user->kartu_mahasiswa,
+					'fieldname' => 'kartu_mahasiswa'
+				])
+				@include('users.image_form_template', [
 					'title'     => 'Ijazah SD',
 					'filename'  => $user->ijazah_sd_pic,
 					'fieldname' => 'ijazah_sd_pic'
