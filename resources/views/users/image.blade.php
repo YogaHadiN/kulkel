@@ -130,6 +130,7 @@
 			$(this).on('change', function(){
 				var property = $(this).prop('files')[0];
 				var image_name = property.name;
+				console.log('image_name : ' + image_name);
 				var image_extension = image_name.split('.').pop().toLowerCase();
 				if(jQuery.inArray(image_extension,['gif', 'png', 'jpg', 'jpeg']) == -1){
 					alert('Tipe file yang mau diupload bukan gambar');
@@ -157,7 +158,6 @@
 						},
 						xhr: function() {
 							var xhr = new window.XMLHttpRequest();
-
 							xhr.upload.addEventListener("progress", function(evt) {
 							  if (evt.lengthComputable) {
 								var percentComplete = evt.loaded / evt.total;
