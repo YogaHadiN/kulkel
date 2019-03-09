@@ -2,7 +2,6 @@
 
 @section('title') 
 	Kulkel UNDIP | Seminars
-
 @stop
 @section('page-title') 
 <h2>	Kulkel UNDIP | Seminars</h2>

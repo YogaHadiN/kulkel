@@ -1,8 +1,6 @@
 @extends('layouts.master')
-
 @section('title') 
 Kulit Kelamin UNPAD | 
-
 @stop
 @section('page-title') 
 <h2></h2>

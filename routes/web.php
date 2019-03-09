@@ -61,9 +61,14 @@ Route::group(['middleware' => 'auth'], function () {
 	});
 
 	Route::resource('seminars', 'SeminarsController');
+	Route::get('seminars/{id}/doorprize', 'SeminarsController@doorprize');
+	Route::post('seminars/{id}/pesertas/clear', 'SeminarsController@clearPeserta');
+	Route::get('seminars/{id}/doorprize', 'SeminarsController@doorprize');
+
 	Route::resource('library', 'LibraryController');
 	Route::resource('gardenias', 'GardeniasController');
 	Route::resource('events', 'EventsController');
+	Route::resource('pesertas', 'PesertasController');
 	Route::resource('rsnds', 'RsndsController');
 	Route::get('ujians/getPenguji', 'UjiansController@getPenguji');
 	Route::resource('ujians', 'UjiansController');
@@ -81,6 +86,11 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('residens', 'ResidensController');
 	Route::get('karyawans', 'KaryawansController@index');
 	Route::post('library/import', 'LibraryController@import');
+	Route::get('seminars/{id}/pesertas/create', 'SeminarsController@createPeserta');
+	Route::post('seminars/{id}/pesertas', 'SeminarsController@storePeserta');
+	Route::post('seminars/{id}/pesertas/imports', 'SeminarsController@importPeserta');
+	Route::post('seminars/{id}/doorprize', 'SeminarsController@doorprize');
+
 });
 
 Auth::routes();

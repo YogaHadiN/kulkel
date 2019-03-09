@@ -5112,4 +5112,12 @@ table.tabelTerapi tr td {
 .autofit{
 	width:10%;
 }
+.font-super-big{
+	padding-top:100px;
+	font-size:80px;
+}
+.font-super-bigeer{
+	padding-top:100px;
+	font-size:130px;
+}
 

@@ -224,7 +224,4 @@ class LibraryController extends Controller
 			$message->subject($data['subject']);
 		});
 	}
-	
-	
-	
 }
