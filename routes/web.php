@@ -90,6 +90,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('seminars/{id}/pesertas', 'SeminarsController@storePeserta');
 	Route::post('seminars/{id}/pesertas/imports', 'SeminarsController@importPeserta');
 	Route::post('seminars/{id}/doorprize', 'SeminarsController@doorprize');
+	Route::get('pesertas/{id}/cekin', 'PesertasController@cekin');
+
 
 });
 

@@ -51,11 +51,14 @@ class SeminarsController extends Controller
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
-		$seminar          = new Seminar;
-		$seminar->seminar = Input::get('seminar');
-		$seminar->lokasi  = Input::get('lokasi');
-		$seminar->tanggal = Yoga::datePrep( Input::get('tanggal') );
-		$seminar->password = Input::get('password');
+		$seminar                          = new Seminar;
+		$seminar->seminar                 = Input::get('seminar');
+		$seminar->lokasi                  = Input::get('lokasi');
+		$seminar->link_materi             = Input::get('link_materi');
+		$seminar->link_first_announcement = Input::get('link_first_announcement');
+		$seminar->link_final_announcement = Input::get('link_final_announcement');
+		$seminar->tanggal                 = Yoga::datePrep( Input::get('tanggal') );
+		$seminar->password                = Input::get('password');
 		$seminar->save();
 
 		$pesan = Yoga::suksesFlash('Seminar baru berhasil dibuat');
@@ -76,11 +79,14 @@ class SeminarsController extends Controller
 		{
 			return \Redirect::back()->withErrors($validator)->withInput();
 		}
-		$seminar           = Seminar::find($id);
-		$seminar->seminar  = Input::get('seminar');
-		$seminar->lokasi   = Input::get('lokasi');
-		$seminar->tanggal  = Yoga::datePrep( Input::get('tanggal') );
-		$seminar->password = Input::get('password');
+		$seminar                          = Seminar::find($id);
+		$seminar->seminar                 = Input::get('seminar');
+		$seminar->lokasi                  = Input::get('lokasi');
+		$seminar->link_materi             = Input::get('link_materi');
+		$seminar->link_first_announcement = Input::get('link_first_announcement');
+		$seminar->link_final_announcement = Input::get('link_final_announcement');
+		$seminar->tanggal                 = Yoga::datePrep( Input::get('tanggal') );
+		$seminar->password                = Input::get('password');
 		$seminar->save();
 		$pesan = Yoga::suksesFlash('Seminar berhasil diupdate');
 		return redirect('seminars')->withPesan($pesan);

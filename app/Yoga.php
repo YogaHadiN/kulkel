@@ -6,6 +6,7 @@ use Input;
 use App\Rak;
 use App\Poli;
 use App\JurnalUmum;
+use App\SmsOutbox;
 use App\Pasien;
 use App\Signa;
 use App\Coa;
@@ -2588,4 +2589,35 @@ class Yoga {
 			return 'Minggu';
 		}
 	}	
+	public static function sendSms($noTelp, $text){
+		$userkey = 'tlksgeo4nl9g3ujky2b8';
+		$passkey = '4ur4y17q4xw0y2fam31l';
+		$telepon = $noTelp;
+		$message = $text;
+		$url = 'http://kje.zenziva.co.id/api/sendsms/';
+		$curlHandle = curl_init();
+		curl_setopt($curlHandle, CURLOPT_URL, $url);
+		curl_setopt($curlHandle, CURLOPT_HEADER, 0);
+		curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
+		curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt($curlHandle, CURLOPT_TIMEOUT,30);
+		curl_setopt($curlHandle, CURLOPT_POST, 1);
+		curl_setopt($curlHandle, CURLOPT_POSTFIELDS, array(
+			'userkey' => $userkey,
+			'passkey' => $passkey,
+			'nohp' => $telepon,
+			'pesan' => $message
+		));
+		$results = json_decode(curl_exec($curlHandle), true);
+		curl_close($curlHandle);
+
+		$sms            = new SmsOutbox;
+		$sms->text      = $text;
+		$sms->no_telp   = $noTelp;
+		$sms->message_id = $results['messageId'];
+		$sms->save();
+
+		return $results;
+	}
 }

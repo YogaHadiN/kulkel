@@ -42,6 +42,18 @@
 							<td>{{ $seminar->tanggal->format('d M Y') }}</td>
 						</tr>
 						<tr>
+							<th>Link Materi</th>
+							<td>{{ $seminar->link_materi }}</td>
+						</tr>
+						<tr>
+							<th>Link First Announcement</th>
+							<td>{{ $seminar->link_first_announcement }}</td>
+						</tr>
+						<tr>
+							<th>Link Final Announcement</th>
+							<td>{{ $seminar->link_final_announcement }}</td>
+						</tr>
+						<tr>
 							<th>Password</th>
 							<td>{{ $seminar->password }}</td>
 						</tr>

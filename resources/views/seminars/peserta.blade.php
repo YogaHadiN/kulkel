@@ -39,6 +39,14 @@
 											'class'   => 'btn btn-danger btn-xs',
 											'onclick' => 'return confirm("Anda yakin mau menghapus ' . $peserta->id . '-' . $peserta->nama.'?");return false;'
 										]) }}
+										
+										
+										@if( $peserta->cekin == 0 )
+											<a class="btn btn-info btn-xs" href="{{ url('pesertas/' . $peserta->id . '/cekin') }}">Check In</a>
+										@else( $peserta->cekin == 0 )
+											<button type="button" class="btn btn-warning btn-xs disabled">Checked In</button>
+										@endif
+											
 									{!! Form::close() !!}
 								</td>
 							</tr>
