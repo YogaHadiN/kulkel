@@ -40,7 +40,7 @@
 	</div>
 	<hr/>
 	@foreach( json_decode($event->body, true) as $body)	
-		<p>{{ $body }}</p>
+		<p>{!! $body !!}</p>
 	@endforeach
 	
 @stop
